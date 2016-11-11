@@ -53,7 +53,8 @@
         "IdentityServer4.EntityFramework": "1.0.0-rc2",
         "GovITHub.External.Postmark.NetCore": "1.0.0-*",
       "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
-      "Microsoft.AspNetCore.Mvc.Core": "1.0.1"
+        "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
+        "MailKit": "1.10.0"
     },
 
   "tools": {

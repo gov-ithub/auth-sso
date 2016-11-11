@@ -1,8 +1,8 @@
 ﻿using GovITHub.Auth.Identity.Data;
-using GovITHub.Auth.Identity.Infrastructure.Attributes;
 using GovITHub.Auth.Identity.Infrastructure.Configuration;
 using GovITHub.Auth.Identity.Models;
 using GovITHub.Auth.Identity.Services;
+using GovITHub.Auth.Identity.Services.Impl;
 using IdentityServer4;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,8 +63,9 @@ namespace GovITHub.Auth.Identity
             // Add application services.
             services.AddTransient<ConfigurationDataInitializer>();
             services.AddTransient<ApplicationDataInitializer>();
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IEmailSender, PostmarkEmailSender>();
+            services.AddTransient<IEmailSender, SMTPEmailSender>();
+            services.AddTransient<ISmsSender, SmsSender>();
             services.AddSingleton(Configuration);
 
             // Add service and create Policy with options

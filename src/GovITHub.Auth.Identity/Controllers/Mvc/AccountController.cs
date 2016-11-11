@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -23,7 +24,7 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IEmailSender _emailSender;
+        private readonly IEnumerable<IEmailSender> _emailSenders;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
@@ -31,14 +32,14 @@ namespace GovITHub.Auth.Identity.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
-            IEmailSender emailSender,
+            IEnumerable<IEmailSender> emailSenders,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
-            _emailSender = emailSender;
+            _emailSenders = emailSenders;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
@@ -438,7 +439,8 @@ namespace GovITHub.Auth.Identity.Controllers
             var message = "Your security code is: " + code;
             if (model.SelectedProvider == "Email")
             {
-                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+                var emailSender = GetEmailSender(model.SelectedProvider);
+                await emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
             }
             else if (model.SelectedProvider == "Phone")
             {
@@ -447,6 +449,7 @@ namespace GovITHub.Auth.Identity.Controllers
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
+
 
         //
         // GET: /Account/VerifyCode
@@ -516,7 +519,9 @@ namespace GovITHub.Auth.Identity.Controllers
             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
             try
             {
-                await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                // on the future, decide a strategy to choose email sender based on user instance (or client?)
+                var emailSender = GetEmailSender(null); //TODO : get provider from user claims
+                await emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
             }
             catch (Exception ex)
@@ -571,6 +576,15 @@ namespace GovITHub.Auth.Identity.Controllers
 
             ViewData["ReturnUrl"] = returnUrl;
             return View(model);
+        }
+        #endregion
+
+        #region private helper methods
+        private IEmailSender GetEmailSender(string selectedProvider)
+        {
+            // on the future, decide a strategy to choose email sender based on user instance (or client?)
+            // for now, return first one
+            return _emailSenders.FirstOrDefault();
         }
         #endregion
     }
