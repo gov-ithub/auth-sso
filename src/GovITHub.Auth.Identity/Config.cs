@@ -10,9 +10,9 @@ namespace GovITHub.Auth.Identity
 {
     public class Config
     {
-        #region congiguration keys
-        public static readonly string POSTMARK_SERVER_TOKEN = "Postmark:ServerToken";
-        public static readonly string EMAIL_FROM_ADDRESS = "Postmark:OriginEmail";
+        #region configuration keys
+        public static readonly string POSTMARK_SERVER_TOKEN = "EmailSender:Postmark:ServerToken";
+        public static readonly string EMAIL_FROM_ADDRESS = "EmailSender:Postmark:OriginEmail";
 
         public static readonly string GOOGLE_CLIENT_ID = "Authentication:Google:GoogleClientId";
         public static readonly string GOOGLE_CLIENT_SECRET = "Authentication:Google:GoogleClientSecret";

@@ -520,7 +520,7 @@ namespace GovITHub.Auth.Identity.Controllers
             try
             {
                 // on the future, decide a strategy to choose email sender based on user instance (or client?)
-                var emailSender = GetEmailSender(null); //TODO : get provider from user claims
+                var emailSender = GetEmailSender(model.Email); //TODO : get provider from user claims
                 await emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
             }
