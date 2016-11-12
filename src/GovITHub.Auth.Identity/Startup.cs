@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MySQL.Data.Entity.Extensions;
 using System;
 using System.Reflection;
@@ -55,6 +56,8 @@ namespace GovITHub.Auth.Identity
                 .AddDefaultTokenProviders();
 
             services.ConfigureAudit();
+            services.ConfigureLocalization(mySqlConnectionString, migrationsAssembly);
+
             services.AddMvc(options =>
             {
                 options.ConfigureAudit();
@@ -100,6 +103,9 @@ namespace GovITHub.Auth.Identity
 
             app.UseCors("CorsPolicy");
 
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -137,6 +143,10 @@ namespace GovITHub.Auth.Identity
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(name: "signin-google",
                      template: "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
+                routes.MapRoute(
+                    name : "DefaultApi",
+                    template : "api/{controller}/{id?}"
+                    );
             });
 
             try
