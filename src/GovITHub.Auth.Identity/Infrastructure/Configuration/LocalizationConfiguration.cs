@@ -1,4 +1,5 @@
-﻿using Localization.SqlLocalizer.DbStringLocalizer;
+﻿using GovITHub.Auth.Identity.Infrastructure.Localization;
+using Localization.SqlLocalizer.DbStringLocalizer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,10 +21,6 @@ namespace GovITHub.Auth.Identity.Infrastructure.Configuration
             // Requires that LocalizationModelContext is defined
             services.AddSqlLocalization(options => options.UseTypeFullNames = true);
 
-            services.AddMvc()
-                .AddViewLocalization()
-                .AddDataAnnotationsLocalization();
-
             services.Configure<RequestLocalizationOptions>(
                 options =>
                 {
@@ -35,19 +32,28 @@ namespace GovITHub.Auth.Identity.Infrastructure.Configuration
                     options.DefaultRequestCulture = new RequestCulture(culture: "ro-RO", uiCulture: "ro-RO");
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
+                    // provide a new list, without Accept-Language provider ... it leads to unpredictable behavior
+                    options.RequestCultureProviders = new List<IRequestCultureProvider>
+                    {
+                        new QueryStringRequestCultureProvider(),
+                        new CookieRequestCultureProvider()
+                    };
                 }
             );
 
             var csvFormatterOptions = new CsvFormatterOptions();
+            services.AddMvc(
+                options =>
+                {
+                    options.InputFormatters.Add(new CsvInputFormatter(csvFormatterOptions));
+                    options.OutputFormatters.Add(new CsvOutputFormatter(csvFormatterOptions));
+                    options.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
+                })
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization();
 
-            services.AddMvc(options =>
-            {
-                options.InputFormatters.Add(new CsvInputFormatter(csvFormatterOptions));
-                options.OutputFormatters.Add(new CsvOutputFormatter(csvFormatterOptions));
-                options.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
-            });
+            services.AddScoped<ValidateMimeMultipartContentFilter>();
 
-            // services.AddScoped<ValidateMimeMultipartContentFilter>();
             return services;
         }
     }
