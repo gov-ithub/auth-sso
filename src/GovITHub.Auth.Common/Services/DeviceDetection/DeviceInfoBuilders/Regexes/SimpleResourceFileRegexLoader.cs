@@ -21,7 +21,6 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regex
 			   .WithNamingConvention(namingConvention: new CamelCaseNamingConvention())
 			   .IgnoreUnmatchedProperties()
 			   .Build();
-			//var assembly = typeof(DeviceInfoBuilderBase<>).GetTypeInfo().Assembly;
 			using (var stream = fileInfo.CreateReadStream())
 			using (var reader = new StreamReader(stream))
 			{
