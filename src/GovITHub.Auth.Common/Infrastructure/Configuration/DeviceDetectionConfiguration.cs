@@ -5,6 +5,8 @@ using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchem
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace GovITHub.Auth.Common.Infrastructure.Configuration
@@ -22,41 +24,39 @@ namespace GovITHub.Auth.Common.Infrastructure.Configuration
 
         private static IServiceCollection AddMobileDeviceInfoBuilder(this IServiceCollection services)
         {
-            return services.AddDeviceInfoBuilder((config, hostingEnvironment) =>
+            return services.AddDeviceInfoBuilder((config, webRootFileProvider, loggerFactory) =>
             {
-                var reader = new RegexFileStreamReader(config.GetDeviceDetectionResourceFile("mobiles"), hostingEnvironment);
-                var loader = new MobileDevicesResourceFileRegexLoader(reader);
+                var loader = new MobileDevicesResourceFileRegexLoader(config.GetDeviceDetectionResourceFile("mobiles"), webRootFileProvider, loggerFactory);
                 return new MobileDeviceInfoBuilder(loader);
             });
         }
 
         private static IServiceCollection AddOsInfoBuilder(this IServiceCollection services)
         {
-            return services.AddDeviceInfoBuilder((config, hostingEnvironment) =>
+            return services.AddDeviceInfoBuilder((config, webRootFileProvider, loggerFactory) =>
             {
-                var reader = new RegexFileStreamReader(config.GetDeviceDetectionResourceFile("oss"), hostingEnvironment);
-                var loader = new SimpleResourceFileRegexLoader<OsRegex>(reader);
+                var loader = new SimpleResourceFileRegexLoader<OsRegex>(config.GetDeviceDetectionResourceFile("oss"), webRootFileProvider, loggerFactory);
                 return new OsInfoBuilder(loader);
             });
         }
 
         private static IServiceCollection AddBrowserInfoBuilder(this IServiceCollection services)
         {
-            return services.AddDeviceInfoBuilder((config, hostingEnvironment) =>
+            return services.AddDeviceInfoBuilder((config, webRootFileProvider, loggerFactory) =>
             {
-                var reader = new RegexFileStreamReader(config.GetDeviceDetectionResourceFile("browsers"), hostingEnvironment);
-                var loader = new SimpleResourceFileRegexLoader<BrowserRegex>(reader);
+				var loader = new SimpleResourceFileRegexLoader<BrowserRegex>(config.GetDeviceDetectionResourceFile("browsers"), webRootFileProvider, loggerFactory);
                 return new BrowserInfoBuilder(loader);
             });
         }
 
-        private static IServiceCollection AddDeviceInfoBuilder<T>(this IServiceCollection services, Func<IConfigurationRoot, IHostingEnvironment, T> factoryFunc) where T : class, IDeviceInfoBuilder
+        private static IServiceCollection AddDeviceInfoBuilder<T>(this IServiceCollection services, Func<IConfigurationRoot, IFileProvider, ILoggerFactory, T> factoryFunc) where T : class, IDeviceInfoBuilder
         {
             return services.AddTransient<IDeviceInfoBuilder, T>(serviceProvider =>
             {
                 var config = serviceProvider.GetService<IConfigurationRoot>();
-                var hostingEnvironment = serviceProvider.GetService<IHostingEnvironment>();
-                return factoryFunc(config, hostingEnvironment);
+				var hostingEnvironment = serviceProvider.GetService<IHostingEnvironment>();
+				var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+				return factoryFunc(config, hostingEnvironment.WebRootFileProvider, loggerFactory);
             });
         }
 

@@ -3,24 +3,19 @@ using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchem
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public abstract class DeviceInfoBuilderBase<TRegex> where TRegex : IRegex
+	public abstract class DeviceInfoBuilderBase<TRegex> where TRegex : IRegex
     {
         public DeviceInfoBuilderBase(Regexes.IDeviceInfoRegexLoader<TRegex> regexLoader)
         {
-            Regexes = regexLoader.LoadRegularExpressions();
+			Regexes = new Lazy<IEnumerable<TRegex>>(() => regexLoader.LoadRegularExpressions(), true);
         }
 
-        public IEnumerable<TRegex> Regexes { get; private set; }
+        public Lazy<IEnumerable<TRegex>> Regexes { get; private set; }
 
         protected void BuildInternal(DeviceInfo deviceInfo, string userAgent, Action<DeviceInfo, string> propertySetter)
         {
@@ -28,7 +23,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
             Debug.Assert(!String.IsNullOrEmpty(userAgent));
             Debug.Assert(propertySetter != null);
 
-            var matchingItem = Regexes.Select(r => new
+            var matchingItem = Regexes.Value.Select(r => new
             {
                 Match = Regex.Match(userAgent, r.Regex),
                 Regex = r

@@ -1,10 +1,9 @@
-﻿using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Common.Services.DeviceDetection
 {
-    public interface ILoginDeviceManagementService
+	public interface ILoginDeviceManagementService
     {
-        Task RegisterDeviceLoginAsync(string userId, DeviceInfo deviceInfo);
+        Task RegisterDeviceLoginAsync(string userId, string userAgentString);
     }
 }

@@ -30,7 +30,6 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly IEnumerable<IEmailSender> _emailSenders;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IDeviceDetector _deviceDetector;
         private readonly ILoginDeviceManagementService _deviceManagementService;
 
         public AccountController(
@@ -49,7 +48,6 @@ namespace GovITHub.Auth.Identity.Controllers
             _emailSenders = emailSenders;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-            _deviceDetector = deviceDetector;
             _deviceManagementService = deviceManagementService;
         }
 
@@ -113,14 +111,8 @@ namespace GovITHub.Auth.Identity.Controllers
         private async Task AuditDeviceInfoAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            await AuditDeviceInfoAsync(user);
-        }
-
-        private async Task AuditDeviceInfoAsync(ApplicationUser user)
-        {
-            var deviceInfo = _deviceDetector.GetDeviceInfo(Request.GetUserAgent());
-            await _deviceManagementService.RegisterDeviceLoginAsync(user.Id, deviceInfo);
-        }
+			await _deviceManagementService.RegisterDeviceLoginAsync(user.Id, Request.GetUserAgent());
+		}
 
         //
         // GET: /Account/Register
