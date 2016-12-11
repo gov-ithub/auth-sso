@@ -8,11 +8,11 @@ using System.Text.RegularExpressions;
 
 namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
 {
-	public abstract class DeviceInfoBuilderBase<TRegex> where TRegex : IRegex
+    public abstract class DeviceInfoBuilderBase<TRegex> where TRegex : IRegex
     {
         public DeviceInfoBuilderBase(Regexes.IDeviceInfoRegexLoader<TRegex> regexLoader)
         {
-			Regexes = new Lazy<IEnumerable<TRegex>>(() => regexLoader.LoadRegularExpressions(), true);
+            Regexes = new Lazy<IEnumerable<TRegex>>(() => regexLoader.LoadRegularExpressions(), true);
         }
 
         public Lazy<IEnumerable<TRegex>> Regexes { get; private set; }

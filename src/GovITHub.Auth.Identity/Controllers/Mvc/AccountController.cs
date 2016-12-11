@@ -111,8 +111,8 @@ namespace GovITHub.Auth.Identity.Controllers
         private async Task AuditDeviceInfoAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-			await _deviceManagementService.RegisterDeviceLoginAsync(user.Id, Request.GetUserAgent());
-		}
+            await _deviceManagementService.RegisterDeviceLoginAsync(user.Id, Request.GetUserAgent());
+        }
 
         //
         // GET: /Account/Register

@@ -44,7 +44,7 @@ namespace GovITHub.Auth.Common.Infrastructure.Configuration
         {
             return services.AddDeviceInfoBuilder((config, webRootFileProvider, loggerFactory) =>
             {
-				var loader = new SimpleResourceFileRegexLoader<BrowserRegex>(config.GetDeviceDetectionResourceFile("browsers"), webRootFileProvider, loggerFactory);
+                var loader = new SimpleResourceFileRegexLoader<BrowserRegex>(config.GetDeviceDetectionResourceFile("browsers"), webRootFileProvider, loggerFactory);
                 return new BrowserInfoBuilder(loader);
             });
         }
@@ -54,9 +54,9 @@ namespace GovITHub.Auth.Common.Infrastructure.Configuration
             return services.AddTransient<IDeviceInfoBuilder, T>(serviceProvider =>
             {
                 var config = serviceProvider.GetService<IConfigurationRoot>();
-				var hostingEnvironment = serviceProvider.GetService<IHostingEnvironment>();
-				var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-				return factoryFunc(config, hostingEnvironment.WebRootFileProvider, loggerFactory);
+                var hostingEnvironment = serviceProvider.GetService<IHostingEnvironment>();
+                var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+                return factoryFunc(config, hostingEnvironment.WebRootFileProvider, loggerFactory);
             });
         }
 

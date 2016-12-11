@@ -2,7 +2,7 @@
 
 namespace GovITHub.Auth.Common.Services.DeviceDetection
 {
-	public interface ILoginDeviceManagementService
+    public interface ILoginDeviceManagementService
     {
         Task RegisterDeviceLoginAsync(string userId, string userAgentString);
     }
