@@ -2,19 +2,25 @@
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
-using GovITHub.Auth.Common.Tests.DeviceDetection.DeviceInfoBuilders.Regexes;
+//using Moq;
 using Xunit;
 
 namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class BrowserInfoBuilderTests
+    public class BrowserInfoBuilderTests : System.IDisposable
     {
+        //private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
+        //private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
+
         private readonly BrowserInfoBuilder _builder;
 
         public BrowserInfoBuilderTests()
         {
-            var reader = new RegexResourceFileStreamReader("GovITHub.Auth.Common.Tests.browsers.yml");
-            _builder = new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>(reader));
+            //fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
+            //loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
+
+            //_builder = new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Common.Tests.browsers.yml", fileProviderMock.Object, loggerFactoryMock.Object));
+            _builder = new BrowserInfoBuilder(new SimpleResourceFileRegexLoader<BrowserRegex>("GovITHub.Auth.Common.Tests.browsers.yml", null, null));
         }
 
         [Theory]
@@ -35,6 +41,13 @@ namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
             };
             _builder.Build(deviceInfo, userAgent);
             Assert.Equal(expectedOutput, deviceInfo.Browser);
+        }
+
+
+        public void Dispose()
+        {
+            //fileProviderMock.VerifyAll();
+            //loggerFactoryMock.VerifyAll();
         }
     }
 }

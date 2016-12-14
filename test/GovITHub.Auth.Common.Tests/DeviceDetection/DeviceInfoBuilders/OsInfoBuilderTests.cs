@@ -2,19 +2,25 @@
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
-using GovITHub.Auth.Common.Tests.DeviceDetection.DeviceInfoBuilders.Regexes;
+//using Moq;
 using Xunit;
 
 namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class OsInfoBuilderTests
+    public class OsInfoBuilderTests : System.IDisposable
     {
+        //private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
+        //private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
+
         private readonly OsInfoBuilder _builder;
 
         public OsInfoBuilderTests()
         {
-            var reader = new RegexResourceFileStreamReader("GovITHub.Auth.Common.Tests.oss.yml");
-            _builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>(reader));
+            //fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
+            //loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
+
+            //_builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Common.Tests.oss.yml", fileProviderMock.Object, loggerFactoryMock.Object));
+            _builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Common.Tests.oss.yml", null, null));
         }
 
         [Theory]
@@ -35,6 +41,12 @@ namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
             };
             _builder.Build(deviceInfo, userAgent);
             Assert.Equal(expectedOutput, deviceInfo.OperatingSystem);
+        }
+
+        public void Dispose()
+        {
+            //fileProviderMock.VerifyAll();
+            //loggerFactoryMock.VerifyAll();
         }
     }
 }

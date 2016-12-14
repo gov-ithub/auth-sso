@@ -1,19 +1,25 @@
 ﻿using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
-using GovITHub.Auth.Common.Tests.DeviceDetection.DeviceInfoBuilders.Regexes;
+//using Moq;
 using Xunit;
 
 namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
-    public class MobileDeviceInfoBuilderTests
+    public class MobileDeviceInfoBuilderTests : System.IDisposable
     {
+        //private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
+        //private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
+
         private readonly MobileDeviceInfoBuilder _builder;
 
         public MobileDeviceInfoBuilderTests()
         {
-            var reader = new RegexResourceFileStreamReader("GovITHub.Auth.Common.Tests.mobiles.yml");
-            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader(reader));
+            //fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
+            //loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
+
+            //_builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Common.Tests.mobiles.yml", fileProviderMock.Object, loggerFactoryMock.Object));
+            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Common.Tests.mobiles.yml", null, null));
         }
 
         [Theory]
@@ -43,6 +49,13 @@ namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
             var deviceInfo = new DeviceInfo { UserAgent = userAgent };
             _builder.Build(deviceInfo, userAgent);
             Assert.Equal(expectedDeviceType, deviceInfo.MobileDevice);
+        }
+
+
+        public void Dispose()
+        {
+            //fileProviderMock.VerifyAll();
+            //loggerFactoryMock.VerifyAll();
         }
     }
 }

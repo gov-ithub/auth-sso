@@ -8,7 +8,9 @@
     },
     "xunit": "2.2.0-beta2-build3300",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "GovITHub.Auth.Common": "1.0.0-*"
+    "GovITHub.Auth.Common": "1.0.0-*",
+    "System.Diagnostics.TraceSource": "4.0.0",
+    "Microsoft.DotNet.InternalAbstractions":  "1.0.0-rc2-002702"
   },
   "testRunner": "xunit",
   "buildOptions": {
@@ -25,7 +27,6 @@
       "imports": [
         "dotnet5.6",
         "dnxcore50",
-        "net46",
         "portable-net45+win8"
       ]
     }
