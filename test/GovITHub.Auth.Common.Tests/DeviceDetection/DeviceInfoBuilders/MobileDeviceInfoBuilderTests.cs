@@ -1,25 +1,24 @@
 ﻿using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
-//using Moq;
+using Moq;
 using Xunit;
 
 namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class MobileDeviceInfoBuilderTests : System.IDisposable
     {
-        //private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
-        //private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
+        private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
+        private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
 
         private readonly MobileDeviceInfoBuilder _builder;
 
         public MobileDeviceInfoBuilderTests()
         {
-            //fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
-            //loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
+            fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
+            loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
 
-            //_builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Common.Tests.mobiles.yml", fileProviderMock.Object, loggerFactoryMock.Object));
-            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Common.Tests.mobiles.yml", null, null));
+            _builder = new MobileDeviceInfoBuilder(new MobileDevicesResourceFileRegexLoader("GovITHub.Auth.Common.Tests.mobiles.yml", fileProviderMock.Object, loggerFactoryMock.Object));
         }
 
         [Theory]
@@ -54,8 +53,8 @@ namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 
         public void Dispose()
         {
-            //fileProviderMock.VerifyAll();
-            //loggerFactoryMock.VerifyAll();
+            fileProviderMock.VerifyAll();
+            loggerFactoryMock.VerifyAll();
         }
     }
 }

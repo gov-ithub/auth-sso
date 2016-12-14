@@ -2,25 +2,24 @@
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regexes;
 using GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.YamlSchema;
-//using Moq;
+using Moq;
 using Xunit;
 
 namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class OsInfoBuilderTests : System.IDisposable
     {
-        //private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
-        //private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
+        private readonly Mock<Microsoft.Extensions.FileProviders.IFileProvider> fileProviderMock;
+        private readonly Mock<Microsoft.Extensions.Logging.ILoggerFactory> loggerFactoryMock;
 
         private readonly OsInfoBuilder _builder;
 
         public OsInfoBuilderTests()
         {
-            //fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
-            //loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
+            fileProviderMock = new Mock<Microsoft.Extensions.FileProviders.IFileProvider>(MockBehavior.Strict);
+            loggerFactoryMock = new Mock<Microsoft.Extensions.Logging.ILoggerFactory>(MockBehavior.Strict);
 
-            //_builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Common.Tests.oss.yml", fileProviderMock.Object, loggerFactoryMock.Object));
-            _builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Common.Tests.oss.yml", null, null));
+            _builder = new OsInfoBuilder(new SimpleResourceFileRegexLoader<OsRegex>("GovITHub.Auth.Common.Tests.oss.yml", fileProviderMock.Object, loggerFactoryMock.Object));
         }
 
         [Theory]
@@ -45,8 +44,8 @@ namespace GovITHub.Auth.Common.Tests.Services.DeviceDetection.DeviceInfoBuilders
 
         public void Dispose()
         {
-            //fileProviderMock.VerifyAll();
-            //loggerFactoryMock.VerifyAll();
+            fileProviderMock.VerifyAll();
+            loggerFactoryMock.VerifyAll();
         }
     }
 }
