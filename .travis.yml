@@ -12,4 +12,3 @@ script:
     - dotnet build src/GovITHub.Auth.Admin
 
     - dotnet test test/GovITHub.Auth.Common.Tests -c Release -f netcoreapp1.0
-    - mono \ test/GovITHub.Auth.Common.Tests/bin/Release/net451/*/dotnet-test-xunit.exe \ test/GovITHub.Auth.Common.Tests/bin/Release/net451/*/GovITHub.Auth.Common.Tests.dll
