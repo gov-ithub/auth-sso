@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 1.1.0
+dotnet: stable
 solution: GovITHub.Auth.Identity.sln
 dist: trusty
 sudo: required
