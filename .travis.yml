@@ -14,6 +14,5 @@ script:
     - dotnet restore
     - dotnet build src/GovITHub.Auth.Common
     - dotnet build src/GovITHub.Auth.Identity
-    - dotnet build src/GovITHub.Auth.Admin
 
     - dotnet test test/GovITHub.Auth.Common.Tests -c Release -f netcoreapp1.0
