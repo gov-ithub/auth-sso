@@ -15,6 +15,7 @@
             vm.id = id;
 
             var create = function () {
+                vm.data.parentOrganizationId = $scope.currentUser.organizationId;
                 Organization
                     .save(vm.data).$promise
                     .then(function (result) {

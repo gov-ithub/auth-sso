@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label class="control-label">Cheie</label>
+                        <label class="control-label">Id</label>
                         <!--<input type="text" name="product_name" placeholder="ex: 354" class="form-control" ng-model="vm.query.crt">-->
                     </div>
                 </div>
@@ -62,8 +62,8 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <a ng-click="vm.sort('key')">
-                                        Cheie
+                                    <a ng-click="vm.sort('id')">
+                                        Id
                                         <span ng-show="vm.sortBy === 'key' && vm.sortAscending === true " class="fa fa-caret-up "></span>
                                         <span ng-show="vm.sortBy === 'key' && vm.sortAscending === false " class="fa fa-caret-down "></span>
                                     </a>
@@ -71,6 +71,13 @@
                                 <th>
                                     <a ng-click="vm.sort('name')">
                                         Nume
+                                        <span ng-show="vm.sortBy === 'name' && vm.sortAscending === true " class="fa fa-caret-up "></span>
+                                        <span ng-show="vm.sortBy === 'name' && vm.sortAscending === false " class="fa fa-caret-down "></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="vm.sort('parentOrganizationId')">
+                                        Parinte
                                         <span ng-show="vm.sortBy === 'name' && vm.sortAscending === true " class="fa fa-caret-up "></span>
                                         <span ng-show="vm.sortBy === 'name' && vm.sortAscending === false " class="fa fa-caret-down "></span>
                                     </a>
@@ -96,12 +103,15 @@
                                     {{ item.name }}
                                 </td>
                                 <td>
+                                    {{ item.parentOrganizationId }}
+                                </td>
+                                <td>
                                     {{ item.website }}
                                 </td>
                                 <td class="text-right ">
                                     <div class="btn-group ">
-                                        <button class="btn-white btn btn-xs " ng-click="vm.gotoEdit(item.key) ">Modifica</button>
-                                        <button class="btn-danger btn btn-xs " ng-click="vm.delete(item.key) ">Sterge</button>
+                                        <button class="btn-white btn btn-xs " ng-click="vm.gotoEdit(item.id) ">Modifica</button>
+                                        <button class="btn-danger btn btn-xs " ng-click="vm.delete(item.id) ">Sterge</button>
                                     </div>
                                 </td>
                             </tr>
