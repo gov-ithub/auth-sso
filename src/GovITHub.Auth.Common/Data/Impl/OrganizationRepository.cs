@@ -22,7 +22,8 @@ namespace GovITHub.Auth.Common.Data.Impl
                     {
                          Id = t.Id,
                          Name = t.Name,
-                         Website = t.Website
+                         Website = t.Website,
+                         ParentOrganizationId = t.ParentId
                     }),
                     TotalItems = _dbContext.Organizations.Count()
                 };
@@ -31,7 +32,8 @@ namespace GovITHub.Auth.Common.Data.Impl
             {
                 Id = t.Id,
                 Name = t.Name,
-                Website = t.Website
+                Website = t.Website,
+                ParentOrganizationId = t.ParentId
             }).Skip(filter.CurrentPage * filter.ItemsPerPage)
                 .Take(filter.ItemsPerPage)
                 .Select(p => p);
@@ -56,19 +58,16 @@ namespace GovITHub.Auth.Common.Data.Impl
 
         public void Add(OrganizationViewModel item, string adminUserName)
         {
-            Add(item, adminUserName, null);
-        }
-
-        public void Add(OrganizationViewModel item, string adminUserName, long? parentOrganizationId)
-        {
             if (_dbContext.Organizations.Any(t => t.Name == item.Name))
                 throw new ArgumentException(string.Format("Organization {0} already exists!", item.Name));
-            if (!parentOrganizationId.HasValue)
+            bool attachedToRootOrganization = false;
+            if (!item.ParentOrganizationId.HasValue)
             {
                 var rootOrg = _dbContext.Organizations.FirstOrDefault(t => t.ParentId == null);
                 if (rootOrg == null)
                     throw new Exception("Root organization does not exists!");
-                parentOrganizationId = rootOrg.Id;
+                item.ParentOrganizationId = rootOrg.Id;
+                attachedToRootOrganization = true;
             }
             var adminUser = _dbContext.Users.FirstOrDefault(t => t.UserName == adminUserName);
             if (adminUser == null)
@@ -80,14 +79,20 @@ namespace GovITHub.Auth.Common.Data.Impl
                 var newOrganization = new Organization()
                 {
                     Name = item.Name,
-                    ParentId = parentOrganizationId,
+                    ParentId = item.ParentOrganizationId,
                     Website = item.Website
                 };
-                newOrganization.Users = new List<OrganizationUser>() {new OrganizationUser()
+                if (attachedToRootOrganization)
                 {
-                    Level = OrganizationUserLevel.Admin,
-                    User = adminUser,
-                } };
+                    newOrganization.Users = new List<OrganizationUser>()
+                    {
+                        new OrganizationUser()
+                        {
+                            Level = OrganizationUserLevel.Admin,
+                            User = adminUser,
+                        }
+                    };
+                }
                 _dbContext.Organizations.Add(newOrganization);
                 _dbContext.SaveChanges();
                 item.Id = newOrganization.Id;
@@ -118,6 +123,7 @@ namespace GovITHub.Auth.Common.Data.Impl
             if (item != null)
             {
                 itemDb.Name = item.Name;
+                itemDb.Website = item.Website;
                 _dbContext.SaveChanges();
             }
         }
