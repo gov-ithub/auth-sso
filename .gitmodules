@@ -6,4 +6,4 @@
 	url = https://github.com/IdentityServer/IdentityServer4.EntityFramework.git
 [submodule "src/external/device-detector"]
 	path = dependencies/device-detector
-	url = https://github.com/piwik/device-detector.git
+	url = https://github.com/piwik/device-detector.git 
