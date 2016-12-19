@@ -1,6 +1,3 @@
-[submodule "dependencies/romanescU-backpanel"]
-	path = dependencies/romanescU-backpanel
-	url = https://github.com/gov-ithub/romanescU-backpanel.git
 [submodule "dependencies/IdentityServer4"]
 	path = dependencies/IdentityServer4
 	url = https://github.com/IdentityServer/IdentityServer4.git

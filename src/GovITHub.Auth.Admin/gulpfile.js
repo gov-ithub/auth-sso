@@ -9,7 +9,7 @@ var $ = require("gulp-load-plugins")({
 
 // Define default destination folder
 var dest = 'wwwroot/';
-var destLib = 'libs';
+var destLib = 'vendor';
 
 const bFilter = $.filter('**/*.{js,css,eot,svg,ttf,woff,woff2,less}');
 
