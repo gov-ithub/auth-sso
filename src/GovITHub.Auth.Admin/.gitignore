@@ -1,3 +1,4 @@
 connectionstrings.json
-wwwroot/css/vendore.min.css
+wwwroot/css/vendor.min.css
 wwwroot/js/
+wwwroot/libs/
