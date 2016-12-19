@@ -3,6 +3,11 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 
 ## Instalare
 - branch from master
+- open `Git Bash` and update submodules with the following commands:
+```
+cd /path/to/repository
+git submodule update --init --recursive
+```
 - create database sso
 - create file `./src/GotITHub.Auth.Identity/connectionstrings.json` containing the connection string to the database like in example below:
 ```
