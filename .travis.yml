@@ -6,9 +6,9 @@ dist: trusty
 sudo: required
 
 before_script:
+    - npm install --prefix ./src
     - npm install -g bower --prefix ./src
     - npm install -g gulp --prefix ./src
-    - npm install --prefix ./src
 
 script:
     - dotnet restore
