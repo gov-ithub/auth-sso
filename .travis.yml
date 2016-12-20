@@ -5,11 +5,11 @@ solution: GovITHub.Auth.Identity.sln
 dist: trusty
 sudo: required
 
-before_script:
+install:
+    - npm install -g bower
+    - npm install -g gulp
     - npm install --prefix ./src/GovITHub.Auth.Identity
-    - npm install -g bower --prefix ./src/GovITHub.Auth.Identity
-    - npm install -g gulp --prefix ./src/GovITHub.Auth.Identity
-
+    - npm install --prefix ./src/GovITHub.Auth.Admin
 script:
     - dotnet restore
     - dotnet build src/GovITHub.Auth.Common
