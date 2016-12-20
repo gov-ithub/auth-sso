@@ -14,10 +14,21 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 ```
 
 ### Identity server
-- open shell (command promt)
+- open shell (command prompt)
 - go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
 - `dotnet restore`
 - `dotnet ef database update`
+- `npm install`
+- `bower install`
+- `dotnet run`
+
+### Admin panel
+- open shell (command prompt)
+- go to \\govithub-auth-sso\src\GovITHub.Auth.Admin
+- `dotnet restore`
+- `dotnet ef database update`
+- `npm install`
+- `bower install`
 - `dotnet run`
 
 ### Javascript client sample

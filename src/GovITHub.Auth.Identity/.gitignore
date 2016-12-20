@@ -6,3 +6,5 @@ Properties/PublishProfiles/time4vps-publish.ps1
 
 # Device detection publish files
 wwwroot/device-detection
+
+wwwroot/vendor
