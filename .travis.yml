@@ -10,6 +10,12 @@ install:
     - npm install -g gulp
     - npm install --prefix ./src/GovITHub.Auth.Identity
     - npm install --prefix ./src/GovITHub.Auth.Admin
+    - cd ./src/GovITHub.Auth.Identity
+    - bower install
+    - cd ./../GovITHub.Auth.Admin
+    - bower install
+    - cd ../..
+
 script:
     - dotnet restore
     - dotnet build src/GovITHub.Auth.Common
