@@ -6,9 +6,9 @@ dist: trusty
 sudo: required
 
 before_script:
-    - npm install --prefix ./src
-    - npm install -g bower --prefix ./src
-    - npm install -g gulp --prefix ./src
+    - npm install --prefix ./src/GovITHub.Auth.Identity
+    - npm install -g bower --prefix ./src/GovITHub.Auth.Identity
+    - npm install -g gulp --prefix ./src/GovITHub.Auth.Identity
 
 script:
     - dotnet restore
