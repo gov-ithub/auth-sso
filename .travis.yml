@@ -6,13 +6,13 @@ dist: trusty
 sudo: required
 
 before_script:
-    - npm install --prefix ./src/GovITHub.Auth.Admin
-    - npm install -g bower --prefix ./src/GovITHub.Auth.Admin
-    - npm install -g gulp --prefix ./src/GovITHub.Auth.Admin
+    - npm install -g bower --prefix ./src
+    - npm install -g gulp --prefix ./src
+    - npm install --prefix ./src
 
 script:
     - dotnet restore
     - dotnet build src/GovITHub.Auth.Common
     - dotnet build src/GovITHub.Auth.Identity
-
+    - dotnet build src/GovITHub.Auth.Admin
     - dotnet test test/GovITHub.Auth.Common.Tests -c Release -f netcoreapp1.0
