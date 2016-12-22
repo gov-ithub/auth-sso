@@ -30,9 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
-		setup-facebook.md = setup-facebook.md
+		setup-authentication-providers.md = setup-authentication-providers.md
 		setupEmailProviders.md = setupEmailProviders.md
-		setupGoogle.md = setupGoogle.md
 		setupOrganizationRoot.md = setupOrganizationRoot.md
 	EndProjectSection
 EndProject
