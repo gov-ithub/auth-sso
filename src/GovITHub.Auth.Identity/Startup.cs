@@ -20,6 +20,9 @@ using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using GovITHub.Auth.Identity.Infrastructure.Extensions;
 
 namespace GovITHub.Auth.Identity
 {
@@ -105,11 +108,12 @@ namespace GovITHub.Auth.Identity
                 ServiceLifetime.Scoped));
             services.Replace(new ServiceDescriptor(typeof(IPersistedGrantDbContext),
                 typeof(ExtendedPersistedGrantDbContext),
-                ServiceLifetime.Scoped));                
+                ServiceLifetime.Scoped));
+            services.AddAuthentication(options => options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, ConfigurationDataInitializer cfgDataInitializer,
             ApplicationDataInitializer appDataInitializer, LocalizationDataInitializer localizationDataInitializer,
             UserManager<ApplicationUser> userManager)
@@ -149,9 +153,9 @@ namespace GovITHub.Auth.Identity
                 AutomaticAuthenticate = false,
                 AutomaticChallenge = false
             });
-
-            InitGoogleAuthentication(app, logger);
-            InitFacebookAuthentication(app, logger);
+            app.AddGoogleAuthentication(Configuration);
+            app.AddFacebookAuthentication(Configuration);
+            app.AddLinkedInAuthentication(Configuration);
 
             app.UseMvc(routes =>
             {
@@ -160,9 +164,11 @@ namespace GovITHub.Auth.Identity
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(name: "signin-google",
                      template: "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
+                routes.MapRoute(null,
+                     template: "linkedin-auth", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
                 routes.MapRoute(
-                    name : "DefaultApi",
-                    template : "api/{controller}/{id?}"
+                    name: "DefaultApi",
+                    template: "api/{controller}/{id?}"
                     );
             });
 
@@ -175,42 +181,6 @@ namespace GovITHub.Auth.Identity
             catch (Exception ex)
             {
                 logger.LogCritical("Error initializing database. Reason : {0}", ex);
-            }
-        }
-
-        private void InitFacebookAuthentication(IApplicationBuilder app, ILogger<Startup> logger)
-        {
-            string facebookAppId = Configuration[Config.FACEBOOK_APP_ID];
-            string facebookAppSecret = Configuration[Config.FACEBOOK_APP_SECRET];
-            if (!string.IsNullOrWhiteSpace(facebookAppId) &&
-                !string.IsNullOrWhiteSpace(facebookAppSecret))
-            {
-
-                app.UseFacebookAuthentication(new FacebookOptions
-                {
-                    AppId = facebookAppId,
-                    AppSecret = facebookAppSecret
-                });
-            }
-        }
-
-        private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
-        {
-            string googleClientId = Configuration[Config.GOOGLE_CLIENT_ID];
-            string googleClientSecret = Configuration[Config.GOOGLE_CLIENT_SECRET];
-            if (!string.IsNullOrWhiteSpace(googleClientId) &&
-                !string.IsNullOrWhiteSpace(googleClientSecret))
-            {
-                var googleOptions = new GoogleOptions
-                {
-                    ClientId = googleClientId,
-                    ClientSecret = googleClientSecret
-                };
-                app.UseGoogleAuthentication(googleOptions);
-            }
-            else
-            {
-                logger.LogWarning("Google external authentication credentials not set.");
             }
         }
     }
