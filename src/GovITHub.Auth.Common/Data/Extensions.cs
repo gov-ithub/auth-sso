@@ -69,7 +69,8 @@ namespace GovITHub.Auth.Common.Data
 
             var method = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "OrderByDescending" && m.GetParameters().Length == 2);
             var genericMethod = method.MakeGenericMethod(typeof(T), propInfo.PropertyType);
-            return (IQueryable<T>)genericMethod.Invoke(null, new object[] { query, expr.Compile() });
+            var orderedEnumberable = (System.Linq.IOrderedEnumerable<T>)genericMethod.Invoke(null, new object[] { query, expr.Compile() });
+            return (IQueryable<T>)orderedEnumberable.AsQueryable<T>();
         }
     }
 
