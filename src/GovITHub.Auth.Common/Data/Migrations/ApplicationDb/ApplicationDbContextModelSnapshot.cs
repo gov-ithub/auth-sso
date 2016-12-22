@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using GovITHub.Auth.Common.Data;
+using GovITHub.Auth.Common.Data.Models;
 
 namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 {
@@ -13,7 +14,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
             modelBuilder.Entity("GovITHub.Auth.Common.Data.Models.EmailProvider", b =>
                 {
@@ -22,7 +23,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 20);
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
@@ -37,7 +38,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.Property<long>("EmailProviderId");
 
                     b.Property<string>("Settings")
-                        .HasAnnotation("MaxLength", 8196);
+                        .HasMaxLength(8196);
 
                     b.HasKey("Id");
 
@@ -53,12 +54,12 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 20);
+                        .HasMaxLength(20);
 
                     b.Property<long>("OrganizationSettingId");
 
                     b.Property<string>("Value")
-                        .HasAnnotation("MaxLength", 8196);
+                        .HasMaxLength(8196);
 
                     b.HasKey("Id");
 
@@ -74,7 +75,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasAnnotation("MaxLength", 50);
+                        .HasMaxLength(50);
 
                     b.Property<long?>("ParentId");
 
@@ -95,8 +96,6 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
                     b.HasKey("OrganizationId", "ClientId");
 
-                    b.HasIndex("OrganizationId");
-
                     b.ToTable("OrganizationClient");
                 });
 
@@ -108,7 +107,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.Property<bool>("AllowSelfRegister");
 
                     b.Property<string>("DomainRestriction")
-                        .HasAnnotation("MaxLength", 50);
+                        .HasMaxLength(50);
 
                     b.Property<long?>("EmailSettingId");
 
@@ -152,7 +151,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
             modelBuilder.Entity("GovITHub.Auth.Common.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -160,7 +160,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -169,10 +169,10 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -185,7 +185,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -201,7 +201,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
             modelBuilder.Entity("GovITHub.Auth.Common.Services.Audit.DataContracts.AuditActionMessage", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ActionUrl");
 
@@ -218,18 +219,52 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.ToTable("AuditActions");
                 });
 
+            modelBuilder.Entity("GovITHub.Auth.Common.Services.DeviceDetection.DataContracts.LoginDevice", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Browser");
+
+                    b.Property<string>("MobileDevice");
+
+                    b.Property<string>("OperatingSystem");
+
+                    b.Property<string>("UserAgent");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoginDevices");
+                });
+
+            modelBuilder.Entity("GovITHub.Auth.Common.Services.DeviceDetection.DataContracts.UserLoginDevice", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("DeviceId");
+
+                    b.Property<DateTime>("LastLoginTimeUtc");
+
+                    b.Property<DateTime>("RegistrationTimeUtc");
+
+                    b.HasKey("UserId", "DeviceId");
+
+                    b.ToTable("UserLoginDevices");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -304,8 +339,6 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserRoles");
                 });

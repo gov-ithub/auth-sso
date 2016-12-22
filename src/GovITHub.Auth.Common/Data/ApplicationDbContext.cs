@@ -101,5 +101,7 @@ namespace GovITHub.Auth.Common.Data
         public DbSet<EmailSetting> EmailSettings { get; set; }
         public DbSet<EmailProvider> EmailProviders { get; set; }
         public DbSet<OrganizationClient> OrganizationClients { get; set; }
+        public DbSet<LoginDevice> LoginDevices { get; set; }
+        public DbSet<UserLoginDevice> UserLoginDevices { get; set; }
     }
 }
