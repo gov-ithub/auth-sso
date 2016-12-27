@@ -1,0 +1,10 @@
+# Files with sensitive info
+connectionstrings.json
+appsettings.Development.json
+Properties/PublishProfiles/publish-module.psm1
+Properties/PublishProfiles/time4vps-publish.ps1
+
+# Device detection publish files
+wwwroot/device-detection
+
+wwwroot/vendor

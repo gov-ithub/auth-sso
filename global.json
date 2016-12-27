@@ -1,5 +1,5 @@
 {
-    "projects": [ "src", "test", "src/external", "src/external/SapientGuardian.EntityFrameworkCore.MySql/src" ], 
+    "projects": [ "src", "test", "src/external" ], 
     "sdk": {
         "version": "1.0.0-preview2-1-003177"
     }

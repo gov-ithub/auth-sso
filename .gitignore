@@ -250,13 +250,3 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-
-# Files with sensitive info
-/src/GovITHub.Auth.Identity/connectionstrings.json
-/src/GovITHub.Auth.Identity/appsettings.Development.json
-/src/GovITHub.Auth.Identity/Properties/PublishProfiles/publish-module.psm1
-/src/GovITHub.Auth.Identity/Properties/PublishProfiles/time4vps-publish.ps1
-# Device detection publish files
-/src/GovITHub.Auth.Identity/wwwroot/device-detection
-
-/src/GovITHub.Auth.Admin/connectionstrings.json

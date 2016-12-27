@@ -2,7 +2,7 @@
   {
     "outputFileName": "wwwroot/css/vendor.min.css",
     "inputFiles": [
-      "wwwroot/libs/**/*.css"
+      "wwwroot/vendor/**/*.css"
     ],
     "minify": {
       "enabled": true,
@@ -24,25 +24,25 @@
   {
     "outputFileName": "wwwroot/js/vendor.min.js",
     "inputFiles": [
-        "wwwroot/libs/jquery/**/*.js",
-        "wwwroot/libs/bootstrap/**/*.js",
-        "wwwroot/libs/lodash/**/*.js",
-        "wwwroot/libs/metisMenu/**/*.js",
-        "wwwroot/libs/moment/**/*.js",
-        "wwwroot/libs/pace/**/*.js",
-        "wwwroot/libs/angular/**/*.js",
-        "wwwroot/libs/angular-animate/**/*.js",
-        "wwwroot/libs/angular-aria/**/*.js",
-        "wwwroot/libs/angular-bootstrap/**/*.js",
-        "wwwroot/libs/angular-cookies/**/*.js",
-        "wwwroot/libs/angular-messages/**/*.js",
-        "wwwroot/libs/angular-local-storage/dist/*.js",
-        "wwwroot/libs/angular-resource/**/*.js",
-        "wwwroot/libs/angular-sanitize/**/*.js",
-        "wwwroot/libs/angular-touch/**/*.js",
-        "wwwroot/libs/angular-ui-router/**/*.js",
-        "wwwroot/libs/angular-ui-tree/**/*.js",
-        "wwwroot/libs/animate.css/**/*.js"
+        "wwwroot/vendor/jquery/**/*.js",
+        "wwwroot/vendor/bootstrap/**/*.js",
+        "wwwroot/vendor/lodash/**/*.js",
+        "wwwroot/vendor/metisMenu/**/*.js",
+        "wwwroot/vendor/moment/**/*.js",
+        "wwwroot/vendor/pace/**/*.js",
+        "wwwroot/vendor/angular/**/*.js",
+        "wwwroot/vendor/angular-animate/**/*.js",
+        "wwwroot/vendor/angular-aria/**/*.js",
+        "wwwroot/vendor/angular-bootstrap/**/*.js",
+        "wwwroot/vendor/angular-cookies/**/*.js",
+        "wwwroot/vendor/angular-messages/**/*.js",
+        "wwwroot/vendor/angular-local-storage/dist/*.js",
+        "wwwroot/vendor/angular-resource/**/*.js",
+        "wwwroot/vendor/angular-sanitize/**/*.js",
+        "wwwroot/vendor/angular-touch/**/*.js",
+        "wwwroot/vendor/angular-ui-router/**/*.js",
+        "wwwroot/vendor/angular-ui-tree/**/*.js",
+        "wwwroot/vendor/animate.css/**/*.js"
     ],
     "minify": {
       "enabled": false,
