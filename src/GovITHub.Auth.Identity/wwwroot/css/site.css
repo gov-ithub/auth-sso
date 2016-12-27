@@ -170,3 +170,7 @@ input.input-validation-error {
 .validation-summary-valid {
 	display: none;
 }
+
+.auth-sso {
+    color: white;
+}
