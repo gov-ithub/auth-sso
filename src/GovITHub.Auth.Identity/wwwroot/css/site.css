@@ -1,6 +1,5 @@
 ﻿body {
-	padding-top: 50px;
-	padding-bottom: 20px;
+	
 }
 
 /* Wrapping element */
@@ -8,6 +7,7 @@
 .body-content {
 	padding-left: 15px;
 	padding-right: 15px;
+    padding-top: 76px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -171,6 +171,15 @@ input.input-validation-error {
 	display: none;
 }
 
-.auth-sso {
-    color: white;
+.auth-bar {
+    color: rgb(0, 77, 243);
+    height: 76px;
+    border-bottom: 2px solid rgb(16, 29, 113);
+    background-color: white;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    padding-top: 10px;
+}
+.auth-bar a {
+    color: rgb(0, 77, 243);
 }
