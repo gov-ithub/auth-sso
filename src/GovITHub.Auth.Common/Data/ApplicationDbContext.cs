@@ -29,9 +29,6 @@ namespace GovITHub.Auth.Common.Data
                     WithMany(c => c.Children).
                     HasForeignKey(p => p.ParentId).
                     HasConstraintName("FK_Org_OrgChild");
-                b.HasMany(p => p.OrganizationClients).
-                    WithOne(c => c.Organization).
-                    HasConstraintName("FK_OrgClient_Organization");
             });
 
             builder.Entity<OrganizationUser>(b =>
@@ -42,7 +39,9 @@ namespace GovITHub.Auth.Common.Data
                     HasForeignKey(p => p.OrganizationId).
                     HasConstraintName("FK_Org_OrgUsers");
                 b.HasOne(p => p.User).
-                    WithOne(c => c.OrganizationUser).
+                    WithMany(c => c.OrganizationUsers).
+                    HasPrincipalKey(p => p.Id).
+                    HasForeignKey(c => c.UserId).
                     HasConstraintName("FK_AppUser_OrgUser");
             });
 
@@ -76,6 +75,10 @@ namespace GovITHub.Auth.Common.Data
             builder.Entity<OrganizationClient>(b =>
             {
                 b.HasKey(t => new { t.OrganizationId, t.ClientId });
+                b.HasOne(p => p.Organization).
+                    WithMany(c => c.OrganizationClients).
+                    HasForeignKey(c => c.OrganizationId).
+                    HasConstraintName("FK_Org_OrgClient");
             });
             builder.Entity<LoginDevice>(ld =>
             {
