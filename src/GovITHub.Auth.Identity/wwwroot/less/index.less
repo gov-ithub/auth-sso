@@ -131,15 +131,18 @@ textarea {
     border-color: #53A3CD;
 }
 
-.forgot-password {
+.link-gray {
     text-decoration: underline;
     color: #888;
+
+    &:hover, &:focus {
+        color: #666;
+        text-decoration: underline;
+    }
 }
 
-.forgot-password:hover,
-.forgot-password:focus {
-    text-decoration: underline;
-    color: #666;
+.info-register {
+    font-weight: normal;
 }
 
 .btn-register {
@@ -202,4 +205,33 @@ input.input-validation-error {
 .img-responsive {
     max-width: 140px;
     margin-top: -7px;
+}
+
+.providers {
+    .btn.btn-default {
+        font-weight: normal;
+        text-transform: uppercase;
+        padding: 14px 10px 14px 30px;
+        background-size: 18px;
+        background-repeat: no-repeat;
+        background-position-x: 4px;
+        background-position-y: 12px;
+
+        &.Facebook {
+            color: white;
+            background-color: rgb(59, 89, 152);
+            background-image: url('../images/login/fb-art.png');
+            background-position-x: 8px;
+            background-position-y: 8px;
+            padding: 8px 10px 8px 36px;
+        }
+
+        &.Google {
+            background-image: url('../images/login/g-logo.png');
+            background-position-x: 8px;
+            background-position-y: 8px;
+            padding: 8px 10px 8px 36px;
+            background-color: #4285F4;
+        }
+    }
 }

@@ -9,125 +9,63 @@
     ViewData["Title"] = "Log in";
 }
 
-<div class="row" style="padding-top:90px;">
-    <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-login">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <a href="#" class="active" id="login-form-link">Autentificare</a>
+<div class="row login-form">
+    <div class="col-md-12">
+        <div class="col-md-6 col-md-offset-3">
+            <h2 class="text-center">Autentificare</h2>
+            <p class="text-center">Ai fost redirectionat de pe http://www.anaf.ro</p>
+            <br />
+            <br />
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]"
+                  method="post" role="form" id="login-form" style="display: block;">
+                <div class="form-group">
+                    <p>
+                        <label class="info-register">Nu ai cont? <a href="~/account/register" class="link-gray">Creeaza unul acum.</a></label>
+                    </p>
+                </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="email" asp-for="Email" placeholder="Email" class="form-control" tabindex="1" />
+                </div>
+                <div class="form-group">
+                    <input type="password" asp-for="Password" placeholder="********" class="form-control" tabindex="2" />
+                </div>
+                <div class="form-group text-center">
+                    <div class="col-md-6 text-left">
+                        <input asp-for="RememberMe" tabindex="3" class="" />
+                        <label asp-for="RememberMe">
+                            @*@Html.DisplayNameFor(m => m.RememberMe)*@
+                            Reține parola
+                        </label>
                     </div>
-                    <div class="col-xs-6">
-                        <a href="#" id="register-form-link">Inregistrare</a>
+                    <div class="col-md-6 text-right">
+                        <a asp-controller="Account" asp-action="ForgotPassword" tabindex="5" class="link-gray">Recuperare parola</a>
                     </div>
                 </div>
-                <hr>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                              method="post" role="form" id="login-form" style="display: block;">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                    <input type="email" asp-for="Email" placeholder="Email" class="form-control" tabindex="1" />
-                            </div>
-                            <div class="form-group">
-                                    <input type="password" asp-for="Password" placeholder="********" class="form-control" tabindex="2" />
-                            </div>
-                            <div class="form-group text-center">
-                                        <input asp-for="RememberMe" tabindex="3" class="" />
-                                        <label asp-for="RememberMe">
-                                            @Html.DisplayNameFor(m => m.RememberMe)
-                                        </label>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-6 col-sm-offset-3">
-                                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Autentificare">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="text-center">
-                                            <a asp-controller="Account" asp-action="ForgotPassword" tabindex="5" class="forgot-password">Recuperare parola</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <form asp-controller="Account" asp-action="Register" id="register-form" 
-                              asp-route-returnurl="@ViewData["ReturnUrl"]"  role="form" method="post" style="display: none;">
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <!--<div class="form-group">
-                                <input type="text" name="Name" placeholder="Ion Popescu" class="form-control" tabindex="1"
-                                       data-val="true" data-val-required="*"  />
-                            </div>-->
-                            <div class="form-group">
-                                <input type="email" name="Email" placeholder="Email" class="form-control" tabindex="2" 
-                                       data-val="true" data-val-email="Adresa de email nu este valida." data-val-required="*" />
-                            </div>
-                            <div class="form-group">
-                                <input name="Password" type="password" placeholder="********" class="form-control" tabindex="3"
-                                       data-val="true" data-val-length="Minim 6 caractere" 
-                                       data-val-length-max="32" data-val-length-min="6" data-val-required="*" />
-                            </div>
-                            <div class="form-group">
-                                <input name="ConfirmPassword" type="password" placeholder="********" class="form-control" tabindex="4" 
-                                       data-val="true" data-val-equalto="Parola si confirmarea nu sunt egale" data-val-equalto-other="*.Password" 
-                                       data-val-length="Minim 6 caractere" data-val-length-max="32" data-val-length-min="6" 
-                                       data-val-required="*" />
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-6 col-sm-offset-3">
-                                        <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Inregistrare">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Autentificare">
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <section>
-            @{
-                var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
-                if (loginProviders.Count == 0)
-                {
-                    <div>
-                        <p>
-                            Nu sunt configurate servicii de autentificare externe.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <h4>Servicii de autentificare externa.</h4>
-                    <hr/>
-                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">@provider.AuthenticationScheme</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
-</div>
 
-@section Scripts {
+@{ await Html.RenderPartialAsync("_ExternalLoginProviders"); }
+
+    @section Scripts {
     <script src="~/js/login.js" asp-append-version="true"></script>
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
