@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
-                    <img class="img-responsive" style="max-width:140px; margin-top: -7px;" src="~/images/govithub000.png" />
+                    <img class="img-responsive" src="~/images/govithub000.png" />
                 </a>
             </div>
             <div class="navbar-collapse collapse">
@@ -44,12 +44,10 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - <a href="http://ithub.gov.ro" target="_blank">GovITHub</a> </p>
-        </footer>
-    </div>
 
+    </div>
+    @await Html.PartialAsync("_FooterPartial")
+    
     <environment names="Development">
         <script src="~/vendor/jquery/dist/jquery.js"></script>
         <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
