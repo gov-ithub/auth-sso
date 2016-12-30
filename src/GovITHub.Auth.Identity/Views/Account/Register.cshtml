@@ -1,41 +1,45 @@
 ﻿@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
+    ViewData["LoginExtra"] = "Sau creează contul folosind o rețea de mai jos";
 }
 
-<h2>@ViewData["Title"].</h2>
+<div class="row login-form">
+    <div class="col-md-12">
+        <div class="col-md-6 col-md-offset-3">
+            <h2 class="text-center">Înregistrare</h2>
+            <p class="text-center">Ai fost redirectionat de pe http://www.anaf.ro</p>
+            <br />
+            <br />
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <p>
+                        <label class="info-register">Ai deja cont? <a href="~/account/login" class="link-gray">Autentifică-te.</a></label>
+                    </p>
+                </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="email" asp-for="Email" placeholder="Email" class="form-control" tabindex="1" />
+                </div>
+                <div class="form-group">
+                    <input type="password" asp-for="Password" placeholder="Password" class="form-control" tabindex="2" />
+                </div>
+                <div class="form-group">
+                    <input type="password" asp-for="ConfirmPassword" placeholder="Confirm password" class="form-control" tabindex="3" />
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="form-control btn btn-login">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <h4>Create a new account.</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Register</button>
-        </div>
-    </div>
-</form>
+@{ await Html.RenderPartialAsync("_ExternalLoginProviders"); }
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

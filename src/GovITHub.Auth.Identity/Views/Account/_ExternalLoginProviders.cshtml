@@ -16,7 +16,7 @@
                 }
                 else
                 {
-                    <p class="text-center">Sau autentifica-te printr-o retea de mai jos</p>
+                    <p class="text-center">@ViewData["LoginExtra"]</p>
                     <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                         <div class="providers">
                             <div class="col-md-12">
