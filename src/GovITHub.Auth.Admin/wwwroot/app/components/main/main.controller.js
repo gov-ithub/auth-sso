@@ -5,15 +5,21 @@ angular.module('authAdminPanel')
 
       var vm = this;
       UserIdentityService.getUser().then(function (data) {
-          vm.userName = data.username;
+          $scope.currentUser.userName = data.username;
           if (data.organizationId < 1){
               $state.go("index.organization_new");
               return;
           }
-          vm.organizationName = data.organizationName;
+          $scope.currentUser.organizationId = data.organizationId;
+          $scope.currentUser.organizationName = data.organizationName;
           vm.helloText = 'Welcome in Admin Auth Panel';
           vm.descriptionText = 'This is a Angular web-app';
       }, function () {
           $scope.error = 'unable to retrieve the user';
       });
+
+      function setCurrentOrganization(id, name) {
+          vm.organizationId = id;
+          vm.organizationName = name;
+      }
   }]);

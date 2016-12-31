@@ -15,10 +15,13 @@
             vm.id = id;
 
             var create = function () {
-                vm.data.parentOrganizationId = $scope.currentUser.organizationId;
+                if ($scope.currentUser.organizationId >= 1)
+                    vm.data.parentOrganizationId = $scope.currentUser.organizationId;
                 Organization
                     .save(vm.data).$promise
                     .then(function (result) {
+                        $scope.currentUser.organizationId = result.id;
+                        $scope.currentUser.organizationName = result.name;
                         $state.go('index.organizations');
                     }).catch(function (err) {
                         vm.error = err;
@@ -58,8 +61,6 @@
             if (vm.status.edit) {
                 vm.init();
             };
-
-
 
             // -->End
             $scope.$on('$destroy', function () {
