@@ -79,7 +79,7 @@ namespace GovITHub.Auth.Admin
                 ClientId = "mvc",
                 ClientSecret = "secret",
                 ResponseType = "code id_token",
-                Scope = { "api1", "offline_access" },
+                Scope = { "api1" },
                 GetClaimsFromUserInfoEndpoint = true,
                 SaveTokens = true,
                 Events = new OpenIdConnectEvents(){
