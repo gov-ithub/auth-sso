@@ -8,6 +8,7 @@
 @{
     ViewData["Title"] = "Log in";
     ViewData["LoginExtra"] = "Sau autentifica-te printr-o retea de mai jos";
+    var returnUrlLink = Url.Content("~/account/register" + ViewData["ReturnUrlQ"]);
 }
 
 <div class="row login-form">
@@ -21,7 +22,7 @@
                   method="post" role="form" id="login-form" style="display: block;">
                 <div class="form-group">
                     <p>
-                        <label class="info-register">Nu ai cont? <a href="~/account/register" class="link-gray">Creeaza unul acum.</a></label>
+                        <label class="info-register">Nu ai cont? <a href="@returnUrlLink" class="link-gray">Creeaza unul acum.</a></label>
                     </p>
                 </div>
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -66,7 +67,7 @@
 
 @{ await Html.RenderPartialAsync("_ExternalLoginProviders"); }
 
-    @section Scripts {
+@section Scripts {
     <script src="~/js/login.js" asp-append-version="true"></script>
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

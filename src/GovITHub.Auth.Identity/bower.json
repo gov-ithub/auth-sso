@@ -27,6 +27,20 @@
                 "dist/jquery.js"
             ]
         },
+        "jquery-validation": {
+            "main": [
+                "dist/jquery.validate.js",
+                "dist/jquery.validate.min.js"
+            ]
+
+        },
+        "jquery-validation-unobtrusive": {
+            "main": [
+                "jquery.validate.unobtrusive.js",
+                "jquery.validate.unobtrusive.min.js"
+            ]
+
+        },
         "fontawesome": {
             "main": [
                 "less/font-awesome.less",

@@ -6,5 +6,3 @@
 /// <reference path="../gulpfile.js" />
 /// <reference path="js/login.js" />
 /// <reference path="js/site.js" />
-/// <reference path="vendor/bootstrap/dist/js/bootstrap.min.js" />
-/// <reference path="vendor/jquery/dist/jquery.min.js" />

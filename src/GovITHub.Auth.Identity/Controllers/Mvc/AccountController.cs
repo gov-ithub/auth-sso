@@ -63,6 +63,13 @@ namespace GovITHub.Auth.Identity.Controllers
                 Response.Cookies.Delete("Identity.External");
             }
             ViewData["ReturnUrl"] = returnUrl;
+
+            // set returnUrlQueryString
+            if(!string.IsNullOrEmpty(returnUrl))
+            {
+                ViewData["ReturnUrlQ"] = "?returnUrl=" + returnUrl;
+            }
+
             return View();
         }
 
