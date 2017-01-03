@@ -19,6 +19,8 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using GovITHub.Auth.Common.Services.DeviceDetection;
 using GovITHub.Auth.Common.Infrastructure.Extensions;
+using IdentityServer4.ResponseHandling;
+using System.Net;
 
 namespace GovITHub.Auth.Identity.Controllers
 {
@@ -67,7 +69,8 @@ namespace GovITHub.Auth.Identity.Controllers
             // set returnUrlQueryString
             if(!string.IsNullOrEmpty(returnUrl))
             {
-                ViewData["ReturnUrlQ"] = "?returnUrl=" + returnUrl;
+                var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
+                ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
             }
 
             return View();
