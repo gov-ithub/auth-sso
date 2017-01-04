@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Register";
     ViewData["LoginExtra"] = "Sau creează contul folosind o rețea de mai jos";
+    var loginUrlLink = Url.Content("~/account/login" + ViewData["ReturnUrlQ"]);
 }
 
 <div class="row login-form">
@@ -13,11 +14,10 @@
                 <p class="text-center">Ai fost redirectionat de pe <a href="@ViewData["OriginUrl"]" target="_blank" class="link-gray">@ViewData["OriginUrl"]</a></p>
             }
             <br />
-            <br />
             <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                 <div class="form-group">
                     <p>
-                        <label class="info-register">Ai deja cont? <a href="~/account/login" class="link-gray">Autentifică-te.</a></label>
+                        <label class="info-register">Ai deja cont? <a href="@loginUrlLink" class="link-gray">Autentifică-te.</a></label>
                     </p>
                 </div>
                 <div asp-validation-summary="All" class="text-danger"></div>

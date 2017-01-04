@@ -139,8 +139,12 @@ namespace GovITHub.Auth.Identity.Controllers
         public async Task<IActionResult> Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            // set returnUrlQueryString
             if (!string.IsNullOrEmpty(returnUrl))
             {
+                var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
+                ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
                 var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
                 var uri = new Uri(auth.RedirectUri);
                 ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
@@ -150,6 +154,7 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 ViewData["ShowOrigin"] = false;
             }
+
             return View();
         }
 
