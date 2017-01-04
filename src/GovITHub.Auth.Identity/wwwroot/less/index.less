@@ -209,11 +209,11 @@ input.input-validation-error {
 
 .providers {
     .col-md-12 {
-        padding-right: 0px;
+        /*padding-right: 0px;*/
     }
 
     .col-md-4 {
-        padding-left: 0px;
+        /*padding-left: 0px;*/
     }
 
     .btn.btn-default {
@@ -272,14 +272,30 @@ input.input-validation-error {
     }
 }
 
-#login-form {
-    display: block;
+.form-horizontal {
     label {
         font-weight: normal;
         vertical-align: top;
     }
+
+    .form-control {
+        height: 42px;
+        padding: 12px;
+    }
+
+    .remember-me {
+        height: 42px;
+    }
 }
 
-#register-form {
-    display: block;
+@media (min-width: 992px) {
+    .external-providers {
+        .col-md-6 {
+            padding-left: 20px;
+            padding-right: 10px;
+        }
+        .col-md-4 {
+            padding-left: 0px;
+        }
+    }
 }

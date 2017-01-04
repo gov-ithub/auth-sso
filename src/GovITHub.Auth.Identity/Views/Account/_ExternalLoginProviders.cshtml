@@ -1,11 +1,16 @@
 ﻿@using GovITHub.Auth.Common.Models
 @inject SignInManager<ApplicationUser> SignInManager
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
+@{ 
+    var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+    var colNo = (12 / loginProviders.Count).ToString();
+}
+
+<div class="row external-providers">
+    <div class="col-md-6 col-xs-12 col-sm-12 col-md-offset-3">
         <section>
             @{
-                var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
+                
                 if (loginProviders.Count == 0)
                 {
                     <div>
@@ -18,18 +23,16 @@
                 {
                     <p class="text-center">@ViewData["LoginExtra"]</p>
                     <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div class="providers">
-                            <div class="col-md-12">
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <div class="col-md-4 col-xs-12 col-sm-12">
-                                        <button type="submit" class="btn btn-default @provider.AuthenticationScheme" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><span class="text-img"></span><span class="text">@provider.AuthenticationScheme</span></button>
-                                    </div>
-                                }
-                                @*<div class="col-md-4 col-xs-12 col-sm-12">
+                        <div class="row providers">
+                            @foreach (var provider in loginProviders)
+                            {
+                                <div class="col-md-4 col-xs-12 col-sm-12">
+                                    <button type="submit" class="btn btn-default @provider.AuthenticationScheme" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><span class="text-img"></span><span class="text">@provider.AuthenticationScheme</span></button>
+                                </div>
+                            }
+                            <div class="col-md-4 col-xs-12 col-sm-12">
                                     <button type="submit" class="btn btn-default LinkedIn" name="provider" value="Linkedin" title="Log in using your LinkedIn account"><span class="text-img"></span><span class="text">LinkedIn</span></button>
-                                </div>*@
-                            </div>
+                                </div>
                         </div>
                     </form>
                 }
