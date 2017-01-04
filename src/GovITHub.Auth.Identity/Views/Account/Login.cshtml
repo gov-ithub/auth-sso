@@ -21,7 +21,7 @@
             }
             <br />
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]"
-                  method="post" role="form" id="login-form" style="display: block;">
+                  method="post" role="form" id="login-form">
 
                 <div class="form-group">
                     <p>
@@ -37,15 +37,17 @@
                     <input type="password" asp-for="Password" placeholder="********" class="form-control" tabindex="2" />
                 </div>
                 <div class="form-group text-center">
-                    <div class="col-md-6 col-xs-6 col-sm-6 text-left">
-                        <input asp-for="RememberMe" tabindex="3" class="" />
-                        <label asp-for="RememberMe">
-                            @*@Html.DisplayNameFor(m => m.RememberMe)*@
-                            Reține parola
-                        </label>
-                    </div>
-                    <div class="col-md-6 col-xs-6 col-sm-6 text-right">
-                        <a asp-controller="Account" asp-action="ForgotPassword" tabindex="5" class="link-gray">Recuperare parola</a>
+                    <div class="row">
+                        <div class="col-md-6 col-xs-6 col-sm-6 text-left">
+                            <input asp-for="RememberMe" tabindex="3" class="" />
+                            <label asp-for="RememberMe">
+                                @*@Html.DisplayNameFor(m => m.RememberMe)*@
+                                Reține parola
+                            </label>
+                        </div>
+                        <div class="col-md-6 col-xs-6 col-sm-6 text-right">
+                            <a asp-controller="Account" asp-action="ForgotPassword" tabindex="5" class="link-gray">Recuperare parola</a>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">

@@ -14,7 +14,7 @@
                 <p class="text-center">Ai fost redirectionat de pe <a href="@ViewData["OriginUrl"]" target="_blank" class="link-gray">@ViewData["OriginUrl"]</a></p>
             }
             <br />
-            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="register-form">
                 <div class="form-group">
                     <p>
                         <label class="info-register">Ai deja cont? <a href="@loginUrlLink" class="link-gray">Autentifică-te.</a></label>
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="form-control btn btn-login">Register</button>
+                            <button type="submit" class="form-control btn btn-login">Creează cont</button>
                         </div>
                     </div>
                 </div>
