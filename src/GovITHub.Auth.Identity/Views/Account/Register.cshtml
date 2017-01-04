@@ -8,7 +8,10 @@
     <div class="col-md-12">
         <div class="col-md-6 col-md-offset-3">
             <h2 class="text-center">Înregistrare</h2>
-            <p class="text-center">Ai fost redirectionat de pe http://www.anaf.ro</p>
+            @if ((bool)ViewData["ShowOrigin"])
+            {
+                <p class="text-center">Ai fost redirectionat de pe <a href="@ViewData["OriginUrl"]" target="_blank" class="link-gray">@ViewData["OriginUrl"]</a></p>
+            }
             <br />
             <br />
             <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">

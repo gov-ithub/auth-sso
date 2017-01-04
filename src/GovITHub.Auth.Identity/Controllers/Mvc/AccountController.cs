@@ -57,7 +57,7 @@ namespace GovITHub.Auth.Identity.Controllers
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
             // clear Identity.External cookie
             if (Request.Cookies["Identity.External"] != null)
@@ -71,8 +71,16 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
                 ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
+                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
+                var uri = new Uri(auth.RedirectUri);
+                ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
+                ViewData["ShowOrigin"] = true;
             }
-
+            else
+            {
+                ViewData["ShowOrigin"] = false;
+            }
+           
             return View();
         }
 
@@ -128,9 +136,20 @@ namespace GovITHub.Auth.Identity.Controllers
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public async Task<IActionResult> Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
+                var uri = new Uri(auth.RedirectUri);
+                ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
+                ViewData["ShowOrigin"] = true;
+            }
+            else
+            {
+                ViewData["ShowOrigin"] = false;
+            }
             return View();
         }
 

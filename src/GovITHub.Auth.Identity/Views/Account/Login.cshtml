@@ -15,16 +15,21 @@
     <div class="col-md-12">
         <div class="col-md-6 col-md-offset-3">
             <h2 class="text-center">Autentificare</h2>
-            <p class="text-center">Ai fost redirectionat de pe http://www.anaf.ro</p>
+            @if ((bool)ViewData["ShowOrigin"])
+            {
+                <p class="text-center">Ai fost redirectionat de pe <a href="@ViewData["OriginUrl"]" target="_blank" class="link-gray">@ViewData["OriginUrl"]</a></p>
+            }
             <br />
             <br />
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]"
                   method="post" role="form" id="login-form" style="display: block;">
+
                 <div class="form-group">
                     <p>
                         <label class="info-register">Nu ai cont? <a href="@returnUrlLink" class="link-gray">Creeaza unul acum.</a></label>
                     </p>
                 </div>
+
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <input type="email" asp-for="Email" placeholder="Email" class="form-control" tabindex="1" />
