@@ -5,7 +5,8 @@
         "bootstrap": "3.3.6",
         "jquery": "2.2.0",
         "jquery-validation": "1.14.0",
-        "jquery-validation-unobtrusive": "3.2.6"
+        "jquery-validation-unobtrusive": "3.2.6",
+        "components-font-awesome": "*"
     },
     "overrides": {
         "bootstrap": {
@@ -41,15 +42,16 @@
             ]
 
         },
-        "fontawesome": {
+        "components-font-awesome": {
             "main": [
-                "less/font-awesome.less",
+                "fonts/FontAwesome.otf",
                 "fonts/fontawesome-webfont.eot",
                 "fonts/fontawesome-webfont.svg",
                 "fonts/fontawesome-webfont.ttf",
                 "fonts/fontawesome-webfont.woff",
                 "fonts/fontawesome-webfont.woff2",
-                "css/font-awesome.css"
+                "css/font-awesome.css",
+                "css/font-awesome.min.css"
             ]
         }
     }
