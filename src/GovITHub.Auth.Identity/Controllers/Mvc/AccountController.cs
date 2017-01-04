@@ -64,25 +64,13 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 Response.Cookies.Delete("Identity.External");
             }
-            ViewData["ReturnUrl"] = returnUrl;
 
-            // set returnUrlQueryString
-            if(!string.IsNullOrEmpty(returnUrl))
-            {
-                var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
-                ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
-                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
-                var uri = new Uri(auth.RedirectUri);
-                ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
-                ViewData["ShowOrigin"] = true;
-            }
-            else
-            {
-                ViewData["ShowOrigin"] = false;
-            }
-           
+            await SetViewData(returnUrl);
+
             return View();
         }
+
+
 
         //
         // POST: /Account/Login
@@ -138,22 +126,7 @@ namespace GovITHub.Auth.Identity.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-
-            // set returnUrlQueryString
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
-                ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
-                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
-                var uri = new Uri(auth.RedirectUri);
-                ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
-                ViewData["ShowOrigin"] = true;
-            }
-            else
-            {
-                ViewData["ShowOrigin"] = false;
-            }
+            await SetViewData(returnUrl);
 
             return View();
         }
@@ -548,7 +521,65 @@ namespace GovITHub.Auth.Identity.Controllers
             }
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        {
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return View("ExternalLoginFailure");
+                }
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await AuditDeviceInfoAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
+                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(model);
+        }
+
         #region Helpers
+
+        /// <summary>
+        /// Set view data required for return url
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        private async Task SetViewData(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ShowOrigin"] = false;
+
+            // set returnUrlQueryString
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
+                ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
+                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
+                if (auth != null)
+                {
+                    var uri = new Uri(auth.RedirectUri);
+                    ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
+                    ViewData["ShowOrigin"] = true;
+                }
+            }
+        }
 
         private void AddErrors(IdentityResult result)
         {
@@ -594,39 +625,6 @@ namespace GovITHub.Auth.Identity.Controllers
                 }
             }
             return Redirect("~/");
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
-        {
-            if (ModelState.IsValid)
-            {
-                // Get the information about the user from the external login provider
-                var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return View("ExternalLoginFailure");
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        await AuditDeviceInfoAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
-                        _logger.LogInformation(6, "User created an account using {Name} provider.", info.LoginProvider);
-                        return RedirectToLocal(returnUrl);
-                    }
-                }
-                AddErrors(result);
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(model);
         }
         #endregion
 
