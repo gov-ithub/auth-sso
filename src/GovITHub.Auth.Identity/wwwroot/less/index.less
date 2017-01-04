@@ -113,15 +113,15 @@ textarea {
 }
 
 .btn-login {
-    background-color: #59B2E0;
+    background-color: #fff;
     outline: none;
-    color: #fff;
+    color: #000;
     font-size: 14px;
     height: auto;
-    font-weight: normal;
+    font-weight: bold;
     padding: 14px 0;
     text-transform: uppercase;
-    border-color: #59B2E6;
+    border-color: #000;
 }
 
 .btn-login:hover,
@@ -208,30 +208,73 @@ input.input-validation-error {
 }
 
 .providers {
+    .col-md-12 {
+        padding-right: 0px;
+    }
+
+    .col-md-4 {
+        padding-left: 0px;
+    }
+
     .btn.btn-default {
         font-weight: normal;
         text-transform: uppercase;
-        padding: 14px 10px 14px 30px;
-        background-size: 18px;
-        background-repeat: no-repeat;
-        background-position-x: 4px;
-        background-position-y: 12px;
+        width: 100%;
+        padding: 14px 0px;
+        margin: 5px 0px;
+
+        .text-img {
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            background-size: 18px;
+            vertical-align: middle;
+        }
+
+        .text {
+            vertical-align: middle;
+            padding-left: 8px;
+        }
 
         &.Facebook {
             color: white;
             background-color: rgb(59, 89, 152);
-            background-image: url('../images/login/fb-art.png');
-            background-position-x: 8px;
-            background-position-y: 8px;
-            padding: 8px 10px 8px 36px;
+
+            .text-img {
+                background-image: url('../images/login/fb-art.png');
+            }
         }
 
         &.Google {
-            background-image: url('../images/login/g-logo.png');
-            background-position-x: 8px;
-            background-position-y: 8px;
-            padding: 8px 10px 8px 36px;
-            background-color: #4285F4;
+            background-color: white;
+
+            .text-img {
+                background-image: url('../images/login/g-logo.png');
+            }
         }
+
+        &.LinkedIn {
+            color: white;
+            background-color: #0077B5;
+
+            &:hover {
+                background-color: #004471;
+
+                .text-img {
+                    background-image: url('../images/login/In-White-128px-R.png');
+                }
+            }
+
+            .text-img {
+                background-image: url(../images/login/In-2C-128px-R.png);
+            }
+        }
+    }
+}
+
+#login-form {
+    label {
+        font-weight: normal;
+        vertical-align: top;
     }
 }
