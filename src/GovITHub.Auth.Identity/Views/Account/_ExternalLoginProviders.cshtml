@@ -26,13 +26,13 @@
                         <div class="row providers">
                             @foreach (var provider in loginProviders)
                             {
-                                <div class="col-md-4 col-xs-12 col-sm-12">
+                                <div class="col-md-@colNo col-xs-12 col-sm-12">
                                     <button type="submit" class="btn btn-default @provider.AuthenticationScheme" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><span class="text-img"></span><span class="text">@provider.AuthenticationScheme</span></button>
                                 </div>
                             }
-                            <div class="col-md-4 col-xs-12 col-sm-12">
+                            @*<div class="col-md-4 col-xs-12 col-sm-12">
                                     <button type="submit" class="btn btn-default LinkedIn" name="provider" value="Linkedin" title="Log in using your LinkedIn account"><span class="text-img"></span><span class="text">LinkedIn</span></button>
-                                </div>
+                                </div>*@
                         </div>
                     </form>
                 }
