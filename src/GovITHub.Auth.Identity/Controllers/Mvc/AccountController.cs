@@ -585,7 +585,6 @@ namespace GovITHub.Auth.Identity.Controllers
             // set returnUrlQueryString
             if (!string.IsNullOrEmpty(returnUrl))
             {
-                var origin = IdentityServer4.Extensions.HttpContextExtensions.GetOrigin(HttpContext);
                 ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
                 var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
                 if (auth != null)
