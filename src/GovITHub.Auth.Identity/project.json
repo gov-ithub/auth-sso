@@ -7,9 +7,9 @@
         "BundlerMinifier.Core": "2.2.306",
         "GovITHub.Auth.Common": "1.0.0-*",
         "GovITHub.External.Postmark.NetCore": "1.0.0-*",
-        "IdentityServer4": "1.0.0-rc5",
-        "IdentityServer4.AspNetIdentity": "1.0.0-rc5",
-        "IdentityServer4.EntityFramework": "1.0.0-rc5",
+        "IdentityServer4": "1.0.0",
+        "IdentityServer4.AspNetIdentity": "1.0.0",
+        "IdentityServer4.EntityFramework": "1.0.0",
         "Localization.SqlLocalizer": "1.0.3",
         "MailKit": "1.10.0",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
@@ -70,7 +70,7 @@
         }
     },
     "scripts": {
-        "precompile": [ "gulp prep", "dotnet bundle" ],
+        "precompile": [ "gulp prep", "gulp less", "dotnet bundle" ],
         "prepublish": [ "bower install", "dotnet bundle" ],
         "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
     },

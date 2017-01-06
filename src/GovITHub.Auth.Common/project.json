@@ -5,7 +5,7 @@
     "dependencies": {
         "GovITHub.External.Postmark.NetCore": "1.0.0-*",
         "IdentityModel": "2.1.1",
-        "IdentityServer4.EntityFramework": "1.0.0-rc5",
+        "IdentityServer4.EntityFramework": "1.0.0",
         "Localization.SqlLocalizer": "1.0.3",
         "MailKit": "1.10.0",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",

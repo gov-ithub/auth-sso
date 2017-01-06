@@ -9,9 +9,10 @@ using GovITHub.Auth.Common.Data.Models;
 namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170103160821_OrganizationFix")]
+    partial class OrganizationFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
@@ -143,7 +144,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
 
                     b.HasIndex("OrganizationId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("OrganizationUser");
                 });
@@ -388,7 +390,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.HasOne("GovITHub.Auth.Common.Data.Models.Organization", "Organization")
                         .WithMany("OrganizationClients")
                         .HasForeignKey("OrganizationId")
-                        .HasConstraintName("FK_Org_OrgClient")
+                        .HasConstraintName("FK_OrgClient_Organization")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -413,8 +415,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                         .HasConstraintName("FK_Org_OrgUsers");
 
                     b.HasOne("GovITHub.Auth.Common.Models.ApplicationUser", "User")
-                        .WithMany("OrganizationUsers")
-                        .HasForeignKey("UserId")
+                        .WithOne("OrganizationUser")
+                        .HasForeignKey("GovITHub.Auth.Common.Data.Models.OrganizationUser", "UserId")
                         .HasConstraintName("FK_AppUser_OrgUser");
                 });
 
