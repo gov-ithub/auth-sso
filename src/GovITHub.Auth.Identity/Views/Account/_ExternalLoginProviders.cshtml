@@ -3,7 +3,7 @@
 
 @{ 
     var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
-    var colNo = (12 / loginProviders.Count).ToString();
+    var colNo = loginProviders.Count > 0 ? (12 / loginProviders.Count).ToString() : "0";
 }
 
 <div class="row external-providers">

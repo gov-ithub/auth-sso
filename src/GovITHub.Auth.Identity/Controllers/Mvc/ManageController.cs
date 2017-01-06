@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Identity.Models.ManageViewModels;
 using GovITHub.Auth.Common.Services;
+using System.Security.Claims;
 
 namespace GovITHub.Auth.Identity.Controllers
 {
@@ -272,6 +272,41 @@ namespace GovITHub.Auth.Identity.Controllers
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
+        [ActionNameAttribute("EditProfile")]
+        [HttpGet]
+        public async Task<ActionResult> EditProfileAsync()
+        {
+            var user = await GetCurrentUserAsync();
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            EditProfileViewModel model = userClaims.ToViewModel();
+            return View(model);
+        }
+
+        [ActionNameAttribute("EditProfile")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfileAsync(EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                // update all user claims                
+                var result = await UpdateUserClaims(user, model.ToClaims());
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.SetPasswordSuccess });
+                }
+                AddErrors(result);
+                return View(model);
+            }
+            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+        }
+
         //GET: /Manage/ManageLogins
         [HttpGet]
         public async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
@@ -355,6 +390,20 @@ namespace GovITHub.Auth.Identity.Controllers
             return _userManager.GetUserAsync(HttpContext.User);
         }
 
+        private async Task<IdentityResult> UpdateUserClaims(ApplicationUser user, ICollection<Claim> claims)
+        {            
+            var profileClaims = claims.Select(t => t.Type);
+            foreach(var claim in claims)
+            {
+                var originalClaims = await _userManager.GetClaimsAsync(user);
+                foreach(var originalClaim in originalClaims){
+                    if (profileClaims.Contains(originalClaim.Type)){
+                        await _userManager.RemoveClaimAsync(user, originalClaim);
+                    }
+                }
+            }
+            return await _userManager.AddClaimsAsync(user, claims);
+        }
         #endregion
     }
 }
