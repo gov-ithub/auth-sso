@@ -393,9 +393,9 @@ namespace GovITHub.Auth.Identity.Controllers
         private async Task<IdentityResult> UpdateUserClaims(ApplicationUser user, ICollection<Claim> claims)
         {            
             var profileClaims = claims.Select(t => t.Type);
-            foreach(var claim in claims)
+            var originalClaims = await _userManager.GetClaimsAsync(user);
+            foreach (var claim in claims)
             {
-                var originalClaims = await _userManager.GetClaimsAsync(user);
                 foreach(var originalClaim in originalClaims){
                     if (profileClaims.Contains(originalClaim.Type)){
                         await _userManager.RemoveClaimAsync(user, originalClaim);
