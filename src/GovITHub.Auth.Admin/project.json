@@ -26,12 +26,18 @@
     },
 
     "tools": {
-        "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final",
-        "BundlerMinifier.Core": "2.2.301"
+        "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final",
+        "BundlerMinifier.Core": "2.2.306"
     },
 
     "frameworks": {
-        "netcoreapp1.0": {
+        "netcoreapp1.1": {
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "type": "platform",
+                    "version": "1.1.0"
+                }
+            },
             "imports": [
                 "dotnet5.6",
                 "portable-net45+win8"
