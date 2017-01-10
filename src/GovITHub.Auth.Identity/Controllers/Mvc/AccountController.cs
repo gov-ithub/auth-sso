@@ -82,6 +82,8 @@ namespace GovITHub.Auth.Identity.Controllers
         public async Task<IActionResult> LoginAsync(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            await SetViewDataAsync(returnUrl);
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
