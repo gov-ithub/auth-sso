@@ -143,6 +143,7 @@ namespace GovITHub.Auth.Identity.Controllers
         public async Task<IActionResult> RegisterAsync(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            await SetViewDataAsync(returnUrl);
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
