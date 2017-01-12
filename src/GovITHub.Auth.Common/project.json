@@ -1,6 +1,9 @@
 {
     "buildOptions": {
-        "emitEntryPoint": true
+        "emitEntryPoint": true,
+        "xmlDoc": true,
+        "warningsAsErrors": false,
+        "additionalArguments": [ "/ruleset:../../_stylecop/StyleCopRules.ruleset", "/additionalfile:../../_stylecop/stylecop.json" ]
     },
     "dependencies": {
         "GovITHub.External.Postmark.NetCore": "1.0.0-*",
@@ -32,7 +35,8 @@
         },
         "WebApiContrib.Core.Formatter.Csv": "1.0.0",
         "YamlDotNet": "4.0.0",
-        "SapientGuardian.EntityFrameworkCore.MySql": "7.1.15"
+        "SapientGuardian.EntityFrameworkCore.MySql": "7.1.15",
+        "StyleCop.Analyzers": "1.1.0-beta001"
     },
     "frameworks": {
         "netcoreapp1.0": {

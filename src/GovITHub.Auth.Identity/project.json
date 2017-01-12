@@ -2,7 +2,10 @@
     "buildOptions": {
         "emitEntryPoint": true,
         "preserveCompilationContext": true,
-        "debugType": "portable"
+        "debugType": "portable",
+        "xmlDoc": true,
+        "warningsAsErrors": false,
+        "additionalArguments": [ "/ruleset:../../_stylecop/StyleCopRules.ruleset", "/additionalfile:../../_stylecop/stylecop.json" ]
     },
     "dependencies": {
         "BundlerMinifier.Core": "2.2.306",
@@ -47,7 +50,8 @@
             "version": "1.0.0-preview2-final",
             "type": "build"
         },
-        "WebApiContrib.Core.Formatter.Csv": "1.0.0"
+        "WebApiContrib.Core.Formatter.Csv": "1.0.0",
+        "StyleCop.Analyzers": "1.1.0-beta001"
     },
     "frameworks": {
         "netcoreapp1.1": {
@@ -80,5 +84,5 @@
         "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final"
 
     },
-    "userSecretsId": "aspnet-GovITHub.Auth.Identity-b9afdfd1-ce44-41c2-86d4-8a13753b4fcf"
+    "userSecretsId": "aspnet-GovITHub.Auth.Identity-b9afdfd1-ce44-41c2-86d4-8a13753b4fcf",
 }
