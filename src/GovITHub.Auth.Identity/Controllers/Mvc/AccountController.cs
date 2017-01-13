@@ -29,7 +29,7 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IEnumerable<IEmailSender> _emailSenders;
+        private readonly IEmailService _emailService;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly ILoginDeviceManagementService _deviceManagementService;
@@ -38,7 +38,7 @@ namespace GovITHub.Auth.Identity.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
-            IEnumerable<IEmailSender> emailSenders,
+            IEmailService emailService,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             IDeviceDetector deviceDetector,
@@ -47,7 +47,7 @@ namespace GovITHub.Auth.Identity.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
-            _emailSenders = emailSenders;
+            _emailService = emailService;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _deviceManagementService = deviceManagementService;
@@ -371,8 +371,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                var emailSender = GetEmailSender(null);
-                await emailSender.SendEmailAsync(model.Email, "Resetare parolă",
+                await _emailService.SendEmailAsync(model.Email, "Resetare parolă",
                    $"Resetați parola apăsând pe această legătură: <a href='{callbackUrl}'>reset</a>");
                 return View("ForgotPasswordConfirmation");
             }
@@ -479,8 +478,7 @@ namespace GovITHub.Auth.Identity.Controllers
             var message = "Your security code is: " + code;
             if (model.SelectedProvider == "Email")
             {
-                var emailSender = GetEmailSender(model.SelectedProvider);
-                await emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+                await _emailService.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
             }
             else if (model.SelectedProvider == "Phone")
             {
@@ -619,9 +617,7 @@ namespace GovITHub.Auth.Identity.Controllers
             var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
             try
             {
-                // on the future, decide a strategy to choose email sender based on user instance (or client?)
-                var emailSender = GetEmailSender(model.Email); //TODO : get provider from user claims
-                await emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                await _emailService.SendEmailAsync(model.Email, "Confirm your account",
                     $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
             }
             catch (Exception ex)
@@ -647,13 +643,6 @@ namespace GovITHub.Auth.Identity.Controllers
         }
         #endregion
 
-        #region private helper methods
-        private IEmailSender GetEmailSender(string selectedProvider)
-        {
-            // on the future, decide a strategy to choose email sender based on user instance (or client?)
-            // for now, return first one
-            return _emailSenders.FirstOrDefault();
-        }
-        #endregion
+        
     }
 }

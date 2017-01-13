@@ -73,8 +73,7 @@ namespace GovITHub.Auth.Identity
             services.AddTransient<ConfigurationDataInitializer>();
             services.AddTransient<ApplicationDataInitializer>();
             services.AddTransient<LocalizationDataInitializer>();
-            services.AddTransient<IEmailSender, PostmarkEmailSender>();
-            services.AddTransient<IEmailSender, SMTPEmailSender>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ISmsSender, SmsSender>();
             services.AddSingleton(Configuration);
 
