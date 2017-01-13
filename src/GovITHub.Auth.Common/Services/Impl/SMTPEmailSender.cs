@@ -16,7 +16,7 @@ namespace GovITHub.Auth.Common.Services.Impl
         {
         }
 
-        public override Task SendEmailAsync(string email, string subject, string messageBody)
+        public override async Task SendEmailAsync(string email, string subject, string messageBody)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(settings.FromName, settings.FromEmail));
@@ -32,15 +32,15 @@ namespace GovITHub.Auth.Common.Services.Impl
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 }
 
-                client.Connect(settings.Address, settings.Port, settings.UseSSL);
+                await client.ConnectAsync(settings.Address, settings.Port, settings.UseSSL);
 
                 if (!string.IsNullOrWhiteSpace(settings.Username) && !string.IsNullOrWhiteSpace(settings.Password))
                 {
-                    client.Authenticate(settings.Username, settings.Password);
+                    await client.AuthenticateAsync(settings.Username, settings.Password);
                 }
 
-                client.SendAsync(message);
-                return client.DisconnectAsync(true);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
             }
         }
     }

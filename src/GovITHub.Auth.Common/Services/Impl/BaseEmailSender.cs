@@ -13,7 +13,7 @@ namespace GovITHub.Auth.Common.Services.Impl
     /// </summary>
     public abstract class BaseEmailSender : IEmailSender
     {
-        protected EmailSettings settings;
+        protected EmailProviderSettings settings;
         protected readonly ILogger<EmailService> logger;
         protected readonly IHostingEnvironment env;
 
@@ -38,7 +38,7 @@ namespace GovITHub.Auth.Common.Services.Impl
                 throw new ArgumentNullException("settings");
             }
 
-            settings = JsonConvert.DeserializeObject<EmailSettings>(settingsValue);
+            settings = JsonConvert.DeserializeObject<EmailProviderSettings>(settingsValue);
 
             if (string.IsNullOrEmpty(settings.Address))
             {

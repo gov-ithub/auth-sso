@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Common.Services.Impl
 {
-    public class EmailSettings
+    public class EmailProviderSettings
     {
         public string Address { get; set; }
         public string Username { get; set; }

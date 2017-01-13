@@ -101,23 +101,27 @@ namespace GovITHub.Auth.Common.Services.Impl
             }
             else
             {
-                if (org.OrganizationSetting == null // no settings
-                    || org.OrganizationSetting.EmailSetting == null // no email settings
-                    || org.OrganizationSetting.EmailSetting.Settings == null
-                    || org.OrganizationSetting.EmailSetting.EmailProvider == null) // no configuration for email settings
+                if (!dbContext.OrganizationSettings.Any(p => p.OrganizationId.Equals(org.Id))) // no settings
                 {
-                    if(org.Parent == null)
+                    if(!org.ParentId.HasValue)
                     {
                         throw new Exception("Root organization settings not initialized");
                     }
                     else
                     {
-                        return GetOrganizationEmailSender(org.Parent);
+                        return GetEmailSender(org.ParentId);
                     }
                 }
 
-                string settings = org.OrganizationSetting.EmailSetting.Settings;
-                string provider = org.OrganizationSetting.EmailSetting.EmailProvider.Name;
+                string settings = (from x in dbContext.OrganizationSettings
+                                   join y in dbContext.EmailSettings on x.EmailSettingId equals y.Id
+                                   select y.Settings).FirstOrDefault();
+
+                //org.OrganizationSetting.EmailSetting.Settings;
+                string provider = (from x in dbContext.OrganizationSettings
+                                   join y in dbContext.EmailSettings on x.EmailSettingId equals y.Id
+                                   join z in dbContext.EmailProviders on y.EmailProviderId equals z.Id
+                                   select z.Name).FirstOrDefault();
 
                 switch (provider)
                 {

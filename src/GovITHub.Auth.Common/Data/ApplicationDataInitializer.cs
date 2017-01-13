@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using Newtonsoft.Json;
+using GovITHub.Auth.Common.Services.Impl;
 
 namespace GovITHub.Auth.Common.Data
 {
@@ -28,6 +30,72 @@ namespace GovITHub.Auth.Common.Data
             }
             string adminUserId = await GetRootOrganizationAdminIdAsync(userManager, configurationService);
             AttachAdminUserToOrganization(mainOrg.Id, adminUserId);
+
+            EnsureSeedData(mainOrg, configurationService);
+        }
+
+        private void EnsureSeedData(Organization mainOrg, IConfigurationRoot configurationService)
+        {
+            EmailProvider smtp, postmark;
+
+            smtp = context.EmailProviders.FirstOrDefault(p => p.Name.Equals("SMTP"));
+            if (smtp == null)
+            {
+                smtp = new EmailProvider()
+                {
+                    Name = "SMTP"
+                };
+                context.EmailProviders.Add(smtp);
+                context.SaveChanges();
+            }
+
+            postmark = context.EmailProviders.FirstOrDefault(p => p.Name.Equals("Postmark"));
+            if (postmark == null)
+            {
+                postmark = new EmailProvider()
+                {
+                    Name = "Postmark"
+                };
+                context.EmailProviders.Add(postmark);
+                context.SaveChanges();
+            }
+
+            if (!context.OrganizationSettings.Any(p => p.OrganizationId.Equals(mainOrg.Id)))
+            {
+                EmailSetting emailSetting = null;
+                if (configurationService.GetSection("EmailSender") != null)
+                {
+                    var sett = configurationService.GetSection("EmailSender:SMTP").Get<EmailProviderSettings>();
+                    if (sett == null || string.IsNullOrEmpty(sett.Address))
+                    {
+                        sett = configurationService.GetSection("EmailSender:Postmark").Get<EmailProviderSettings>();
+                    }
+
+                    if (sett != null && !string.IsNullOrEmpty(sett.Address))
+                    {
+                        string value = JsonConvert.SerializeObject(sett);
+                        emailSetting = new EmailSetting()
+                        {
+                            EmailProviderId = smtp.Id,
+                            Settings = value
+                        };
+                        context.EmailSettings.Add(emailSetting);
+                        context.SaveChanges();
+                    }
+                }
+
+                if (emailSetting != null)
+                {
+                    context.OrganizationSettings.Add(new OrganizationSetting()
+                    {
+                        EmailSettingId = emailSetting.Id,
+                        OrganizationId = mainOrg.Id,
+                        UseDomainRestriction = false,
+                    });
+                    context.SaveChanges();
+                }
+            }
+
         }
 
         private Organization CreateRootOrganization(IConfigurationRoot configurationService)
