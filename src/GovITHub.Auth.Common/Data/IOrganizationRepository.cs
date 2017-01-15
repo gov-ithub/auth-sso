@@ -11,5 +11,6 @@ namespace GovITHub.Auth.Common.Data
         void Add(OrganizationViewModel item, string adminUserName);
         ModelQuery<OrganizationViewModel> Filter(ModelQueryFilter filter);
         OrganizationUserModel GetOrganizationUser(string name);
+        Organization GetByClientId(string clientId);
     }
 }

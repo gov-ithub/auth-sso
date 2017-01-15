@@ -23,6 +23,10 @@ namespace GovITHub.Auth.Common
         public static readonly string SMTP_PASSWORD = "EmailSender:SMTP:Password";
         public static readonly string SMTP_PORT = "EmailSender:SMTP:Port";
         public static readonly string SMTP_USESSL = "EmailSender:SMTP:UseSSL";
+
+        public static readonly string REDIS_INSTANCE = "Setup:Redis:Instance";
+        public static readonly string REDIS_CONFIGURATION = "Setup:Redis:Configuration";
+
         #endregion
 
         #region value initializers 

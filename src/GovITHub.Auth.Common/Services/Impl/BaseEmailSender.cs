@@ -13,18 +13,19 @@ namespace GovITHub.Auth.Common.Services.Impl
     /// </summary>
     public abstract class BaseEmailSender : IEmailSender
     {
-        protected EmailProviderSettings settings;
+        public EmailProviderSettings Settings { get; set; }
+
         protected readonly ILogger<EmailService> logger;
         protected readonly IHostingEnvironment env;
 
         public abstract Task SendEmailAsync(string email, string subject, string message);
 
-        public BaseEmailSender(string settingsValue, ILogger<EmailService> logger, IHostingEnvironment env)
+        public BaseEmailSender(EmailProviderSettings settingsValue, ILogger<EmailService> logger, IHostingEnvironment env)
         {
             this.logger = logger;
             this.env = env;
-        
-            Build(settingsValue);
+
+            Settings = settingsValue;
         }
 
         /// <summary>
@@ -38,9 +39,9 @@ namespace GovITHub.Auth.Common.Services.Impl
                 throw new ArgumentNullException("settings");
             }
 
-            settings = JsonConvert.DeserializeObject<EmailProviderSettings>(settingsValue);
+            Settings = JsonConvert.DeserializeObject<EmailProviderSettings>(settingsValue);
 
-            if (string.IsNullOrEmpty(settings.Address))
+            if (string.IsNullOrEmpty(Settings.Address))
             {
                 throw new ArgumentNullException("settings.Address");
             }

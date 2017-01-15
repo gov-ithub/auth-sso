@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Common.Services.Impl
 {
+    /// <summary>
+    /// Email provider settings
+    /// </summary>
     public class EmailProviderSettings
     {
         public string Address { get; set; }
@@ -14,5 +18,11 @@ namespace GovITHub.Auth.Common.Services.Impl
         public bool UseSSL { get; set; }
         public string FromEmail { get; set; }
         public string FromName { get; set; }
+        public string ProviderName { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

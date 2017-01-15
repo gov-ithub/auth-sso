@@ -8,14 +8,14 @@ namespace GovITHub.Auth.Common.Services.Impl
 {
     public class PostmarkEmailSender : BaseEmailSender
     {
-        public PostmarkEmailSender(string settingsValue, ILogger<EmailService> logger, IHostingEnvironment env) : base(settingsValue, logger, env)
+        public PostmarkEmailSender(EmailProviderSettings settingsValue, ILogger<EmailService> logger, IHostingEnvironment env) : base(settingsValue, logger, env)
         {
         }
 
         public override Task SendEmailAsync(string email, string subject, string message)
         {
-            var postmarkServerToken = settings.Password;
-            var originEmailAddress = settings.FromEmail;
+            var postmarkServerToken = Settings.Password;
+            var originEmailAddress = Settings.FromEmail;
 
             if (!string.IsNullOrWhiteSpace(postmarkServerToken))
             {

@@ -1,5 +1,7 @@
 ﻿using GovITHub.Auth.Common.Data.Models;
 using GovITHub.Auth.Common.Models;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,12 @@ namespace GovITHub.Auth.Common.Data.Impl
     public class OrganizationRepository : IOrganizationRepository, IDisposable
     {
         ApplicationDbContext _dbContext;
-        public OrganizationRepository(ApplicationDbContext dbContext){
-            _dbContext = dbContext; 
+        ConfigurationDbContext _configDbContext;
+
+        public OrganizationRepository(ApplicationDbContext dbContext, ConfigurationDbContext configDbContext)
+        {
+            _dbContext = dbContext;
+            _configDbContext = configDbContext;
         }
 
         public ModelQuery<OrganizationViewModel> Filter(ModelQueryFilter filter)
@@ -20,10 +26,10 @@ namespace GovITHub.Auth.Common.Data.Impl
                 {
                     List = _dbContext.Organizations.Select(t => new OrganizationViewModel()
                     {
-                         Id = t.Id,
-                         Name = t.Name,
-                         Website = t.Website,
-                         ParentOrganizationId = t.ParentId
+                        Id = t.Id,
+                        Name = t.Name,
+                        Website = t.Website,
+                        ParentOrganizationId = t.ParentId
                     }),
                     TotalItems = _dbContext.Organizations.Count()
                 };
@@ -126,6 +132,26 @@ namespace GovITHub.Auth.Common.Data.Impl
                 itemDb.Website = item.Website;
                 _dbContext.SaveChanges();
             }
+        }
+
+        public Organization GetByClientId(string clientId)
+        {
+            if(string.IsNullOrEmpty(clientId))
+            {
+                return null;
+            }
+
+            var client = _configDbContext.Clients.FirstOrDefault(p => p.ClientId.Equals(clientId));
+            if(client != null)
+            {
+                var org = (from x in _dbContext.Organizations
+                           join y in _dbContext.OrganizationClients on x.Id equals y.OrganizationId
+                           where y.ClientId.Equals(client.Id)
+                           select x).FirstOrDefault();
+                return org;
+            }
+
+            return null;
         }
 
         #region IDisposable

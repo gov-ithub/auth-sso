@@ -20,6 +20,7 @@ using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using GovITHub.Auth.Common.Data.Impl;
 
 namespace GovITHub.Auth.Identity
 {
@@ -70,6 +71,7 @@ namespace GovITHub.Auth.Identity
             });
 
             // Add application services.
+            services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<ConfigurationDataInitializer>();
             services.AddTransient<ApplicationDataInitializer>();
             services.AddTransient<LocalizationDataInitializer>();

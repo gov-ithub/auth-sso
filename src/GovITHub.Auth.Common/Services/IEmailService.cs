@@ -8,5 +8,7 @@ namespace GovITHub.Auth.Common.Services
     public interface IEmailService
     {
         Task SendEmailAsync(string email, string subject, string message);
+
+        Task SendEmailAsync(long? organizationId, string email, string subject, string message);
     }
 }
