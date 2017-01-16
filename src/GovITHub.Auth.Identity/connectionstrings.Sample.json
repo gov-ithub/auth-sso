@@ -1,0 +1,39 @@
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "server=localhost;userid=root;pwd=;port=3306;database=sso;sslmode=none;"
+    },
+    "Setup": {
+        "RootOrganization": {
+            "Name": "org",
+            "Website": "website",
+            "AdminUsername": "admin username",
+            "AdminPassword": "admin password"
+        },
+        "Redis": {
+            "Instance": "Auth-SSO",
+            "Configuration": "localhost"
+        }
+    },
+    "Authentication": {
+        "Facebook": {
+            "AppId": "test",
+            "AppSecret": "secret"
+        },
+        "Google": {
+            "GoogleClientId": "gid",
+            "GoogleClientSecret": "gsecret"
+        }
+    },
+    "EmailSender": {
+        "SMTP": {
+            "Address": "127.0.0.1",
+            "Username": "no-reply@ithub.gov.ro",
+            "Password": "",
+            "Port": "1025",
+            "UseSSL": "False",
+            "FromName": "test",
+            "FromEmail": "no-reply@ithub.gov.ro",
+            "ProviderName": "SMTP"
+        }
+    }
+}
