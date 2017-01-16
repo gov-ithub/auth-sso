@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="StyleCopeRules" Description="StyleCopeRules custom ruleset" ToolsVersion="14.0">
+    <IncludeAll Action="Warning" />
+    <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+	    <Rule Id="SA1101" Action="None" />
+		<Rule Id="SA1210" Action="None" />
+		<Rule Id="SA1200" Action="None" />
+		<Rule Id="SA1600" Action="None" />
+		<Rule Id="SA1633" Action="None" />
+    </Rules>
+	<Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
+		<Rule Id="CS1573" Action="None" />
+		<Rule Id="CS1591" Action="None" />
+		<Rule Id="CS2008" Action="None" />
+	</Rules>
+</RuleSet>

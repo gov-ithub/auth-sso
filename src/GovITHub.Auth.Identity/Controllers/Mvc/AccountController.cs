@@ -194,11 +194,8 @@ namespace GovITHub.Auth.Identity.Controllers
         }
 
         /// <summary>
-
         /// Show logout page
-
         /// </summary>
-
         [HttpGet]
         [ActionName("Logout")]
         public async Task<IActionResult> LogoutAsync(string logoutId)
