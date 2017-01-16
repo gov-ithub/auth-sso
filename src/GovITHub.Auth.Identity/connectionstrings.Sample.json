@@ -24,7 +24,7 @@
             {
                 "ClientId": "auth-sso-admin",
                 "ClientName": "Auth SSO Admin Panel",
-                "AllowedGrantTypes": "HybridAndClientCredentials",
+                "AllowedGrantTypes": [ "HybridAndClientCredentials" ],
                 "RequireConsent": false,
                 "ClientSecrets": [
                     {

@@ -20,7 +20,7 @@ namespace GovITHub.Auth.Common.Data
             context = ctx;
         }
 
-        public async Task InitializeDataAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
+        public async Task<Organization> InitializeDataAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
         {
             context.Database.Migrate();
             var mainOrg = context.Organizations.FirstOrDefault(t => t.ParentId == null);
@@ -33,6 +33,8 @@ namespace GovITHub.Auth.Common.Data
             AttachAdminUserToOrganization(mainOrg.Id, adminUserId);
 
             EnsureSeedData(mainOrg, configurationService);
+
+            return mainOrg;
         }
 
         private void EnsureSeedData(Organization mainOrg, IConfigurationRoot configurationService)

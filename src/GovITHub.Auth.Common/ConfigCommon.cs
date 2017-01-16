@@ -55,13 +55,27 @@ namespace GovITHub.Auth.Common
 
         internal IEnumerable<ApiResource> GetApiResources()
         {
-            return configuration.GetSection("Setup:ApiResources").Get<List<ApiResource>>();
+            var apiResources = GetEnumerableFromConfig<ApiResource>("Setup:ApiResources");
+
+            if(apiResources.Count() == 0)
+            {
+                throw new System.Exception("no api resource found in config");
+            }
+
+            return apiResources;
         }
 
         // clients want to access resources (aka scopes)
         internal IEnumerable<Client> GetClients()
         {
-            var clients = configuration.GetSection("Setup:Clients").Get<List<Client>>();
+            var clients = GetEnumerableFromConfig<Client>("Setup:Clients");
+
+            //var clients = configuration.GetSection("Setup:Clients").Get<Client[]>();
+            if (clients.Count() == 0)
+            {
+                throw new System.Exception("no client found in config");
+            }
+
             return clients
                 .Select(p =>
                 {
@@ -73,6 +87,14 @@ namespace GovITHub.Auth.Common
 
                     return p;
                 });
+        }
+        
+        private IEnumerable<T> GetEnumerableFromConfig<T>(string key)
+        {
+            return configuration
+                .GetSection(key)
+                .GetChildren()
+                .Select(p => p.Get<T>());
         }
     }
 }
