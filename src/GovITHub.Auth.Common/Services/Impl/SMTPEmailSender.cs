@@ -27,7 +27,7 @@ namespace GovITHub.Auth.Common.Services.Impl
 
             using (var client = new SmtpClient())
             {
-                if (env.IsDevelopment())
+                if (Env.IsDevelopment())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                 }

@@ -16,7 +16,6 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
             {
                 deviceInfo.Browser = value;
             });
-
         }
     }
 }

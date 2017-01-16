@@ -95,7 +95,6 @@ namespace GovITHub.Auth.Common.Data
                     context.SaveChanges();
                 }
             }
-
         }
 
         private Organization CreateRootOrganization(IConfigurationRoot configurationService)

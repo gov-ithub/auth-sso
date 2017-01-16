@@ -56,6 +56,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders.Regex
                         });
                     }
                 }
+
                 regex.Model = value.ContainsKey("model") ? value["model"] : String.Empty;
                 yield return regex;
             }

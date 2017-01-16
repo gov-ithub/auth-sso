@@ -1,16 +1,12 @@
-﻿using GovITHub.Auth.Common.Data;
-using GovITHub.Auth.Common.Data.Models;
-using IdentityServer4.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Expressions;
+using GovITHub.Auth.Common.Data;
+using GovITHub.Auth.Common.Data.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace GovITHub.Auth.Common.Services.Impl
@@ -27,7 +23,6 @@ namespace GovITHub.Auth.Common.Services.Impl
         private IEmailSender emailSender;
         private ApplicationDbContext dbContext;
 
-
         /// <summary>
         /// Email service
         /// </summary>
@@ -43,9 +38,6 @@ namespace GovITHub.Auth.Common.Services.Impl
             this.cache = cache;
         }
 
-        /// <summary>
-        /// Set email sender for organization
-        /// </summary>
         private void SetEmailSender(long? organizationId)
         {
             // if email sender not configured, get root settings
@@ -95,7 +87,7 @@ namespace GovITHub.Auth.Common.Services.Impl
 
         private void SetCachedEmailSender(BaseEmailSender sender, Organization org)
         {
-            if(!org.ParentId.HasValue)
+            if (!org.ParentId.HasValue)
             {
                 cache.SetString(CacheKeys.EmailSettingsRoot, sender.Settings.ToString());
             }
@@ -129,7 +121,7 @@ namespace GovITHub.Auth.Common.Services.Impl
         /// TODO: replace with Recursive CTE - PostgreSQL, performance
         /// </summary>
         /// <param name="org">Organization</param>
-        /// <returns></returns>
+        /// <returns>email sender implementation <see cref="BaseEmailSender"/> </returns>
         private BaseEmailSender GetOrganizationEmailSender(Organization org)
         {
             if (org == null)
@@ -138,7 +130,8 @@ namespace GovITHub.Auth.Common.Services.Impl
             }
             else
             {
-                if (!dbContext.OrganizationSettings.Any(p => p.OrganizationId.Equals(org.Id))) // no settings
+                // if no settings found
+                if (!dbContext.OrganizationSettings.Any(p => p.OrganizationId.Equals(org.Id)))
                 {
                     if (!org.ParentId.HasValue)
                     {
@@ -155,7 +148,6 @@ namespace GovITHub.Auth.Common.Services.Impl
                                    select y.Settings).FirstOrDefault();
 
                 return BuildEmailSender(settings);
-
             }
         }
 
@@ -186,7 +178,6 @@ namespace GovITHub.Auth.Common.Services.Impl
 
             var settings = JsonConvert.DeserializeObject<EmailProviderSettings>(settingsValue);
 
-
             if (string.IsNullOrEmpty(settings.Address))
             {
                 throw new ArgumentNullException("settings.Address");
@@ -194,7 +185,6 @@ namespace GovITHub.Auth.Common.Services.Impl
 
             return settings;
         }
-
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
@@ -206,7 +196,7 @@ namespace GovITHub.Auth.Common.Services.Impl
                 if (claim != null)
                 {
                     long organizationId;
-                    if(long.TryParse(claim.Value, out organizationId))
+                    if (long.TryParse(claim.Value, out organizationId))
                     {
                         orgId = organizationId;
                     }

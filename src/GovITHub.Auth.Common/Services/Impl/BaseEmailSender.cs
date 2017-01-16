@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Common.Services.Impl
 {
@@ -15,15 +13,15 @@ namespace GovITHub.Auth.Common.Services.Impl
     {
         public EmailProviderSettings Settings { get; set; }
 
-        protected readonly ILogger<EmailService> logger;
-        protected readonly IHostingEnvironment env;
+        protected ILogger<EmailService> Logger { get; set; }
+        protected IHostingEnvironment Env { get; set; }
 
         public abstract Task SendEmailAsync(string email, string subject, string message);
 
         public BaseEmailSender(EmailProviderSettings settingsValue, ILogger<EmailService> logger, IHostingEnvironment env)
         {
-            this.logger = logger;
-            this.env = env;
+            this.Logger = logger;
+            this.Env = env;
 
             Settings = settingsValue;
         }
@@ -31,7 +29,7 @@ namespace GovITHub.Auth.Common.Services.Impl
         /// <summary>
         /// Build settings
         /// </summary>
-        /// <param name="settings"></param>
+        /// <param name="settingsValue">settings</param>
         protected virtual void Build(string settingsValue)
         {
             if (string.IsNullOrEmpty(settingsValue))

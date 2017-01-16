@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using PostmarkDotNet;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 
 namespace GovITHub.Auth.Common.Services.Impl
 {
@@ -33,7 +32,7 @@ namespace GovITHub.Auth.Common.Services.Impl
             }
             else
             {
-                logger.LogError("Postmark server token is not configured, so we're not able to send emails.");
+                Logger.LogError("Postmark server token is not configured, so we're not able to send emails.");
                 return Task.FromResult(0);
             }
         }
