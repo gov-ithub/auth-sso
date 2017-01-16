@@ -79,6 +79,9 @@ namespace GovITHub.Auth.Identity
             services.AddTransient<ISmsSender, SmsSender>();
             services.AddSingleton(Configuration);
 
+            // Add auth common services
+            services.AddAuthCommonServices(Configuration);
+
             // Add service and create Policy with options
             services.AddCors(options =>
             {

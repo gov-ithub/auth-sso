@@ -9,10 +9,10 @@ Un singur set de credențiale pentru cetățean. La bază este un identity serve
 cd /path/to/repository
 git submodule update --init --recursive
 ```
-### Connection strings
+### Database
+- install mysql / mariaDB
 - create database sso
-- go to \\auth-sso\src\GovItHub.Auth.Identity
-- copy file connectionstrings.Sample.json to connectionstrings.json and update all keys
+
 
 ### Docker
 - install docker [Windows](https://docs.docker.com/docker-for-windows/)
@@ -25,8 +25,9 @@ git submodule update --init --recursive
 Mailcatcher poate fi folosit ca si server SMTP de test https://mailcatcher.me/
 
 ### Identity server
-- open shell (command prompt)
-- go to \\auth-sso\src\GovITHub.Auth.Identity
+- go to `\\auth-sso\src\GovItHub.Auth.Identity`
+- copy file `connectionstrings.Sample.json` to `connectionstrings.json` and update all keys
+- open shell (command prompt) and navigate to `\\auth-sso\src\GovITHub.Auth.Identity`
 - `dotnet restore`
 - `dotnet ef database update`
 - `npm install`
@@ -34,8 +35,9 @@ Mailcatcher poate fi folosit ca si server SMTP de test https://mailcatcher.me/
 - `dotnet run`
 
 ### Admin panel
-- open shell (command prompt)
-- go to \\auth-sso\src\GovITHub.Auth.Admin
+- go to `\\auth-sso\src\GovItHub.Auth.Admin`
+- copy file `connectionstrings.Sample.json` to `connectionstrings.json` and update all keys
+- open shell (command prompt) and navigate to `\\auth-sso\src\GovITHub.Auth.Admin`
 - `dotnet restore`
 - `dotnet ef database update`
 - `npm install`

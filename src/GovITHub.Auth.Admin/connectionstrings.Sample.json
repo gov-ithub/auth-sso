@@ -1,0 +1,18 @@
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "server=localhost;userid=<user>;pwd=<password>;port=3306;database=sso;sslmode=none;"
+    },
+    "Setup": {
+        "Redis": {
+            "Instance": "Auth-SSO",
+            "Configuration": "localhost"
+        }
+    },
+    "Authentication": {
+        "Connect": {
+            "Authority": "http://localhost:5000",
+            "ClientId": "mvc",
+            "ClientSecret": "secret"
+        }
+    }
+}
