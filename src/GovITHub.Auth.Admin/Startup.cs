@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Threading.Tasks;
 using GovITHub.Auth.Admin.Services;
@@ -74,26 +75,23 @@ namespace GovITHub.Auth.Admin
             {
                 AuthenticationScheme = "Cookies"
             });
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+
+            var openIdConnectOptions = Configuration.GetSection("Authentication:OpenIdConnectOptions").Get<OpenIdConnectOptions>();
+            if (openIdConnectOptions == null || string.IsNullOrEmpty(openIdConnectOptions.Authority))
             {
-                AuthenticationScheme = "oidc",
-                SignInScheme = "Cookies",
-                Authority = "http://localhost:5000",
-                RequireHttpsMetadata = false,
-                ClientId = "mvc",
-                ClientSecret = "secret",
-                ResponseType = "code id_token",
-                Scope = { "api1" },
-                GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true,
-                Events = new OpenIdConnectEvents(){
-                    OnTicketReceived = (context) =>
-                    {
-                        context.Principal = userClaimsExtender.TransformClaims(context.Ticket.Principal);
-                        return Task.CompletedTask;
-                    }
+                throw new Exception("Missing open id connect options from config file");
+            }
+
+            openIdConnectOptions.Events = new OpenIdConnectEvents()
+            {
+                OnTicketReceived = (context) =>
+                {
+                    context.Principal = userClaimsExtender.TransformClaims(context.Ticket.Principal);
+                    return Task.CompletedTask;
                 }
-            });
+            };
+
+            app.UseOpenIdConnectAuthentication(openIdConnectOptions);
 
             //app.UseDefaultFiles();
             app.UseStaticFiles();

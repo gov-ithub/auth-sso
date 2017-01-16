@@ -13,17 +13,14 @@ namespace GovITHub.Auth.Common.Data.Impl
     public class OrganizationRepository : IOrganizationRepository, IDisposable
     {
         private ApplicationDbContext dbContext;
-        private ConfigurationDbContext configDbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrganizationRepository"/> class.
         /// </summary>
         /// <param name="dbContext">Application db context</param>
-        /// <param name="configDbContext">Configuration db context</param>
-        public OrganizationRepository(ApplicationDbContext dbContext, ConfigurationDbContext configDbContext)
+        public OrganizationRepository(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.configDbContext = configDbContext;
         }
 
         /// <summary>
@@ -164,7 +161,7 @@ namespace GovITHub.Auth.Common.Data.Impl
                 return null;
             }
 
-            var client = configDbContext.Clients.FirstOrDefault(p => p.ClientId.Equals(clientId));
+            var client = dbContext.Clients.FirstOrDefault(p => p.ClientId.Equals(clientId));
             if (client != null)
             {
                 var org = (from x in dbContext.Organizations

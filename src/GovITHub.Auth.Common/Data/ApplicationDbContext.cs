@@ -2,6 +2,7 @@ using GovITHub.Auth.Common.Data.Models;
 using GovITHub.Auth.Common.Models;
 using GovITHub.Auth.Common.Services.Audit.DataContracts;
 using GovITHub.Auth.Common.Services.DeviceDetection.DataContracts;
+using IdentityServer4.EntityFramework.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace GovITHub.Auth.Common.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
@@ -95,17 +96,37 @@ namespace GovITHub.Auth.Common.Data
                     _.DeviceId
                 });
             });
+
+            builder.Entity<Client>(uld =>
+            {
+                uld.ToTable("Clients");
+                uld.HasKey(_ => _.Id);
+            });
         }
 
         public DbSet<AuditActionMessage> AuditActions { get; set; }
+
         public DbSet<Organization> Organizations { get; set; }
+
         public DbSet<OrganizationUser> OrganizationUsers { get; set; }
+
         public DbSet<OrganizationSetting> OrganizationSettings { get; set; }
+
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
+
         public DbSet<EmailSetting> EmailSettings { get; set; }
+
         public DbSet<EmailProvider> EmailProviders { get; set; }
+
         public DbSet<OrganizationClient> OrganizationClients { get; set; }
+
         public DbSet<LoginDevice> LoginDevices { get; set; }
+
         public DbSet<UserLoginDevice> UserLoginDevices { get; set; }
+
+        /// <summary>
+        /// ConfigurationDBContext.Clients
+        /// </summary>
+        public DbSet<Client> Clients { get; set; }
     }
 }

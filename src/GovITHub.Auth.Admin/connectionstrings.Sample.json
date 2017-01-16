@@ -9,10 +9,17 @@
         }
     },
     "Authentication": {
-        "Connect": {
+        "OpenIdConnectOptions": {
+            "AuthenticationScheme": "oidc",
+            "SignInScheme": "Cookies",
             "Authority": "http://localhost:5000",
+            "RequireHttpsMetadata": false,
             "ClientId": "mvc",
-            "ClientSecret": "secret"
+            "ClientSecret": "secret",
+            "ResponseType": "code id_token",
+            "Scope": [ "api1" ],
+            "GetClaimsFromUserInfoEndpoint": "true",
+            "SaveTokens": "true"
         }
     }
 }
