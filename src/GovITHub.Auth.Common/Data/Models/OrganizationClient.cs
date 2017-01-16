@@ -1,5 +1,4 @@
-﻿
-namespace GovITHub.Auth.Common.Data.Models
+﻿namespace GovITHub.Auth.Common.Data.Models
 {
     public class OrganizationClient
     {

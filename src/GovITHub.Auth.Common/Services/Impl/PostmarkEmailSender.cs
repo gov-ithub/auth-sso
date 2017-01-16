@@ -7,7 +7,8 @@ namespace GovITHub.Auth.Common.Services.Impl
 {
     public class PostmarkEmailSender : BaseEmailSender
     {
-        public PostmarkEmailSender(EmailProviderSettings settingsValue, ILogger<EmailService> logger, IHostingEnvironment env) : base(settingsValue, logger, env)
+        public PostmarkEmailSender(EmailProviderSettings settingsValue, ILogger<EmailService> logger, IHostingEnvironment env)
+            : base(settingsValue, logger, env)
         {
         }
 

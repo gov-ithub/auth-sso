@@ -9,7 +9,8 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class OsInfoBuilder : DeviceInfoBuilderBase<OsRegex>, IDeviceInfoBuilder
     {
-        public OsInfoBuilder(IDeviceInfoRegexLoader<OsRegex> regexLoader) : base(regexLoader)
+        public OsInfoBuilder(IDeviceInfoRegexLoader<OsRegex> regexLoader)
+            : base(regexLoader)
         {
         }
 

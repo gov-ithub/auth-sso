@@ -16,7 +16,7 @@ namespace GovITHub.Auth.Common.Data.Impl
         private ConfigurationDbContext configDbContext;
 
         /// <summary>
-        /// Organization repository constructor for <see cref="OrganizationRepository"/> 
+        /// Initializes a new instance of the <see cref="OrganizationRepository"/> class.
         /// </summary>
         /// <param name="dbContext">Application db context</param>
         /// <param name="configDbContext">Configuration db context</param>

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using IdentityServer4.Models;
 using System.Collections.Generic;
+using IdentityServer4.Models;
 using static IdentityServer4.IdentityServerConstants;
 
 namespace GovITHub.Auth.Common
@@ -29,7 +29,7 @@ namespace GovITHub.Auth.Common
 
         #endregion
 
-        #region value initializers 
+        #region value initializers
         public static readonly string MAIN_ORG_NAME_KEY = "Setup:RootOrganization:Name";
         public static readonly string MAIN_ORG_WEBSITE_KEY = "Setup:RootOrganization:Website";
         public static readonly string MAIN_ORG_ADMIN_USERNAME_KEY = "Setup:RootOrganization:AdminUsername";
@@ -80,7 +80,7 @@ namespace GovITHub.Auth.Common
                     ClientName = "Resource Owner Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
-                    ClientSecrets = 
+                    ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
@@ -96,7 +96,7 @@ namespace GovITHub.Auth.Common
 
                     RequireConsent = false,
 
-                    ClientSecrets = 
+                    ClientSecrets =
                     {
                         new Secret("secret".Sha256())
                     },
@@ -126,7 +126,7 @@ namespace GovITHub.Auth.Common
                     PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
                     AllowedCorsOrigins = { "http://localhost:5003" },
 
-                    AllowedScopes = 
+                    AllowedScopes =
                     {
                         StandardScopes.OpenId,
                         StandardScopes.Profile,

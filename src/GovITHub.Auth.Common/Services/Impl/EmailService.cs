@@ -24,11 +24,13 @@ namespace GovITHub.Auth.Common.Services.Impl
         private ApplicationDbContext dbContext;
 
         /// <summary>
-        /// Email service
+        /// Initializes a new instance of the <see cref="EmailService"/> class.
         /// </summary>
         /// <param name="context">http context accesor</param>
         /// <param name="logger">logger</param>
         /// <param name="dbContext">applicationdbcontext</param>
+        /// <param name="env">env</param>
+        /// <param name="cache">cache</param>
         public EmailService(IHttpContextAccessor context, ILogger<EmailService> logger, ApplicationDbContext dbContext, IHostingEnvironment env, IDistributedCache cache)
         {
             this.context = context;
@@ -36,6 +38,33 @@ namespace GovITHub.Auth.Common.Services.Impl
             this.dbContext = dbContext;
             this.env = env;
             this.cache = cache;
+        }
+
+        public Task SendEmailAsync(string email, string subject, string message)
+        {
+            long? orgId = null;
+            if (context.HttpContext.User.Identity.IsAuthenticated)
+            {
+                // grab organization id if authenticated
+                var claim = context.HttpContext.User.FindFirst("OrganizationID");
+                if (claim != null)
+                {
+                    long organizationId;
+                    if (long.TryParse(claim.Value, out organizationId))
+                    {
+                        orgId = organizationId;
+                    }
+                }
+            }
+
+            return SendEmailAsync(orgId, email, subject, message);
+        }
+
+        public Task SendEmailAsync(long? organizationId, string email, string subject, string message)
+        {
+            SetEmailSender(organizationId);
+
+            return emailSender.SendEmailAsync(email, subject, message);
         }
 
         private void SetEmailSender(long? organizationId)
@@ -50,8 +79,8 @@ namespace GovITHub.Auth.Common.Services.Impl
         /// <summary>
         /// Retrieve email sender for organization
         /// </summary>
-        /// <param name="organizationId"></param>
-        /// <returns></returns>
+        /// <param name="organizationId">organization id</param>
+        /// <returns>base email sender</returns>
         private BaseEmailSender GetEmailSender(long? organizationId)
         {
             // get cached email sernder
@@ -66,7 +95,6 @@ namespace GovITHub.Auth.Common.Services.Impl
             if (!organizationId.HasValue || organizationId <= 0)
             {
                 org = dbContext.Organizations.FirstOrDefault(p => !p.ParentId.HasValue);
-
             }
             else
             {
@@ -79,7 +107,6 @@ namespace GovITHub.Auth.Common.Services.Impl
             }
 
             sender = GetOrganizationEmailSender(org);
-
             SetCachedEmailSender(sender, org);
 
             return sender;
@@ -169,7 +196,7 @@ namespace GovITHub.Auth.Common.Services.Impl
             }
         }
 
-        protected EmailProviderSettings BuildProivderSettings(string settingsValue)
+        private EmailProviderSettings BuildProivderSettings(string settingsValue)
         {
             if (string.IsNullOrEmpty(settingsValue))
             {
@@ -184,33 +211,6 @@ namespace GovITHub.Auth.Common.Services.Impl
             }
 
             return settings;
-        }
-
-        public Task SendEmailAsync(string email, string subject, string message)
-        {
-            long? orgId = null;
-            if (context.HttpContext.User.Identity.IsAuthenticated)
-            {
-                // grab organization id if authenticated
-                var claim = context.HttpContext.User.FindFirst("OrganizationID");
-                if (claim != null)
-                {
-                    long organizationId;
-                    if (long.TryParse(claim.Value, out organizationId))
-                    {
-                        orgId = organizationId;
-                    }
-                }
-            }
-
-            return SendEmailAsync(orgId, email, subject, message);
-        }
-
-        public Task SendEmailAsync(long? organizationId, string email, string subject, string message)
-        {
-            SetEmailSender(organizationId);
-
-            return emailSender.SendEmailAsync(email, subject, message);
         }
     }
 }

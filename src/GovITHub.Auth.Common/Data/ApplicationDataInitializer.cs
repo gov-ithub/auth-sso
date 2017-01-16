@@ -1,13 +1,13 @@
-﻿using GovITHub.Auth.Common.Data.Models;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using GovITHub.Auth.Common.Data.Models;
 using GovITHub.Auth.Common.Models;
+using GovITHub.Auth.Common.Services.Impl;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System;
 using Newtonsoft.Json;
-using GovITHub.Auth.Common.Services.Impl;
 
 namespace GovITHub.Auth.Common.Data
 {
@@ -28,6 +28,7 @@ namespace GovITHub.Auth.Common.Data
             {
                 mainOrg = CreateRootOrganization(configurationService);
             }
+
             string adminUserId = await GetRootOrganizationAdminIdAsync(userManager, configurationService);
             AttachAdminUserToOrganization(mainOrg.Id, adminUserId);
 
@@ -101,7 +102,10 @@ namespace GovITHub.Auth.Common.Data
         {
             string orgName = configurationService[Config.MAIN_ORG_NAME_KEY];
             if (string.IsNullOrWhiteSpace(orgName))
+            {
                 throw new ArgumentException("Root organization name missing from configuration!");
+            }
+
             var mainOrg = new Organization()
             {
                 Name = orgName,
@@ -116,27 +120,34 @@ namespace GovITHub.Auth.Common.Data
         /// Returns the Id of the user with admin role attached to root organization.
         /// It creates the user if the user is not present, based on configuration.
         /// </summary>
+        /// <param name="userManager">user manager</param>
         /// <param name="configurationService">App configuration service</param>
         /// <returns>Id of the admin user, as string.</returns>
         private async Task<string> GetRootOrganizationAdminIdAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
         {
             var defaultAdminUsername = configurationService[Config.MAIN_ORG_ADMIN_USERNAME_KEY];
             if (string.IsNullOrWhiteSpace(defaultAdminUsername))
+            { 
                 throw new ArgumentNullException("Root organization's admin username (email) missing from configuration!");
+            }
+
             var adminUser = await userManager.FindByEmailAsync(defaultAdminUsername);
             if (adminUser == null)
             {
                 var defaultAdminPassword = configurationService[Config.MAIN_ORG_ADMIN_FIRST_PASSWORD_KEY];
                 if (string.IsNullOrWhiteSpace(defaultAdminPassword))
+                { 
                     throw new ArgumentNullException("Root organization's admin password missing from configuration!");
+                }
+
                 // maybe validate the password strength also ?
                 adminUser = new ApplicationUser()
                 {
                     Email = defaultAdminUsername,
                     UserName = defaultAdminUsername
                 };
-                var identityResult = await userManager.CreateAsync(adminUser,
-                    defaultAdminPassword);
+
+                var identityResult = await userManager.CreateAsync(adminUser, defaultAdminPassword);
             }
             return adminUser.Id;
         }
@@ -145,6 +156,7 @@ namespace GovITHub.Auth.Common.Data
         {
             var orgUser = context.OrganizationUsers.
                 FirstOrDefault(t => t.OrganizationId == organizationId && t.UserId == adminUserId);
+
             // if not already attached, attach it
             if (orgUser == null)
             {

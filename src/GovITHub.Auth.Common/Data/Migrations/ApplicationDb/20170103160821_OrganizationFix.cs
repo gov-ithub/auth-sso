@@ -44,8 +44,6 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                 column: "UserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
-
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

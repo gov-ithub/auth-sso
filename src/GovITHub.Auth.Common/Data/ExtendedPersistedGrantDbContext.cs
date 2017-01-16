@@ -17,8 +17,8 @@ public class ExtendedPersistedGrantDbContext : PersistedGrantDbContext
     /// </summary>
     /// <param name="options">options</param>
     /// <param name="storeOptions">operational store options</param>
-    public ExtendedPersistedGrantDbContext(DbContextOptions<PersistedGrantDbContext> options, OperationalStoreOptions storeOptions) :
-        base(options, storeOptions)
+    public ExtendedPersistedGrantDbContext(DbContextOptions<PersistedGrantDbContext> options, OperationalStoreOptions storeOptions)
+        : base(options, storeOptions)
     {
         this.storeOptions = storeOptions;
     }

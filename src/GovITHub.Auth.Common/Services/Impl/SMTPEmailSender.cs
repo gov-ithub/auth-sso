@@ -1,18 +1,15 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using System.Threading.Tasks;
-using System;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace GovITHub.Auth.Common.Services.Impl
 {
     public class SMTPEmailSender : BaseEmailSender
     {
-        public SMTPEmailSender(EmailProviderSettings Settings, ILogger<EmailService> logger, IHostingEnvironment env) : base(Settings, logger, env)
+        public SMTPEmailSender(EmailProviderSettings settings, ILogger<EmailService> logger, IHostingEnvironment env)
+            : base(settings, logger, env)
         {
         }
 
