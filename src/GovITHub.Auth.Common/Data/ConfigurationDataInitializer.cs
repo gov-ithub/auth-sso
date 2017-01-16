@@ -1,16 +1,17 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
+﻿using System.Linq;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace GovITHub.Auth.Common.Data
 {
     public class ConfigurationDataInitializer
     {
-        private ConfigurationDbContext cfgDbContext;
-        private PersistedGrantDbContext prstDbContext;
+        private readonly ConfigurationDbContext cfgDbContext;
+        private readonly PersistedGrantDbContext prstDbContext;
+        private readonly ConfigCommon config;
 
-        public ConfigurationDataInitializer(ConfigurationDbContext configContext, PersistedGrantDbContext prstContext)
+        public ConfigurationDataInitializer(ConfigurationDbContext configContext, PersistedGrantDbContext prstContext, ConfigCommon config)
         {
             cfgDbContext = configContext;
             prstDbContext = prstContext;
@@ -27,7 +28,7 @@ namespace GovITHub.Auth.Common.Data
         {
             if (cfgDbContext.Clients.FirstOrDefault() == null)
             {
-                foreach (var client in Config.GetClients())
+                foreach (var client in config.GetClients())
                 {
                     cfgDbContext.Clients.Add(client.ToEntity());
                 }
@@ -36,7 +37,7 @@ namespace GovITHub.Auth.Common.Data
 
             if (cfgDbContext.ApiResources.FirstOrDefault() == null)
             {
-                foreach (var apiResource in Config.GetApiResources())
+                foreach (var apiResource in config.GetApiResources())
                 {
                     cfgDbContext.ApiResources.Add(apiResource.ToEntity());
                 }
@@ -45,7 +46,7 @@ namespace GovITHub.Auth.Common.Data
 
             if (cfgDbContext.IdentityResources.FirstOrDefault() == null)
             {
-                foreach (var identityResource in Config.GetIdentityResources())
+                foreach (var identityResource in config.GetIdentityResources())
                 {
                     cfgDbContext.IdentityResources.Add(identityResource.ToEntity());
                 }

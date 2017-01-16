@@ -19,8 +19,8 @@ namespace GovITHub.Auth.Common
             // add caching
             services.AddDistributedRedisCache(options =>
             {
-                options.InstanceName = config[Config.REDIS_INSTANCE];
-                options.Configuration = config[Config.REDIS_CONFIGURATION];
+                options.InstanceName = config[ConfigCommon.REDIS_INSTANCE];
+                options.Configuration = config[ConfigCommon.REDIS_CONFIGURATION];
             });
         }
     }

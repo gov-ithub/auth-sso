@@ -78,6 +78,7 @@ namespace GovITHub.Auth.Identity
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ISmsSender, SmsSender>();
             services.AddSingleton(Configuration);
+            services.AddTransient<ConfigCommon>();
 
             // Add auth common services
             services.AddAuthCommonServices(Configuration);
@@ -184,8 +185,8 @@ namespace GovITHub.Auth.Identity
 
         private void InitFacebookAuthentication(IApplicationBuilder app, ILogger<Startup> logger)
         {
-            string facebookAppId = Configuration[Config.FACEBOOK_APP_ID];
-            string facebookAppSecret = Configuration[Config.FACEBOOK_APP_SECRET];
+            string facebookAppId = Configuration[ConfigCommon.FACEBOOK_APP_ID];
+            string facebookAppSecret = Configuration[ConfigCommon.FACEBOOK_APP_SECRET];
             if (!string.IsNullOrWhiteSpace(facebookAppId) &&
                 !string.IsNullOrWhiteSpace(facebookAppSecret))
             {
@@ -200,8 +201,8 @@ namespace GovITHub.Auth.Identity
 
         private void InitGoogleAuthentication(IApplicationBuilder app, ILogger logger)
         {
-            string googleClientId = Configuration[Config.GOOGLE_CLIENT_ID];
-            string googleClientSecret = Configuration[Config.GOOGLE_CLIENT_SECRET];
+            string googleClientId = Configuration[ConfigCommon.GOOGLE_CLIENT_ID];
+            string googleClientSecret = Configuration[ConfigCommon.GOOGLE_CLIENT_SECRET];
             if (!string.IsNullOrWhiteSpace(googleClientId) &&
                 !string.IsNullOrWhiteSpace(googleClientSecret))
             {

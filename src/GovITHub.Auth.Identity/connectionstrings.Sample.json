@@ -12,7 +12,31 @@
         "Redis": {
             "Instance": "Auth-SSO",
             "Configuration": "localhost"
-        }
+        },
+        "ApiResources": [
+            {
+                "DisplayName": "Auth API",
+                "Enabled": "True",
+                "Name": "auth-api"
+            }
+        ],
+        "Clients": [
+            {
+                "ClientId": "auth-sso-admin",
+                "ClientName": "Auth SSO Admin Panel",
+                "AllowedGrantTypes": "HybridAndClientCredentials",
+                "RequireConsent": false,
+                "ClientSecrets": [
+                    {
+                        "Value": "secret",
+                        "Type": "SharedSecret"
+                    }
+                ],
+                "AllowedScopes": [ "auth-api" ],
+                "RedirectUris": [ "http://localhost:5002/signin-oidc" ],
+                "PostLogoutRedirectUris": [ "http://localhost:5002" ]
+            }
+        ]
     },
     "Authentication": {
         "Facebook": {

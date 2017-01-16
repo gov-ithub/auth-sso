@@ -100,7 +100,7 @@ namespace GovITHub.Auth.Common.Data
 
         private Organization CreateRootOrganization(IConfigurationRoot configurationService)
         {
-            string orgName = configurationService[Config.MAIN_ORG_NAME_KEY];
+            string orgName = configurationService[ConfigCommon.MAIN_ORG_NAME_KEY];
             if (string.IsNullOrWhiteSpace(orgName))
             {
                 throw new ArgumentException("Root organization name missing from configuration!");
@@ -109,7 +109,7 @@ namespace GovITHub.Auth.Common.Data
             var mainOrg = new Organization()
             {
                 Name = orgName,
-                Website = configurationService[Config.MAIN_ORG_WEBSITE_KEY]
+                Website = configurationService[ConfigCommon.MAIN_ORG_WEBSITE_KEY]
             };
             context.Organizations.Add(mainOrg);
             context.SaveChanges();
@@ -125,7 +125,7 @@ namespace GovITHub.Auth.Common.Data
         /// <returns>Id of the admin user, as string.</returns>
         private async Task<string> GetRootOrganizationAdminIdAsync(UserManager<ApplicationUser> userManager, IConfigurationRoot configurationService)
         {
-            var defaultAdminUsername = configurationService[Config.MAIN_ORG_ADMIN_USERNAME_KEY];
+            var defaultAdminUsername = configurationService[ConfigCommon.MAIN_ORG_ADMIN_USERNAME_KEY];
             if (string.IsNullOrWhiteSpace(defaultAdminUsername))
             { 
                 throw new ArgumentNullException("Root organization's admin username (email) missing from configuration!");
@@ -134,7 +134,7 @@ namespace GovITHub.Auth.Common.Data
             var adminUser = await userManager.FindByEmailAsync(defaultAdminUsername);
             if (adminUser == null)
             {
-                var defaultAdminPassword = configurationService[Config.MAIN_ORG_ADMIN_FIRST_PASSWORD_KEY];
+                var defaultAdminPassword = configurationService[ConfigCommon.MAIN_ORG_ADMIN_FIRST_PASSWORD_KEY];
                 if (string.IsNullOrWhiteSpace(defaultAdminPassword))
                 { 
                     throw new ArgumentNullException("Root organization's admin password missing from configuration!");

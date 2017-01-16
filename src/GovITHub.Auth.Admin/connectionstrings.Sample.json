@@ -17,7 +17,7 @@
             "ClientId": "mvc",
             "ClientSecret": "secret",
             "ResponseType": "code id_token",
-            "Scope": [ "api1" ],
+            "Scope": [ "auth-api" ],
             "GetClaimsFromUserInfoEndpoint": "true",
             "SaveTokens": "true"
         }
