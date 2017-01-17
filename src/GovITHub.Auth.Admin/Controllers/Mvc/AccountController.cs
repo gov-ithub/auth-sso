@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         [HttpGet]
@@ -22,6 +22,6 @@ namespace GovITHub.Auth.Admin.Controllers
         {
             return View();
         }
-        
+
     }
 }

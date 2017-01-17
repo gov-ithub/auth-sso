@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GovITHub.Auth.Admin.Controllers.Api
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class OrganizationsController : Controller
     {
