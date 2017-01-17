@@ -38,7 +38,7 @@ namespace GovITHub.Auth.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;      
+            var migrationsAssembly = typeof(ApplicationUser).GetTypeInfo().Assembly.GetName().Name;
 
             services.
                 AddEntityFramework().
@@ -48,13 +48,14 @@ namespace GovITHub.Auth.Admin
 
             services.AddSingleton<ISampleRepository, SampleRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
+            services.AddTransient<IOrganizationUserRepository, OrganizationUserRepository>();
             services.AddTransient<IUserClaimsExtender, UserClaimsExtender>();
 
             // Add auth common services
             services.AddAuthCommonServices(Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, IUserClaimsExtender userClaimsExtender)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
