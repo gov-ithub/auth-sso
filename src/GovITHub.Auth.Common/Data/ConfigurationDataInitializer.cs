@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GovITHub.Auth.Common.Data
@@ -36,9 +37,11 @@ namespace GovITHub.Auth.Common.Data
                 {
                     throw new System.Exception("Main organization not set");
                 }
-
                 foreach (var client in config.GetClients())
                 {
+                    // HOTFIX
+                    // TODO: move to configuration
+                    client.AllowedGrantTypes = GrantTypes.HybridAndClientCredentials;
                     var clientEntity = client.ToEntity();
                     cfgDbContext.Clients.Add(clientEntity);
                     mainOrg.OrganizationClients = new System.Collections.Generic.List<Models.OrganizationClient>();
@@ -52,7 +55,8 @@ namespace GovITHub.Auth.Common.Data
             {
                 foreach (var apiResource in config.GetApiResources())
                 {
-                    cfgDbContext.ApiResources.Add(apiResource.ToEntity());
+                    var resource = new ApiResource(apiResource.Name, apiResource.DisplayName);
+                    cfgDbContext.ApiResources.Add(resource.ToEntity());
                 }
                 cfgDbContext.SaveChanges();
             }

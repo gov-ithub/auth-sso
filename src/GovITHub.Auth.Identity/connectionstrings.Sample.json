@@ -24,15 +24,15 @@
             {
                 "ClientId": "auth-sso-admin",
                 "ClientName": "Auth SSO Admin Panel",
-                "AllowedGrantTypes": [ "HybridAndClientCredentials" ],
+                //"AllowedGrantTypes": [ "hybrid" ],
                 "RequireConsent": false,
                 "ClientSecrets": [
                     {
-                        "Value": "secret",
+                        "Value": "authSecret",
                         "Type": "SharedSecret"
                     }
                 ],
-                "AllowedScopes": [ "auth-api" ],
+                "AllowedScopes": [ "auth-api", "profile", "openid" ],
                 "RedirectUris": [ "http://localhost:5002/signin-oidc" ],
                 "PostLogoutRedirectUris": [ "http://localhost:5002" ]
             }
@@ -55,7 +55,7 @@
             "Password": "",
             "Port": "1025",
             "UseSSL": "False",
-            "FromName": "test",
+            "FromName": "Test",
             "FromEmail": "no-reply@ithub.gov.ro",
             "ProviderName": "SMTP"
         }
