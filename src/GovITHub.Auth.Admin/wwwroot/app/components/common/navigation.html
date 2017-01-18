@@ -1,35 +1,36 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
-	<div class="sidebar-collapse">
-		<ul side-navigation class="nav metismenu" id="side-menu">
-			<li class="nav-header">
-
-				<div class="profile-element" uib-dropdown>
-					<a uib-dropdown-toggle="" href>
-						<span class="clear">
-                                <span class="block m-t-xs">
-                                    <strong class="font-bold">{{main.organizationName}}</strong>
-                             </span>
-						<span class="text-muted text-xs block">Example menu<b class="caret"></b></span>
-						</span>
-					</a>
-					<ul uib-dropdown-menu class="animated flipInX m-t-xs">
-						<li><a href="/account/logout">Logout</a></li>
-					</ul>
-				</div>
-				<div class="logo-element">
-					M/5
-				</div>
-
-			</li>
-			<li ui-sref-active="active">
-				<a ui-sref="index.main"><i aria-hidden="true" class="fa fa-laptop"></i> <span class="nav-label">Dashboard</span> </a>
-			</li>
+    <div class="sidebar-collapse">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="profile-element" uib-dropdown>
+                    <a uib-dropdown-toggle="" href>
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">{{main.organizationName}}</strong>
+                            </span>
+                            <span class="text-muted text-xs block">Example menu<b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul uib-dropdown-menu class="animated flipInX m-t-xs">
+                        <li><a href="/account/logout">Logout</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    M/5
+                </div>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="index.main"><i aria-hidden="true" class="fa fa-laptop"></i> <span class="nav-label">Dashboard</span> </a>
+            </li>
             <li ui-sref-active="active">
                 <a ui-sref="index.samples"><i aria-hidden="true" class="fa fa-barcode"></i> <span class="nav-label">Samples</span></a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="index.organizations"><i aria-hidden="true" class="fa fa-barcode"></i> <span class="nav-label">Organizatii</span></a>
             </li>
-		</ul>
-	</div>
+            <li ui-sref-active="active">
+                <a ui-sref="index.organization-users"><i aria-hidden="true" class="fa fa-barcode"></i> <span class="nav-label">Utilizatori</span></a>
+            </li>
+        </ul>
+    </div>
 </nav>

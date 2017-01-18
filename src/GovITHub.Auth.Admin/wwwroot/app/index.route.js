@@ -101,9 +101,51 @@
                         return $stateParams.id;
                     }]
                 }
+            }).state('index.organization-users', {
+                url: "/organization-users",
+                controller: "OrganizationUsersListController as vm",
+                templateUrl: "app/components/organization-users/list.html",
+                data: {
+                    pageTitle: 'Organization users'
+                }
+            })
+            .state('index.organization-users_new', {
+                url: "/organization-users/new",
+                controller: "OrganizationUsersEditController as vm",
+                templateUrl: "app/components/organization-users/edit.html",
+                data: {
+                    pageTitle: 'Organization users'
+                },
+                resolve: {
+                    status: [function () {
+                        return {
+                            edit: false
+                        };
+                    }],
+                    id: [function () {
+                        return null;
+                    }]
+                }
+            })
+            .state('index.organization-users_edit', {
+                url: "/organization-users/:id",
+                controller: "OrganizationUsersEditController as vm",
+                templateUrl: "app/components/organization-users/edit.html",
+                data: {
+                    pageTitle: 'Organization users'
+                },
+                resolve: {
+                    status: [function () {
+                        return {
+                            edit: true
+                        };
+                    }],
+                    id: ['$stateParams', function ($stateParams) {
+                        return $stateParams.id;
+                    }]
+                }
             });
 
         $urlRouterProvider.otherwise('/index/main');
     }
-
 })();
