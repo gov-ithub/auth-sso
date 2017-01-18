@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers.Api
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
