@@ -17,20 +17,20 @@ namespace GovITHub.Auth.Identity.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IEmailSender emailSender,
+        IEmailService emailService,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailService = emailService;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }

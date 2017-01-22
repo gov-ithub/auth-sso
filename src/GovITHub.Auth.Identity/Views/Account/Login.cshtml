@@ -4,17 +4,18 @@
 @using GovITHub.Auth.Common.Models
 @model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Log in";
-    ViewData["LoginExtra"] = "Sau autentifica-te printr-o retea de mai jos";
+    ViewData["Title"] = Localizer["Log in"];
+    ViewData["LoginExtra"] = Localizer["External login"];
     var registerUrlLink = Url.Content("~/account/register" + ViewData["ReturnUrlQ"]);
 }
 
 <div class="row login-form">
     <div class="col-md-12">
         <div class="col-md-6 col-md-offset-3">
-            <h2 class="text-center">Autentificare</h2>
+            <h2 class="text-center">@Localizer["Authenticate"]</h2>
             @if ((bool)ViewData["ShowOrigin"])
             {
                 <p class="text-center">Ai fost redirectionat de pe <a href="@ViewData["OriginUrl"]" target="_blank" class="link-gray">@ViewData["OriginUrl"]</a></p>
@@ -22,10 +23,9 @@
             <br />
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]"
                   method="post" role="form" id="login-form" class="form-horizontal">
-
                 <div class="form-group">
                     <p>
-                        <label class="info-register">Nu ai cont? <a href="@registerUrlLink" class="link-gray">Creeaza unul acum.</a></label>
+                        <label class="info-register">@Localizer["No account?"]<a href="@registerUrlLink" class="link-gray">@Localizer["Create one now."]</a></label>
                     </p>
                 </div>
 
@@ -41,19 +41,18 @@
                         <div class="col-md-6 col-xs-6 col-sm-6 text-left">
                             <input asp-for="RememberMe" tabindex="3" class="" />
                             <label asp-for="RememberMe">
-                                @*@Html.DisplayNameFor(m => m.RememberMe)*@
-                                Reține parola
+                                @Localizer["Remember me"]
                             </label>
                         </div>
                         <div class="col-md-6 col-xs-6 col-sm-6 text-right">
-                            <a asp-controller="Account" asp-action="ForgotPassword" tabindex="5" class="link-gray">Recuperare parola</a>
+                            <a asp-controller="Account" asp-action="ForgotPassword" tabindex="5" class="link-gray">@Localizer["Recover password"]</a>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Autentificare">
+                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="@Localizer["Authenticate"]">
                         </div>
                     </div>
                 </div>

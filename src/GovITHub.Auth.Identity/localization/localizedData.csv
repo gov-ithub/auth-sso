@@ -1,0 +1,14 @@
+Id;Key;Text;LocalizationCulture;ResourceKey
+1;Authentication;Autentificare;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
+2;Register;Înregistrare;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
+3;Logout;Logout;ro-RO;GovITHub.Auth.Identity.Views.Account.LoggedOutGovITHub.Auth.Identity
+4;You are now logged out;You are now logged out;ro-RO;GovITHub.Auth.Identity.Views.Account.LoggedOutGovITHub.Auth.Identity
+5;Authenticate;Autentificare;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+6;No account?;Nu ai cont?;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+7;Create one now.;Creează unul acum.;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+8;Recover password;Recuperare parola;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+9;Remember me;Reține parola;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+10;External login;Sau autentifica-te printr-o retea de mai jos;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+11;Main address;Bun venit la GovITHub Auth!;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
+12;Learn more;Mai multe;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
+13;Edit profile;Detalii cont;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity

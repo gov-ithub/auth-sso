@@ -8,9 +8,10 @@ using Localization.SqlLocalizer.DbStringLocalizer;
 namespace GovITHub.Auth.Common.Data.Migrations.LocalizationModel
 {
     [DbContext(typeof(LocalizationModelContext))]
-    partial class LocalizationModelContextModelSnapshot : ModelSnapshot
+    [Migration("20170122081225_LocalizationContext1.0.6")]
+    partial class LocalizationContext106
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
