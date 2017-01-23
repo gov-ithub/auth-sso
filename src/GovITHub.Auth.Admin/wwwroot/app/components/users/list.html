@@ -12,7 +12,7 @@
     </div>
     <div class="col-sm-4">
         <div class="title-action">
-            <a ng-click="$root.goto('index.organization_new')" class="btn btn-primary btn-sm"><i class="fa fa-plug"></i> Adaugă utilizator</a>
+            <a ng-click="$root.goto('index.users_new')" class="btn btn-primary btn-sm"><i class="fa fa-plug"></i> Adaugă utilizator</a>
         </div>
     </div>
 </div>
@@ -34,13 +34,13 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <div class="form-group ">
+                    <div class="form-group">
                         <label class="control-label">Level</label>
                         <!--<input type="text" id="quantity " name="quantity" placeholder="ex Tirana" class="form-control" ng-model="vm.query.city">-->
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <div class="form-group ">
+                    <div class="form-group">
                         <label class="control-label">Status</label>
                         <!--<input type="text" id="quantity " name="quantity" placeholder="ex Tirana" class="form-control" ng-model="vm.query.city">-->
                     </div>
@@ -54,11 +54,11 @@
         </form>
     </div>
 
-    <div class="row ">
-        <div class="col-lg-12 ">
-            <div class="ibox ">
-                <div class="ibox-content ">
-                    <table class="footable table table-stripped toggle-arrow-tiny " data-page-size="15 ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny " data-page-size="15">
                         <thead>
                             <tr>
                                 <th>
@@ -108,18 +108,18 @@
                                 <td>
                                     {{ item.website }}
                                 </td>
-                                <td class="text-right ">
-                                    <div class="btn-group ">
-                                        <button class="btn-white btn btn-xs " ng-click="vm.gotoEdit(item.id) ">Modifică</button>
-                                        <button class="btn-danger btn btn-xs " ng-click="vm.delete(item.id) ">Șterge</button>
+                                <td class="text-right">
+                                    <div class="btn-group">
+                                        <button class="btn-white btn btn-xs" ng-click="vm.gotoEdit(item.id)">Modifică</button>
+                                        <button class="btn-danger btn btn-xs" ng-click="vm.delete(item.id)">Șterge</button>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="6 ">
-                                    <ul ng-change="vm.search()" uib-pagination total-items="vm.pagination.totalItems " ng-model="vm.pagination.currentPage " max-size="vm.pagination.maxDisplayedPages " class="pagination-sm " boundary-links="true " force-ellipses="true "></ul>
+                                <td colspan="6">
+                                    <ul ng-change="vm.search()" uib-pagination total-items="vm.pagination.totalItems" ng-model="vm.pagination.currentPage" max-size="vm.pagination.maxDisplayedPages" class="pagination-sm" boundary-links="true" force-ellipses="true"></ul>
                                 </td>
                             </tr>
                         </tfoot>

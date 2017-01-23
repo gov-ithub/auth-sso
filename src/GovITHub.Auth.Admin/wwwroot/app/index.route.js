@@ -101,20 +101,20 @@
                         return $stateParams.id;
                     }]
                 }
-            }).state('index.organization-users', {
-                url: "/organization-users",
-                controller: "OrganizationUsersListController as vm",
-                templateUrl: "app/components/organization-users/list.html",
+            }).state('index.users', {
+                url: "/users",
+                controller: "UsersListController as vm",
+                templateUrl: "app/components/users/list.html",
                 data: {
-                    pageTitle: 'Organization users'
+                    pageTitle: 'Utilizatori'
                 }
             })
-            .state('index.organization-users_new', {
-                url: "/organization-users/new",
-                controller: "OrganizationUsersEditController as vm",
-                templateUrl: "app/components/organization-users/edit.html",
+            .state('index.users_new', {
+                url: "/users/new",
+                controller: "UsersEditController as vm",
+                templateUrl: "app/components/users/edit.html",
                 data: {
-                    pageTitle: 'Organization users'
+                    pageTitle: 'Utilizatori'
                 },
                 resolve: {
                     status: [function () {
@@ -127,12 +127,12 @@
                     }]
                 }
             })
-            .state('index.organization-users_edit', {
-                url: "/organization-users/:id",
-                controller: "OrganizationUsersEditController as vm",
-                templateUrl: "app/components/organization-users/edit.html",
+            .state('index.users_edit', {
+                url: "/users/:id",
+                controller: "UsersEditController as vm",
+                templateUrl: "app/components/users/edit.html",
                 data: {
-                    pageTitle: 'Organization users'
+                    pageTitle: 'Utilizatori'
                 },
                 resolve: {
                     status: [function () {

@@ -1,13 +1,13 @@
 (function () {
     'use strict';
-    /*eslint angular/di: [2,"array"]*/
+
     angular
         .module('authAdminPanel')
-        .controller('OrganizationUsersEditController', OrganizationUsersEditController);
+        .controller('UsersEditController', UsersEditController);
 
-    OrganizationUsersEditController.$inject = ["Organization", "$state", "$scope", 'status', 'id'];
+    UsersEditController.$inject = ["Organization", "$state", "$scope", 'status', 'id'];
 
-    function OrganizationUsersEditController(Organization, $state, $scope, status, id) {
+    function UsersEditController(Organization, $state, $scope, status, id) {
         var vm = this;
         vm.data = {};
         vm.status = status;
@@ -39,7 +39,7 @@
                 .then(function (result) {
                     $scope.currentUser.organizationId = result.id;
                     $scope.currentUser.organizationName = result.name;
-                    $state.go('index.organization-users');
+                    $state.go('index.users');
                 }).catch(function (err) {
                     vm.error = err;
                     console.error(err);
@@ -50,7 +50,7 @@
             Organization
                 .update({ id: vm.id }, vm.data).$promise
                 .then(function (result) {
-                    $state.go('index.organization-users');
+                    $state.go('index.users');
                 }).catch(function (err) {
                     vm.error = err;
                     console.error(err);

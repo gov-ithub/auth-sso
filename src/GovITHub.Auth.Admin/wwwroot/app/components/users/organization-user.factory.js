@@ -3,11 +3,11 @@
 
     angular
         .module('authAdminPanel')
-        .factory("OrganizationUser", OrganizationUser);
+        .factory("User", User);
 
-    OrganizationUser.$inject = ['$q', '$resource', '$log'];
+    User.$inject = ['$resource'];
 
-    function OrganizationUser($q, $resource, $log) {
+    function User($resource) {
         return $resource('/api/users/:id', { id: '@id' }, {
             filter: { method: 'GET' },
             update: { method: 'PUT' }

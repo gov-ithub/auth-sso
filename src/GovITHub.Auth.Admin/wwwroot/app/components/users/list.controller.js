@@ -1,12 +1,13 @@
 ﻿(function () {
     'use strict';
+
     angular
         .module('authAdminPanel')
-        .controller('OrganizationUsersListController', OrganizationUsersListController);
+        .controller('UsersListController', UsersListController);
 
-    OrganizationUsersListController.$inject = ['OrganizationUser', '$rootScope', '$log', '$scope', 'UserIdentityService']
+    UsersListController.$inject = ['User', '$rootScope', '$log', '$scope', 'UserIdentityService']
 
-    function OrganizationUsersListController(OrganizationUser, $rootScope, $log, $scope, UserIdentityService) {
+    function UsersListController(User, $rootScope, $log, $scope, UserIdentityService) {
 
         var vm = this;
         vm.pagination = {
@@ -19,7 +20,7 @@
         vm.sortAscending = true;
 
         vm.search = function () {
-            OrganizationUser.filter({
+            User.filter({
                 q: vm.query,
                 currentPage: vm.pagination.currentPage,
                 itemsPerPage: vm.pagination.itemsPerPage,
@@ -42,11 +43,11 @@
         };
 
         vm.gotoEdit = function (id) {
-            $rootScope.goto('index.organization-users_edit', { id: id });
+            $rootScope.goto('index.users_edit', { id: id });
         };
 
         vm.delete = function (id) {
-            OrganizationUser.delete({ id: id }).$promise
+            User.delete({ id: id }).$promise
                 .then(function (response) {
                     vm.search();
                 }).catch(function (err) {
