@@ -24,9 +24,17 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(long id)
         {
-            return "value";
+            Common.Data.Models.OrganizationUser organizationUser = organizationUserRepository.Find(id);
+
+            return Ok(new Models.User()
+            {
+                Id = organizationUser.Id,
+                Level = organizationUser.Level,
+                Status = (Models.UserStatus)organizationUser.Status,
+                Name = organizationUser.User.Email
+            });
         }
 
         [HttpPost]

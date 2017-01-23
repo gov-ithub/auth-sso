@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using GovITHub.Auth.Common.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GovITHub.Auth.Common.Data.Impl
 {
@@ -26,6 +28,11 @@ namespace GovITHub.Auth.Common.Data.Impl
                 List = organizationUsers,
                 TotalItems = dbContext.OrganizationUsers.Count()
             };
+        }
+
+        public OrganizationUser Find(long id)
+        {
+            return dbContext.OrganizationUsers.Include(x => x.User).FirstOrDefault(t => t.Id == id);
         }
     }
 }
