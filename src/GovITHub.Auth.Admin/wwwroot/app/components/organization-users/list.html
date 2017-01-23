@@ -1,63 +1,63 @@
 ﻿<div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-sm-8">
-        <h2>Organizations</h2>
+        <h2>Utilizatori</h2>
         <ol class="breadcrumb">
             <li>
                 <a ui-sref="index.main">Home</a>
             </li>
             <li class="active">
-                <strong>Organizatii</strong>
+                <strong>Utilizatori</strong>
             </li>
         </ol>
     </div>
     <div class="col-sm-4">
         <div class="title-action">
-            <a ng-click="$root.goto('index.organization_new')" class="btn btn-primary btn-sm"><i class="fa fa-plug"></i> Adaugă organizatie</a>
+            <a ng-click="$root.goto('index.organization_new')" class="btn btn-primary btn-sm"><i class="fa fa-plug"></i> Adaugă utilizator</a>
         </div>
     </div>
 </div>
-
-
 
 <div class="wrapper wrapper-content animated fadeInRight ecommerce">
     <div class="ibox-content m-b-sm border-bottom">
         <form name='votingStationsSearchForm' ng-submit="vm.search()" novalidate>
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <div class="form-group">
                         <label class="control-label">Id</label>
                         <!--<input type="text" name="product_name" placeholder="ex: 354" class="form-control" ng-model="vm.query.crt">-->
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-2">
                     <div class="form-group">
-                        <label class="control-label" >Nume</label>
+                        <label class="control-label">Nume</label>
                         <!--<input type="text " id="price" name="price" placeholder="ex: Albania" class="form-control" ng-model="vm.query.country">-->
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <div class="form-group ">
-                        <label class="control-label">Website</label>
+                        <label class="control-label">Level</label>
                         <!--<input type="text" id="quantity " name="quantity" placeholder="ex Tirana" class="form-control" ng-model="vm.query.city">-->
                     </div>
                 </div>
-
+                <div class="col-sm-2">
+                    <div class="form-group ">
+                        <label class="control-label">Status</label>
+                        <!--<input type="text" id="quantity " name="quantity" placeholder="ex Tirana" class="form-control" ng-model="vm.query.city">-->
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
                     <input type="submit" class="btn btn-primary pull-right" value="Caută" />
                 </div>
             </div>
-
         </form>
-
     </div>
 
     <div class="row ">
         <div class="col-lg-12 ">
             <div class="ibox ">
                 <div class="ibox-content ">
-
                     <table class="footable table table-stripped toggle-arrow-tiny " data-page-size="15 ">
                         <thead>
                             <tr>
@@ -77,16 +77,16 @@
                                 </th>
                                 <th>
                                     <a ng-click="vm.sort('parentOrganizationId')">
-                                        Parinte
-                                        <span ng-show="vm.sortBy === 'name' && vm.sortAscending === true " class="fa fa-caret-up "></span>
-                                        <span ng-show="vm.sortBy === 'name' && vm.sortAscending === false " class="fa fa-caret-down "></span>
+                                        Level
+                                        <span ng-show="vm.sortBy === 'level' && vm.sortAscending === true " class="fa fa-caret-up "></span>
+                                        <span ng-show="vm.sortBy === 'level' && vm.sortAscending === false " class="fa fa-caret-down "></span>
                                     </a>
                                 </th>
                                 <th>
                                     <a ng-click="vm.sort('website')">
-                                        Complet
-                                        <span ng-show="vm.sortBy === 'website' && vm.sortAscending === true " class="fa fa-caret-up "></span>
-                                        <span ng-show="vm.sortBy === 'website' && vm.sortAscending === false " class="fa fa-caret-down "></span>
+                                        Status
+                                        <span ng-show="vm.sortBy === 'status' && vm.sortAscending === true " class="fa fa-caret-up "></span>
+                                        <span ng-show="vm.sortBy === 'status' && vm.sortAscending === false " class="fa fa-caret-down "></span>
                                     </a>
                                 </th>
                                 <th>
@@ -110,8 +110,8 @@
                                 </td>
                                 <td class="text-right ">
                                     <div class="btn-group ">
-                                        <button class="btn-white btn btn-xs " ng-click="vm.gotoEdit(item.id) ">Modifica</button>
-                                        <button class="btn-danger btn btn-xs " ng-click="vm.delete(item.id) ">Sterge</button>
+                                        <button class="btn-white btn btn-xs " ng-click="vm.gotoEdit(item.id) ">Modifică</button>
+                                        <button class="btn-danger btn btn-xs " ng-click="vm.delete(item.id) ">Șterge</button>
                                     </div>
                                 </td>
                             </tr>
@@ -124,11 +124,8 @@
                             </tr>
                         </tfoot>
                     </table>
-
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>

@@ -1,13 +1,13 @@
 <form name="organizationForm" novalidate>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-sm-4">
-            <h2>Organizations</h2>
+            <h2>Utilizatori</h2>
             <ol class="breadcrumb">
                 <li>
-                    <a ui-sref="index.main">Honm</a>
+                    <a ui-sref="index.main">Home</a>
                 </li>
                 <li>
-                    <a ui-sref="index.organizations">Organizations</a>
+                    <a ui-sref="index.organization-users">Utilizatori</a>
                 </li>
                 <li>
                     {{ (vm.status.edit) ? 'Edit' : 'Create' }}
@@ -26,7 +26,6 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-7">
-                <!-- Name -->
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <div class="row">
@@ -37,16 +36,16 @@
                                         <span ng-message="required"> (obligatoriu)</span>
                                         <span ng-message="maxlength"> (Numarul maxim de caractere 200)</span>
                                     </span>
-                                    <input type="text" name="name" placeholder="exemplu: Test123" 
+                                    <input type="text" name="name" placeholder="exemplu: Test123"
                                            ng-model="vm.data.name" ng-maxlength="200" class="form-control" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Website</label>
-                                    <span ng-messages="organizationForm.website.$error" class="has-error">
-                                        <span ng-message="maxlength">(Numarul maxim de caractere 200)</span>
-                                    </span>
-                                    <input type="url" name="website" placeholder="http://www.gov.ro"
-                                           ng-model="vm.data.website" ng-maxlength="200" class="form-control">
+                                    <label>Level</label>
+                                    <input type="number" name="website" placeholder="0" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <input type="text" name="website" placeholder="active" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -56,4 +55,3 @@
         </div>
     </div>
 </form>
-
