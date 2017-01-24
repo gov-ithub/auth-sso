@@ -16,7 +16,7 @@
             totalItems: 150,
             maxDisplayedPages: 5
         };
-        vm.sortBy = 'OrganizationId';
+        vm.sortBy = 'Name';
         vm.sortAscending = true;
 
         vm.search = function () {

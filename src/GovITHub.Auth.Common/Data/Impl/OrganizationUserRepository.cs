@@ -15,13 +15,20 @@ namespace GovITHub.Auth.Common.Data.Impl
 
         public ModelQuery<OrganizationUserViewModel> Filter(ModelQueryFilter filter)
         {
-            OrganizationUserViewModel[] organizationUsers = dbContext.OrganizationUsers.Apply(filter).ToArray().Select(x => new OrganizationUserViewModel()
-            {
-                Id = x.Id,
-                Level = x.Level,
-                OrganizationId = x.OrganizationId,
-                Status = x.Status
-            }).ToArray();
+            OrganizationUserViewModel[] organizationUsers = dbContext.OrganizationUsers.Include(x => x.User).Select(x =>
+                new
+                {
+                    Id = x.Id,
+                    Name = x.User.Email,
+                    Level = x.Level,
+                    Status = x.Status
+                }).Apply(filter).ToArray().Select(x => new OrganizationUserViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Level = x.Level,
+                    Status = x.Status
+                }).ToArray();
 
             return new ModelQuery<OrganizationUserViewModel>()
             {

@@ -4,7 +4,7 @@
     {
         public long Id { get; set; }
 
-        public long? OrganizationId { get; set; }
+        public string Name { get; set; }
 
         public Models.OrganizationUserLevel Level { get; set; }
 

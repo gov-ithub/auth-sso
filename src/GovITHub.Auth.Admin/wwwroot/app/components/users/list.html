@@ -76,14 +76,14 @@
                                     </a>
                                 </th>
                                 <th>
-                                    <a ng-click="vm.sort('parentOrganizationId')">
+                                    <a ng-click="vm.sort('level')">
                                         Level
                                         <span ng-show="vm.sortBy === 'level' && vm.sortAscending === true " class="fa fa-caret-up "></span>
                                         <span ng-show="vm.sortBy === 'level' && vm.sortAscending === false " class="fa fa-caret-down "></span>
                                     </a>
                                 </th>
                                 <th>
-                                    <a ng-click="vm.sort('website')">
+                                    <a ng-click="vm.sort('status')">
                                         Status
                                         <span ng-show="vm.sortBy === 'status' && vm.sortAscending === true " class="fa fa-caret-up "></span>
                                         <span ng-show="vm.sortBy === 'status' && vm.sortAscending === false " class="fa fa-caret-down "></span>
@@ -103,10 +103,10 @@
                                     {{ item.name }}
                                 </td>
                                 <td>
-                                    {{ item.parentOrganizationId }}
+                                    {{ item.level == 0 ? 'Admin' : 'User' }}
                                 </td>
                                 <td>
-                                    {{ item.website }}
+                                    {{ item.status == 0 ? 'Inactiv' : 'Activ' }}
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">

@@ -8,10 +8,6 @@ namespace GovITHub.Auth.Common.Data
         {
             if (queryFilter != null)
             {
-                query = query
-                    .Skip(queryFilter.CurrentPage * queryFilter.ItemsPerPage)
-                    .Take(queryFilter.ItemsPerPage);
-
                 if (!string.IsNullOrEmpty(queryFilter.SortBy))
                 {
                     if (queryFilter.SortAscending)
@@ -23,6 +19,10 @@ namespace GovITHub.Auth.Common.Data
                         query = query.OrderByDescending(queryFilter.SortBy);
                     }
                 }
+
+                query = query
+                   .Skip(queryFilter.CurrentPage * queryFilter.ItemsPerPage)
+                   .Take(queryFilter.ItemsPerPage);
             }
 
             return query;
