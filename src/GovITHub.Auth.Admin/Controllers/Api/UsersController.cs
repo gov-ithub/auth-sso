@@ -8,9 +8,9 @@ namespace GovITHub.Auth.Admin.Controllers.Api
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IOrganizationUserRepository organizationUserRepository;
+        private readonly Common.Data.Contract.IOrganizationUserRepository organizationUserRepository;
 
-        public UsersController(IOrganizationUserRepository organizationUserRepository)
+        public UsersController(Common.Data.Contract.IOrganizationUserRepository organizationUserRepository)
         {
             this.organizationUserRepository = organizationUserRepository;
         }
@@ -26,14 +26,14 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-            Common.Data.Models.OrganizationUser organizationUser = organizationUserRepository.Find(id);
+            Common.Data.Contract.OrganizationUser organizationUser = organizationUserRepository.Find(id);
 
             return Ok(new Models.User()
             {
                 Id = organizationUser.Id,
                 Level = organizationUser.Level,
                 Status = (Models.UserStatus)organizationUser.Status,
-                Name = organizationUser.User.Email
+                Name = organizationUser.Name
             });
         }
 
@@ -44,8 +44,15 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put([FromBody]Models.User user)
         {
+            organizationUserRepository.Update(new Common.Data.Contract.OrganizationUser()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Level = user.Level,
+                Status = (short)user.Status
+            });
         }
 
         [HttpDelete("{id}")]

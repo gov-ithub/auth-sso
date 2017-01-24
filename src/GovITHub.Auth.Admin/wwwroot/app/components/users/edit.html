@@ -41,11 +41,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Level</label>
-                                    <input type="number" name="website" placeholder="0" class="form-control">
+                                    <select ng-model="vm.data.level" class="form-control" convert-to-number>
+                                        <option value="0">Admin</option>
+                                        <option value="100">User</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Status</label>
-                                    <input type="text" name="website" placeholder="active" class="form-control">
+                                    <select ng-model="vm.data.status" class="form-control" convert-to-number>
+                                        <option value="1">Activ</option>
+                                        <option value="0">Inactiv</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

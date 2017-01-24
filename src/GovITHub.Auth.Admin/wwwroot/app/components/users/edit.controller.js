@@ -5,9 +5,9 @@
         .module('authAdminPanel')
         .controller('UsersEditController', UsersEditController);
 
-    UsersEditController.$inject = ["Organization", "$state", "$scope", 'status', 'id'];
+    UsersEditController.$inject = ["User", "$state", "$scope", 'status', 'id'];
 
-    function UsersEditController(Organization, $state, $scope, status, id) {
+    function UsersEditController(User, $state, $scope, status, id) {
         var vm = this;
         vm.data = {};
         vm.status = status;
@@ -22,7 +22,7 @@
         };
 
         vm.init = function () {
-            Organization.get({ id: vm.id }).$promise
+            User.get({ id: vm.id }).$promise
                 .then(function (result) {
                     vm.data = result;
                 }).catch(function (err) {
@@ -34,7 +34,7 @@
         var create = function () {
             if ($scope.currentUser.organizationId >= 1)
                 vm.data.parentOrganizationId = $scope.currentUser.organizationId;
-            Organization
+            User
                 .save(vm.data).$promise
                 .then(function (result) {
                     $scope.currentUser.organizationId = result.id;
@@ -47,7 +47,7 @@
         };
 
         var update = function () {
-            Organization
+            User
                 .update({ id: vm.id }, vm.data).$promise
                 .then(function (result) {
                     $state.go('index.users');
