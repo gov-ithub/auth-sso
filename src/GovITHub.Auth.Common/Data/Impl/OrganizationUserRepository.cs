@@ -60,5 +60,20 @@ namespace GovITHub.Auth.Common.Data.Impl
 
             dbContext.SaveChanges();
         }
+
+        public void Add(Contract.OrganizationUser organizationUser, long organizationId)
+        {
+            Common.Models.ApplicationUser applicationUser = dbContext.Users.FirstOrDefault(x => x.Email == organizationUser.Name);
+
+            Models.OrganizationUser dbOrganizationUser = new Models.OrganizationUser();
+            dbOrganizationUser.Level = organizationUser.Level;
+            dbOrganizationUser.Status = organizationUser.Status;
+            dbOrganizationUser.UserId = applicationUser.Id;
+            dbOrganizationUser.OrganizationId = organizationId;
+
+            dbContext.OrganizationUsers.Add(dbOrganizationUser);
+
+            dbContext.SaveChanges();
+        }
     }
 }

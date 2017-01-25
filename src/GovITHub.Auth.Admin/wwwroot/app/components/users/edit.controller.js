@@ -32,13 +32,9 @@
         };
 
         var create = function () {
-            if ($scope.currentUser.organizationId >= 1)
-                vm.data.parentOrganizationId = $scope.currentUser.organizationId;
             User
-                .save(vm.data).$promise
+                .save({ organizationId: $scope.currentUser.organizationId }, vm.data).$promise
                 .then(function (result) {
-                    $scope.currentUser.organizationId = result.id;
-                    $scope.currentUser.organizationName = result.name;
                     $state.go('index.users');
                 }).catch(function (err) {
                     vm.error = err;

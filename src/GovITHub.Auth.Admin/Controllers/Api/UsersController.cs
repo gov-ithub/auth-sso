@@ -38,9 +38,15 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Models.User user, [FromQuery]long organizationId)
         {
-
+            organizationUserRepository.Add(new Common.Data.Contract.OrganizationUser()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Level = user.Level,
+                Status = (short)user.Status
+            }, organizationId);
         }
 
         [HttpPut("{id}")]

@@ -7,6 +7,8 @@
         OrganizationUser Find(long id, long organizationId);
 
         void Update(OrganizationUser organizationUser, long organizationId);
+
+        void Add(OrganizationUser organizationUser, long organizationId);
     }
 
     public class OrganizationUser
