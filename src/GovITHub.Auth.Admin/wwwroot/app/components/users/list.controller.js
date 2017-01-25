@@ -25,7 +25,8 @@
                 currentPage: vm.pagination.currentPage,
                 itemsPerPage: vm.pagination.itemsPerPage,
                 sortBy: vm.sortBy,
-                sortAscending: vm.sortAscending
+                sortAscending: vm.sortAscending,
+                organizationId: $scope.currentUser.organizationId
             }).$promise
                 .then(function (result) {
                     vm.items = result.list;

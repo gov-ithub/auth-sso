@@ -22,7 +22,7 @@
         };
 
         vm.init = function () {
-            User.get({ id: vm.id }).$promise
+            User.get({ id: vm.id, organizationId: $scope.currentUser.organizationId }).$promise
                 .then(function (result) {
                     vm.data = result;
                 }).catch(function (err) {
@@ -48,7 +48,7 @@
 
         var update = function () {
             User
-                .update({ id: vm.id }, vm.data).$promise
+                .update({ id: vm.id, organizationId: $scope.currentUser.organizationId }, vm.data).$promise
                 .then(function (result) {
                     $state.go('index.users');
                 }).catch(function (err) {

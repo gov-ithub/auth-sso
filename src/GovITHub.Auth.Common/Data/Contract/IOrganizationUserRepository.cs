@@ -2,11 +2,11 @@
 {
     public interface IOrganizationUserRepository
     {
-        ModelQuery<OrganizationUser> Filter(ModelQueryFilter filter);
+        ModelQuery<OrganizationUser> Filter(ModelQueryFilter filter, long organizationId);
 
-        OrganizationUser Find(long id);
+        OrganizationUser Find(long id, long organizationId);
 
-        void Update(OrganizationUser organizationUser);
+        void Update(OrganizationUser organizationUser, long organizationId);
     }
 
     public class OrganizationUser

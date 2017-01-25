@@ -12,9 +12,9 @@ namespace GovITHub.Auth.Common.Data.Impl
             this.dbContext = dbContext;
         }
 
-        public ModelQuery<Contract.OrganizationUser> Filter(ModelQueryFilter filter)
+        public ModelQuery<Contract.OrganizationUser> Filter(ModelQueryFilter filter, long organizationId)
         {
-            Contract.OrganizationUser[] organizationUsers = dbContext.OrganizationUsers.Include(x => x.User).Select(x =>
+            Contract.OrganizationUser[] organizationUsers = dbContext.OrganizationUsers.Where(x => x.OrganizationId == organizationId).Include(x => x.User).Select(x =>
                 new
                 {
                     Id = x.Id,
@@ -36,9 +36,9 @@ namespace GovITHub.Auth.Common.Data.Impl
             };
         }
 
-        public Contract.OrganizationUser Find(long id)
+        public Contract.OrganizationUser Find(long id, long organizationId)
         {
-            Models.OrganizationUser dbOrganzationUser = dbContext.OrganizationUsers.Include(x => x.User).FirstOrDefault(t => t.Id == id);
+            Models.OrganizationUser dbOrganzationUser = dbContext.OrganizationUsers.Where(x => x.OrganizationId == organizationId).Include(x => x.User).FirstOrDefault(t => t.Id == id);
 
             return new Contract.OrganizationUser()
             {
@@ -49,11 +49,11 @@ namespace GovITHub.Auth.Common.Data.Impl
             };
         }
 
-        public void Update(Contract.OrganizationUser organizationUser)
+        public void Update(Contract.OrganizationUser organizationUser, long organizationId)
         {
             Common.Models.ApplicationUser applicationUser = dbContext.Users.FirstOrDefault(x => x.Email == organizationUser.Name);
 
-            Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.Find(organizationUser.Id);
+            Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.FirstOrDefault(x => x.OrganizationId == organizationId && x.Id == organizationUser.Id);
             dbOrganizationUser.Level = organizationUser.Level;
             dbOrganizationUser.Status = organizationUser.Status;
             dbOrganizationUser.UserId = applicationUser.Id;

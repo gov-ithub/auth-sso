@@ -16,17 +16,17 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery]int currentPage, [FromQuery]int itemsPerPage, [FromQuery]bool sortAscending, [FromQuery]string sortBy)
+        public IActionResult Get([FromQuery]int currentPage, [FromQuery]int itemsPerPage, [FromQuery]bool sortAscending, [FromQuery]string sortBy, [FromQuery]long organizationId)
         {
             ModelQueryFilter filter = new ModelQueryFilter(currentPage, itemsPerPage, sortAscending, sortBy);
 
-            return new ObjectResult(organizationUserRepository.Filter(filter));
+            return new ObjectResult(organizationUserRepository.Filter(filter, organizationId));
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        public IActionResult Get(long id, [FromQuery]long organizationId)
         {
-            Common.Data.Contract.OrganizationUser organizationUser = organizationUserRepository.Find(id);
+            Common.Data.Contract.OrganizationUser organizationUser = organizationUserRepository.Find(id, organizationId);
 
             return Ok(new Models.User()
             {
@@ -44,7 +44,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPut("{id}")]
-        public void Put([FromBody]Models.User user)
+        public void Put([FromBody]Models.User user, [FromQuery]long organizationId)
         {
             organizationUserRepository.Update(new Common.Data.Contract.OrganizationUser()
             {
@@ -52,7 +52,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
                 Name = user.Name,
                 Level = user.Level,
                 Status = (short)user.Status
-            });
+            }, organizationId);
         }
 
         [HttpDelete("{id}")]
