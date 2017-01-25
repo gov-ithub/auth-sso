@@ -75,5 +75,15 @@ namespace GovITHub.Auth.Common.Data.Impl
 
             dbContext.SaveChanges();
         }
+
+        public void Delete(long id, long organizationId)
+        {
+            Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.FirstOrDefault(x => x.OrganizationId == organizationId && x.Id == id);
+            if (dbOrganizationUser != null)
+            {
+                dbContext.OrganizationUsers.Remove(dbOrganizationUser);
+                dbContext.SaveChanges();
+            }
+        }
     }
 }

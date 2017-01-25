@@ -48,7 +48,7 @@
         };
 
         vm.delete = function (id) {
-            User.delete({ id: id }).$promise
+            User.delete({ id: id, organizationId: $scope.currentUser.organizationId }).$promise
                 .then(function (response) {
                     vm.search();
                 }).catch(function (err) {

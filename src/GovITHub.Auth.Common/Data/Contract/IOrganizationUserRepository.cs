@@ -9,6 +9,8 @@
         void Update(OrganizationUser organizationUser, long organizationId);
 
         void Add(OrganizationUser organizationUser, long organizationId);
+
+        void Delete(long id, long organizationId);
     }
 
     public class OrganizationUser

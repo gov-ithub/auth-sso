@@ -62,8 +62,9 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete([FromRoute]long id, [FromQuery]long organizationId)
         {
+            organizationUserRepository.Delete(id, organizationId);
         }
     }
 }
