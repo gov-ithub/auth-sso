@@ -1,4 +1,5 @@
 ﻿@model IndexViewModel
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Manage your account";
 }
@@ -69,3 +70,45 @@
         </dd>
     </dl>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked admin-menu">
+                <li class="active"><a href="#" data-target-id="divpassword"><i class="fa fa-home fa-fw"></i>@Localizer["Password"]</a></li>
+                <li><a href="http://www.jquery2dotnet.com" data-target-id="divexternallogins"><i class="fa fa-list-alt fa-fw"></i>@Localizer["External logins"]</a></li>
+                <li><a href="http://www.jquery2dotnet.com" data-target-id="divprofile"><i class="fa fa-file-o fa-fw"></i>@Localizer["Profile"]</a></li>
+                <li><a href="http://www.jquery2dotnet.com" data-target-id="divemails"><i class="fa fa-bar-chart-o fa-fw"></i>@Localizer["Emails"]</a></li>
+                <li><a href="http://www.jquery2dotnet.com" data-target-id="divphones"><i class="fa fa-table fa-fw"></i>@Localizer["Phone numbers"]</a></li>
+                <li><a href="http://www.jquery2dotnet.com" data-target-id="divtfa"><i class="fa fa-tasks fa-fw"></i>@Localizer["Two factor authentication"]</a></li>
+                <li><a href="http://www.jquery2dotnet.com" data-target-id="divsettings"><i class="fa fa-cogs fa-fw"></i>@Localizer["Settings"]</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9 well admin-content" id="divpassword">
+            @Html.Partial("ChangePassword", new ChangePasswordViewModel())
+        </div>
+        <div class="col-md-9 well admin-content" id="divexternallogins">
+            @{ await Html.RenderPartialAsync("_ManageLogins", Model.ManageLogins);}
+        </div>
+        <div class="col-md-9 well admin-content" id="divprofile">
+            Pages
+        </div>
+        <div class="col-md-9 well admin-content" id="divemails">
+            Charts
+        </div>
+        <div class="col-md-9 well admin-content" id="divphones">
+            Table
+        </div>
+        <div class="col-md-9 well admin-content" id="divtfa">
+            Forms
+        </div>
+        <div class="col-md-9 well admin-content" id="divsettings">
+            Settings
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/manage.js" asp-append-version="true"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

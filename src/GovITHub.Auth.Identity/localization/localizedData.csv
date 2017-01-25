@@ -12,3 +12,17 @@ Id;Key;Text;LocalizationCulture;ResourceKey
 11;Main address;Bun venit la GovITHub Auth!;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
 12;Learn more;Mai multe;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
 13;Edit profile;Detalii cont;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
+14;Password;Parola;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+15;External logins;Extern;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+16;Profile;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+17;Emails;Adrese email;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+18;Phone numbers;Numere telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+19;Two factor authentication;Autentificare suplimentara;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+20;Settings;Setari;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+21;New password;Parola nouă;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+22;Current password;Parola curenta;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+23;Confirm new password;Confirmare;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+24;Submit;Schimbă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+25;New password and confirmation do not match.;Diferențe între parola nouă și confirmare!;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+26;The {0} must be at least {2} and at max {1} characters long.;{0} trebuie sa aibă între {2} și {1} caractere.;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+27;The {0} field is required.;{0} este obligatoriu.;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel

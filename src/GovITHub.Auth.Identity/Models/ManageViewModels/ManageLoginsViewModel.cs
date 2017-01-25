@@ -12,5 +12,6 @@ namespace GovITHub.Auth.Identity.Models.ManageViewModels
         public IList<UserLoginInfo> CurrentLogins { get; set; }
 
         public IList<AuthenticationDescription> OtherLogins { get; set; }
+        public bool ShowRemoveButton { get; internal set; }
     }
 }
