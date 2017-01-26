@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GovITHub.Auth.Admin.Controllers.Api
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/organizations/{organizationId}/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly Common.Data.Contract.IOrganizationUserRepository organizationUserRepository;
@@ -16,7 +16,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery]int currentPage, [FromQuery]int itemsPerPage, [FromQuery]bool sortAscending, [FromQuery]string sortBy, [FromQuery]long organizationId)
+        public IActionResult Get([FromRoute]long organizationId, [FromQuery]int currentPage, [FromQuery]int itemsPerPage, [FromQuery]bool sortAscending, [FromQuery]string sortBy)
         {
             ModelQueryFilter filter = new ModelQueryFilter(currentPage, itemsPerPage, sortAscending, sortBy);
 
@@ -24,7 +24,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(long id, [FromQuery]long organizationId)
+        public IActionResult Get([FromRoute]long organizationId, [FromRoute]long id)
         {
             Common.Data.Contract.OrganizationUser organizationUser = organizationUserRepository.Find(id, organizationId);
 
@@ -38,7 +38,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public void Post([FromBody]Models.User user, [FromQuery]long organizationId)
+        public void Post([FromRoute]long organizationId, [FromBody]Models.User user)
         {
             organizationUserRepository.Add(new Common.Data.Contract.OrganizationUser()
             {
@@ -50,7 +50,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPut("{id}")]
-        public void Put([FromBody]Models.User user, [FromQuery]long organizationId)
+        public void Put([FromRoute]long organizationId, [FromBody]Models.User user)
         {
             organizationUserRepository.Update(new Common.Data.Contract.OrganizationUser()
             {
@@ -62,7 +62,7 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpDelete("{id}")]
-        public void Delete([FromRoute]long id, [FromQuery]long organizationId)
+        public void Delete([FromRoute]long organizationId, [FromRoute]long id)
         {
             organizationUserRepository.Delete(id, organizationId);
         }

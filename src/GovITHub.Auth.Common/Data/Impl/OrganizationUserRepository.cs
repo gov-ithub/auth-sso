@@ -14,7 +14,9 @@ namespace GovITHub.Auth.Common.Data.Impl
 
         public ModelQuery<Contract.OrganizationUser> Filter(ModelQueryFilter filter, long organizationId)
         {
-            Contract.OrganizationUser[] organizationUsers = dbContext.OrganizationUsers.Where(x => x.OrganizationId == organizationId).Include(x => x.User).Select(x =>
+            IQueryable<Models.OrganizationUser> dbOrganizationUsersQuery = dbContext.OrganizationUsers.Where(x => x.OrganizationId == organizationId);
+
+            Contract.OrganizationUser[] organizationUsers = dbOrganizationUsersQuery.Include(x => x.User).Select(x =>
                 new
                 {
                     Id = x.Id,
@@ -32,7 +34,7 @@ namespace GovITHub.Auth.Common.Data.Impl
             return new ModelQuery<Contract.OrganizationUser>()
             {
                 List = organizationUsers,
-                TotalItems = dbContext.OrganizationUsers.Count()
+                TotalItems = dbOrganizationUsersQuery.Count()
             };
         }
 
