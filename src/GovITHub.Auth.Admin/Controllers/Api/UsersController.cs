@@ -20,13 +20,13 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         {
             ModelQueryFilter filter = new ModelQueryFilter(currentPage, itemsPerPage, sortAscending, sortBy);
 
-            return new ObjectResult(organizationUserRepository.Filter(filter, organizationId));
+            return new ObjectResult(organizationUserRepository.Filter(organizationId, filter));
         }
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute]long organizationId, [FromRoute]long id)
         {
-            Common.Data.Contract.OrganizationUser organizationUser = organizationUserRepository.Find(id, organizationId);
+            Common.Data.Contract.OrganizationUser organizationUser = organizationUserRepository.Find(organizationId, id);
 
             return Ok(new Models.User()
             {
@@ -43,10 +43,11 @@ namespace GovITHub.Auth.Admin.Controllers.Api
             organizationUserRepository.Add(new Common.Data.Contract.OrganizationUser()
             {
                 Id = user.Id,
+                OrganizationId = organizationId,
                 Name = user.Name,
                 Level = user.Level,
                 Status = (short)user.Status
-            }, organizationId);
+            });
         }
 
         [HttpPut("{id}")]
@@ -55,16 +56,17 @@ namespace GovITHub.Auth.Admin.Controllers.Api
             organizationUserRepository.Update(new Common.Data.Contract.OrganizationUser()
             {
                 Id = user.Id,
+                OrganizationId = organizationId,
                 Name = user.Name,
                 Level = user.Level,
                 Status = (short)user.Status
-            }, organizationId);
+            });
         }
 
         [HttpDelete("{id}")]
         public void Delete([FromRoute]long organizationId, [FromRoute]long id)
         {
-            organizationUserRepository.Delete(id, organizationId);
+            organizationUserRepository.Delete(organizationId, id);
         }
     }
 }

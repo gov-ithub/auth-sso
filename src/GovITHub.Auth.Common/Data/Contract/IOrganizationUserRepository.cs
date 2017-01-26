@@ -2,20 +2,22 @@
 {
     public interface IOrganizationUserRepository
     {
-        ModelQuery<OrganizationUser> Filter(ModelQueryFilter filter, long organizationId);
+        ModelQuery<OrganizationUser> Filter(long organizationId, ModelQueryFilter filter);
 
-        OrganizationUser Find(long id, long organizationId);
+        OrganizationUser Find(long organizationId, long id);
 
-        void Update(OrganizationUser organizationUser, long organizationId);
+        void Update(OrganizationUser organizationUser);
 
-        void Add(OrganizationUser organizationUser, long organizationId);
+        void Add(OrganizationUser organizationUser);
 
-        void Delete(long id, long organizationId);
+        void Delete(long organizationId, long id);
     }
 
     public class OrganizationUser
     {
         public long Id { get; set; }
+
+        public long OrganizationId { get; set; }
 
         public string Name { get; set; }
 

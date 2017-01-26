@@ -12,7 +12,7 @@ namespace GovITHub.Auth.Common.Data.Impl
             this.dbContext = dbContext;
         }
 
-        public ModelQuery<Contract.OrganizationUser> Filter(ModelQueryFilter filter, long organizationId)
+        public ModelQuery<Contract.OrganizationUser> Filter(long organizationId, ModelQueryFilter filter)
         {
             IQueryable<Models.OrganizationUser> dbOrganizationUsersQuery = dbContext.OrganizationUsers.Where(x => x.OrganizationId == organizationId);
 
@@ -38,7 +38,7 @@ namespace GovITHub.Auth.Common.Data.Impl
             };
         }
 
-        public Contract.OrganizationUser Find(long id, long organizationId)
+        public Contract.OrganizationUser Find(long organizationId, long id)
         {
             Models.OrganizationUser dbOrganzationUser = dbContext.OrganizationUsers.Where(x => x.OrganizationId == organizationId).Include(x => x.User).FirstOrDefault(t => t.Id == id);
 
@@ -51,11 +51,11 @@ namespace GovITHub.Auth.Common.Data.Impl
             };
         }
 
-        public void Update(Contract.OrganizationUser organizationUser, long organizationId)
+        public void Update(Contract.OrganizationUser organizationUser)
         {
             Common.Models.ApplicationUser applicationUser = dbContext.Users.FirstOrDefault(x => x.Email == organizationUser.Name);
 
-            Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.FirstOrDefault(x => x.OrganizationId == organizationId && x.Id == organizationUser.Id);
+            Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.FirstOrDefault(x => x.OrganizationId == organizationUser.OrganizationId && x.Id == organizationUser.Id);
             dbOrganizationUser.Level = organizationUser.Level;
             dbOrganizationUser.Status = organizationUser.Status;
             dbOrganizationUser.UserId = applicationUser.Id;
@@ -63,7 +63,7 @@ namespace GovITHub.Auth.Common.Data.Impl
             dbContext.SaveChanges();
         }
 
-        public void Add(Contract.OrganizationUser organizationUser, long organizationId)
+        public void Add(Contract.OrganizationUser organizationUser)
         {
             Common.Models.ApplicationUser applicationUser = dbContext.Users.FirstOrDefault(x => x.Email == organizationUser.Name);
 
@@ -71,14 +71,14 @@ namespace GovITHub.Auth.Common.Data.Impl
             dbOrganizationUser.Level = organizationUser.Level;
             dbOrganizationUser.Status = organizationUser.Status;
             dbOrganizationUser.UserId = applicationUser.Id;
-            dbOrganizationUser.OrganizationId = organizationId;
+            dbOrganizationUser.OrganizationId = organizationUser.OrganizationId;
 
             dbContext.OrganizationUsers.Add(dbOrganizationUser);
 
             dbContext.SaveChanges();
         }
 
-        public void Delete(long id, long organizationId)
+        public void Delete(long organizationId, long id)
         {
             Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.FirstOrDefault(x => x.OrganizationId == organizationId && x.Id == id);
             if (dbOrganizationUser != null)
