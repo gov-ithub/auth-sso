@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -57,10 +56,10 @@ namespace GovITHub.Auth.Admin
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("LinkedToOrganizationPolicy", policy => policy.Requirements.Add(new LinkedToOrganizationRequirement()));
+                options.AddPolicy("LinkedToOrganizationPolicy", policy => policy.Requirements.Add(new Framework.Policy.LinkedToOrganizationRequirement()));
             });
 
-            services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, LinkedToOrganizationHandler>();
+            services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, Framework.Policy.LinkedToOrganizationHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
@@ -105,32 +104,6 @@ namespace GovITHub.Auth.Admin
             //app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-        }
-
-        public class LinkedToOrganizationRequirement : Microsoft.AspNetCore.Authorization.IAuthorizationRequirement
-        {
-
-        }
-
-        public class LinkedToOrganizationHandler : Microsoft.AspNetCore.Authorization.AuthorizationHandler<LinkedToOrganizationRequirement>
-        {
-            private readonly ApplicationDbContext dbContext;
-
-            public LinkedToOrganizationHandler(ApplicationDbContext dbContext)
-            {
-                this.dbContext = dbContext;
-            }
-
-            protected override Task HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext context, LinkedToOrganizationRequirement requirement)
-            {
-                object organizationId;
-                if (((Microsoft.AspNetCore.Mvc.ActionContext)context.Resource).RouteData.Values.TryGetValue("organizationId", out organizationId) && dbContext.OrganizationUsers.Any(x => x.OrganizationId == (long)organizationId))
-                {
-                    context.Succeed(requirement);
-                }
-
-                return Task.CompletedTask;
-            }
         }
     }
 }
