@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GovITHub.Auth.Admin.Controllers.Api
 {
-    [Authorize]
+    [Authorize(Policy = "LinkedToOrganizationPolicy")]
     [Route("api/organizations/{organizationId}/[controller]")]
     public class UsersController : ControllerBase
     {
