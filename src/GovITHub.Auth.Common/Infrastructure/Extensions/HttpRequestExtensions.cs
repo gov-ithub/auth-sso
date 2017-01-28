@@ -12,6 +12,7 @@ namespace GovITHub.Auth.Common.Infrastructure.Extensions
             {
                 return String.Empty;
             }
+
             var userAgent = request.Headers[userAgentKey];
             return Convert.ToString(userAgent);
         }

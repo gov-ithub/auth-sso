@@ -6,11 +6,13 @@ namespace GovITHub.Auth.Common.Models
     {
         public OrganizationUserModel()
         {
-
         }
+
         public OrganizationUserModel(
-            string userId, string userName, 
-            long? organizationId, OrganizationUserLevel level, 
+            string userId,
+            string userName,
+            long? organizationId,
+            OrganizationUserLevel level,
             short status)
         {
             UserId = userId;
@@ -19,6 +21,7 @@ namespace GovITHub.Auth.Common.Models
             Level = level;
             Status = status;
         }
+
         public string UserId { get; set; }
         public string UserName { get; set; }
         public long? OrganizationId { get; set; }

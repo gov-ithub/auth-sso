@@ -19,6 +19,9 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using GovITHub.Auth.Common.Services.DeviceDetection;
 using GovITHub.Auth.Common.Infrastructure.Extensions;
+using IdentityServer4.ResponseHandling;
+using System.Net;
+using GovITHub.Auth.Common.Data;
 
 namespace GovITHub.Auth.Identity.Controllers
 {
@@ -27,53 +30,64 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IEnumerable<IEmailSender> _emailSenders;
+        private readonly IEmailService _emailService;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly ILoginDeviceManagementService _deviceManagementService;
-
+        private readonly IOrganizationRepository _organizationRepo;
+        
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
-            IEnumerable<IEmailSender> emailSenders,
+            IEmailService emailService,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             IDeviceDetector deviceDetector,
-            ILoginDeviceManagementService deviceManagementService)
+            ILoginDeviceManagementService deviceManagementService,
+            IOrganizationRepository organizationRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _interaction = interaction;
-            _emailSenders = emailSenders;
+            _emailService = emailService;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _deviceManagementService = deviceManagementService;
+            _organizationRepo = organizationRepo;
         }
 
         //
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        [ActionName("Login")]
+        public async Task<IActionResult> LoginAsync(string returnUrl = null)
         {
             // clear Identity.External cookie
             if (Request.Cookies["Identity.External"] != null)
             {
                 Response.Cookies.Delete("Identity.External");
             }
-            ViewData["ReturnUrl"] = returnUrl;
+
+            await SetViewDataAsync(returnUrl);
+
             return View();
         }
+
+
 
         //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        [ActionName("Login")]
+        public async Task<IActionResult> LoginAsync(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            await SetViewDataAsync(returnUrl);
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -89,7 +103,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 {
                     return Request.IsAjaxRequest() ?
                         Json(new { res = true, returnUrl = Url.Action("SendAction", new { returnUrl = returnUrl, rememberMe = model.RememberMe }) }) :
-                        (IActionResult)RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                        (IActionResult)RedirectToAction(nameof(SendCodeAsync), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
@@ -118,9 +132,11 @@ namespace GovITHub.Auth.Identity.Controllers
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        [ActionName("Register")]
+        public async Task<IActionResult> RegisterAsync(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            await SetViewDataAsync(returnUrl);
+
             return View();
         }
 
@@ -129,9 +145,11 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        [ActionName("Register")]
+        public async Task<IActionResult> RegisterAsync(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            await SetViewDataAsync(returnUrl);
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -140,7 +158,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
-                    await SendEmailConfirmationMessage(model, user);
+                    await SendEmailConfirmationMessageAsync(model, user);
                     _logger.LogInformation(3, "User created a new account with password.");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await AuditDeviceInfoAsync(model.Email);
@@ -167,7 +185,8 @@ namespace GovITHub.Auth.Identity.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        [ActionName("LogOff")]
+        public async Task<IActionResult> LogOffAsync()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
@@ -175,25 +194,23 @@ namespace GovITHub.Auth.Identity.Controllers
         }
 
         /// <summary>
-
         /// Show logout page
-
         /// </summary>
-
         [HttpGet]
-        public async Task<IActionResult> Logout(string logoutId)
+        [ActionName("Logout")]
+        public async Task<IActionResult> LogoutAsync(string logoutId)
         {
             if (User.Identity.IsAuthenticated == false)
             {
                 // if the user is not authenticated, then just show logged out page
-                return await Logout(new LogoutViewModel { LogoutId = logoutId });
+                return await LogoutAsync(new LogoutViewModel { LogoutId = logoutId });
             }
 
             var context = await _interaction.GetLogoutContextAsync(logoutId);
             if (context?.ShowSignoutPrompt == false)
             {
                 // if the logout request is authenticated, it's safe to automatically sign-out
-                return await Logout(new LogoutViewModel { LogoutId = logoutId });
+                return await LogoutAsync(new LogoutViewModel { LogoutId = logoutId });
             }
 
             var vm = new LogoutViewModel
@@ -210,7 +227,8 @@ namespace GovITHub.Auth.Identity.Controllers
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout(LogoutViewModel model)
+        [ActionName("Logout")]
+        public async Task<IActionResult> LogoutAsync(LogoutViewModel model)
         {
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             if (idp != null && idp != "local")
@@ -264,7 +282,8 @@ namespace GovITHub.Auth.Identity.Controllers
         /// Post processing of external authentication
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl)
+        [ActionName("ExternalLoginCallback")]
+        public async Task<IActionResult> ExternalLoginCallbackAsync(string returnUrl)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -278,7 +297,7 @@ namespace GovITHub.Auth.Identity.Controllers
             }
             if (result.RequiresTwoFactor)
             {
-                return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl });
+                return RedirectToAction(nameof(SendCodeAsync), new { ReturnUrl = returnUrl });
             }
             if (result.IsLockedOut)
             {
@@ -301,13 +320,14 @@ namespace GovITHub.Auth.Identity.Controllers
                 return RedirectToLocal(returnUrl);
             }
             // At this point fallback to Login form.
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction(nameof(LoginAsync));
         }
 
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        [ActionName("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string code)
         {
             if (userId == null || code == null)
             {
@@ -336,28 +356,51 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        [ActionName("ForgotPassword")]
+        public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
 
+                long? orgId = await GetOrganizationFromUrl();
+
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                await _emailService.SendEmailAsync(orgId, model.Email, "Resetare parolă",
+                   $"Resetați parola apăsând pe această legătură: <a href='{callbackUrl}'>reset</a>");
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private async Task<long?> GetOrganizationFromUrl()
+        {
+            string returnUrl = Request.Query["returnUrl"];
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
+                if(auth != null)
+                {
+
+                    var org = _organizationRepo.GetByClientId(auth.ClientId);
+                    if (org != null)
+                    { 
+                        return org.Id;
+                    }
+                }
+            }
+
+            return null;
         }
 
         //
@@ -381,7 +424,8 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        [ActionName("ResetPassword")]
+        public async Task<IActionResult> ResetPasswordAsync(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -415,7 +459,8 @@ namespace GovITHub.Auth.Identity.Controllers
         // GET: /Account/SendCode
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
+        [ActionName("SendCode")]
+        public async Task<ActionResult> SendCodeAsync(string returnUrl = null, bool rememberMe = false)
         {
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
@@ -432,7 +477,8 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendCode(SendCodeViewModel model)
+        [ActionName("SendCode")]
+        public async Task<IActionResult> SendCodeAsync(SendCodeViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -451,19 +497,19 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 return View("Error");
             }
+            var orgId = await GetOrganizationFromUrl();
 
             var message = "Your security code is: " + code;
             if (model.SelectedProvider == "Email")
             {
-                var emailSender = GetEmailSender(model.SelectedProvider);
-                await emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+                await _emailService.SendEmailAsync(orgId, await _userManager.GetEmailAsync(user), "Security Code", message);
             }
             else if (model.SelectedProvider == "Phone")
             {
                 await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
             }
 
-            return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction(nameof(VerifyCodeAsync), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
 
@@ -471,7 +517,8 @@ namespace GovITHub.Auth.Identity.Controllers
         // GET: /Account/VerifyCode
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
+        [ActionName("VerifyCode")]
+        public async Task<IActionResult> VerifyCodeAsync(string provider, bool rememberMe, string returnUrl = null)
         {
             // Require that the user has already logged in via username/password or external login
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
@@ -487,7 +534,8 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
+        [ActionName("VerifyCode")]
+        public async Task<IActionResult> VerifyCodeAsync(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -514,58 +562,11 @@ namespace GovITHub.Auth.Identity.Controllers
             }
         }
 
-        #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
-        }
-
-        private async Task SendEmailConfirmationMessage(RegisterViewModel model, ApplicationUser user)
-        {
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-            try
-            {
-                // on the future, decide a strategy to choose email sender based on user instance (or client?)
-                var emailSender = GetEmailSender(model.Email); //TODO : get provider from user claims
-                await emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical("Email could not be sent! Reason : {0}", ex);
-            }
-        }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                if (!_interaction.IsValidReturnUrl(returnUrl))
-                {
-                    returnUrl = Uri.UnescapeDataString(returnUrl);
-                }
-                if (_interaction.IsValidReturnUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-            }
-            return Redirect("~/");
-        }
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        [ActionName("ExternalLoginConfirmation")]
+        public async Task<IActionResult> ExternalLoginConfirmationAsync(ExternalLoginConfirmationViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -594,15 +595,79 @@ namespace GovITHub.Auth.Identity.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View(model);
         }
-        #endregion
 
-        #region private helper methods
-        private IEmailSender GetEmailSender(string selectedProvider)
+        #region Helpers
+
+        /// <summary>
+        /// Set view data required for return url
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
+        private async Task SetViewDataAsync(string returnUrl = null)
         {
-            // on the future, decide a strategy to choose email sender based on user instance (or client?)
-            // for now, return first one
-            return _emailSenders.FirstOrDefault();
+            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ShowOrigin"] = false;
+
+            // set returnUrlQueryString
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                ViewData["ReturnUrlQ"] = "?returnUrl=" + WebUtility.UrlEncode(returnUrl);
+                var auth = await _interaction.GetAuthorizationContextAsync(returnUrl);
+                if (auth != null)
+                {
+                    var uri = new Uri(auth.RedirectUri);
+                    ViewData["OriginUrl"] = string.Format("{0}://{1}", uri.Scheme, uri.Authority);
+                    ViewData["ShowOrigin"] = true;
+                }
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(HttpContext.User);
+        }
+
+        private async Task SendEmailConfirmationMessageAsync(RegisterViewModel model, ApplicationUser user)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            try
+            {
+                var orgId = await GetOrganizationFromUrl();
+                await _emailService.SendEmailAsync(orgId, model.Email, "Confirm your account",
+                    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("Email could not be sent! Reason : {0}", ex);
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                if (!_interaction.IsValidReturnUrl(returnUrl))
+                {
+                    returnUrl = Uri.UnescapeDataString(returnUrl);
+                }
+                if (_interaction.IsValidReturnUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+            }
+            return Redirect("~/");
         }
         #endregion
+
+        
     }
 }

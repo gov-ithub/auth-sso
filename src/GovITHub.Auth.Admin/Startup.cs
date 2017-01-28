@@ -1,5 +1,10 @@
-﻿using GovITHub.Auth.Admin.Services;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
+using System.Threading.Tasks;
+using GovITHub.Auth.Admin.Services;
 using GovITHub.Auth.Admin.Services.Impl;
+using GovITHub.Auth.Common;
 using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Data.Impl;
 using GovITHub.Auth.Common.Models;
@@ -11,9 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MySQL.Data.Entity.Extensions;
-using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Admin
 {
@@ -47,6 +49,9 @@ namespace GovITHub.Auth.Admin
             services.AddSingleton<ISampleRepository, SampleRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<IUserClaimsExtender, UserClaimsExtender>();
+
+            // Add auth common services
+            services.AddAuthCommonServices(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
@@ -70,26 +75,23 @@ namespace GovITHub.Auth.Admin
             {
                 AuthenticationScheme = "Cookies"
             });
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+
+            var openIdConnectOptions = Configuration.GetSection("Authentication:OpenIdConnectOptions").Get<OpenIdConnectOptions>();
+            if (openIdConnectOptions == null || string.IsNullOrEmpty(openIdConnectOptions.Authority))
             {
-                AuthenticationScheme = "oidc",
-                SignInScheme = "Cookies",
-                Authority = "http://localhost:5000",
-                RequireHttpsMetadata = false,
-                ClientId = "mvc",
-                ClientSecret = "secret",
-                ResponseType = "code id_token",
-                Scope = { "api1", "offline_access" },
-                GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true,
-                Events = new OpenIdConnectEvents(){
-                    OnTicketReceived = (context) =>
-                    {
-                        context.Principal = userClaimsExtender.TransformClaims(context.Ticket.Principal);
-                        return Task.CompletedTask;
-                    }
+                throw new Exception("Missing open id connect options from config file");
+            }
+
+            openIdConnectOptions.Events = new OpenIdConnectEvents()
+            {
+                OnTicketReceived = (context) =>
+                {
+                    context.Principal = userClaimsExtender.TransformClaims(context.Ticket.Principal);
+                    return Task.CompletedTask;
                 }
-            });
+            };
+
+            app.UseOpenIdConnectAuthentication(openIdConnectOptions);
 
             //app.UseDefaultFiles();
             app.UseStaticFiles();

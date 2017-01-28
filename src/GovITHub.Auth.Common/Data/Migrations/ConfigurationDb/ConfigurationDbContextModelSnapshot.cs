@@ -157,6 +157,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.ConfigurationDb
 
                     b.Property<bool>("AllowRememberConsent");
 
+                    b.Property<bool>("AlwaysIncludeUserClaimsInIdToken");
+
                     b.Property<bool>("AlwaysSendClientClaims");
 
                     b.Property<int>("AuthorizationCodeLifetime");

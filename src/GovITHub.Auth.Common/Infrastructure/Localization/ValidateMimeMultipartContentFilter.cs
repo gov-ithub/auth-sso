@@ -3,16 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-
 namespace GovITHub.Auth.Common.Infrastructure.Localization
 {
     public class ValidateMimeMultipartContentFilter : ActionFilterAttribute
     {
-        private readonly ILogger _logger;
+        private readonly ILogger logger;
 
         public ValidateMimeMultipartContentFilter(ILoggerFactory loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger("ctor ValidateMimeMultipartContentFilter");
+            logger = loggerFactory.CreateLogger("ctor ValidateMimeMultipartContentFilter");
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -32,5 +31,3 @@ namespace GovITHub.Auth.Common.Infrastructure.Localization
         }
     }
 }
-
- 

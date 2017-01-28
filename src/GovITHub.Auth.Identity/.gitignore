@@ -8,3 +8,5 @@ Properties/PublishProfiles/time4vps-publish.ps1
 wwwroot/device-detection
 
 wwwroot/vendor
+wwwroot/css
+wwwroot/_references.js

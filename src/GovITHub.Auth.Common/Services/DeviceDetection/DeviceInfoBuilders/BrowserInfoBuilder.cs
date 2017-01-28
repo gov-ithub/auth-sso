@@ -6,7 +6,8 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class BrowserInfoBuilder : DeviceInfoBuilderBase<BrowserRegex>, IDeviceInfoBuilder
     {
-        public BrowserInfoBuilder(IDeviceInfoRegexLoader<BrowserRegex> regexLoader) : base(regexLoader)
+        public BrowserInfoBuilder(IDeviceInfoRegexLoader<BrowserRegex> regexLoader)
+            : base(regexLoader)
         {
         }
 
@@ -16,7 +17,6 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
             {
                 deviceInfo.Browser = value;
             });
-
         }
     }
 }

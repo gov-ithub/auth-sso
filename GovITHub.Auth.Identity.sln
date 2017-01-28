@@ -30,9 +30,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
-		setup-authentication-providers.md = setup-authentication-providers.md
+		setup-facebook.md = setup-facebook.md
 		setupEmailProviders.md = setupEmailProviders.md
+		setupGoogle.md = setupGoogle.md
+		setupIIS.md = setupIIS.md
 		setupOrganizationRoot.md = setupOrganizationRoot.md
+		_stylecop\stylecop.json = _stylecop\stylecop.json
+		_stylecop\StyleCopRules.ruleset = _stylecop\StyleCopRules.ruleset
 	EndProjectSection
 EndProject
 Global

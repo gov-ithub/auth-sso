@@ -14,7 +14,7 @@ namespace GovITHub.Auth.Common.Data.Models
         [MaxLength(50)]
         public string DomainRestriction { get; set; }
         public long? EmailSettingId { get; set; }
-        public EmailSetting EmailSetting {get;set;}
+        public EmailSetting EmailSetting { get; set; }
 
         public List<EmailTemplate> EmailTemplates { get; set; }
     }

@@ -1,5 +1,7 @@
+#files
 connectionstrings.json
 wwwroot/css/vendor.min.css
 wwwroot/js/
 wwwroot/libs/
 wwwroot/vendor/
+wwwroot/_references.js

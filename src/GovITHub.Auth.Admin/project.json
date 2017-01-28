@@ -22,16 +22,17 @@
         "Microsoft.NETCore.App": {
             "version": "1.1.0",
             "type": "platform"
-        }
+        },
+        "StyleCop.Analyzers": "1.1.0-beta001"
     },
 
     "tools": {
-        "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final",
-        "BundlerMinifier.Core": "2.2.301"
+        "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final",
+        "BundlerMinifier.Core": "2.2.306"
     },
 
     "frameworks": {
-        "netcoreapp1.0": {
+        "netcoreapp1.1": {
             "imports": [
                 "dotnet5.6",
                 "portable-net45+win8"
@@ -41,7 +42,10 @@
 
     "buildOptions": {
         "emitEntryPoint": true,
-        "preserveCompilationContext": true
+        "preserveCompilationContext": true,
+        "xmlDoc": true,
+        "warningsAsErrors": false,
+        "additionalArguments": [ "/ruleset:../../_stylecop/StyleCopRules.ruleset", "/additionalfile:../../_stylecop/stylecop.json" ]
     },
 
     "runtimeOptions": {

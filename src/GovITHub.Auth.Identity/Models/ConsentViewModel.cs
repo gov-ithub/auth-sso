@@ -11,8 +11,7 @@ namespace GovITHub.Auth.Identity.Models
 {
     public class ConsentViewModel : ConsentInputModel
     {
-        public ConsentViewModel(ConsentInputModel model, string returnUrl, AuthorizationRequest request, Client client, 
-            Resources resources)
+        public ConsentViewModel(ConsentInputModel model, string returnUrl, AuthorizationRequest request, Client client, Resources resources)
         {
             RememberConsent = model?.RememberConsent ?? true;
             ScopesConsented = model?.ScopesConsented ?? Enumerable.Empty<string>();
@@ -28,7 +27,8 @@ namespace GovITHub.Auth.Identity.Models
             ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => new ScopeViewModel(x, ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             if (resources.OfflineAccess)
             {
-                ResourceScopes = ResourceScopes.Union(new ScopeViewModel[] {
+                ResourceScopes = ResourceScopes.Union(new ScopeViewModel[] 
+                {
                     ScopeViewModel.GetOfflineAccess(ScopesConsented.Contains(IdentityServerConstants.StandardScopes.OfflineAccess) || model == null)
                 });
             }

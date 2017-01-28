@@ -9,7 +9,8 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
 {
     public class MobileDeviceInfoBuilder : DeviceInfoBuilderBase<MobileDeviceRegex>, IDeviceInfoBuilder
     {
-        public MobileDeviceInfoBuilder(IDeviceInfoRegexLoader<MobileDeviceRegex> regexLoader) : base(regexLoader)
+        public MobileDeviceInfoBuilder(IDeviceInfoRegexLoader<MobileDeviceRegex> regexLoader)
+            : base(regexLoader)
         {
         }
 
@@ -27,16 +28,19 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
             {
                 return regex.Model;
             }
+
             var model = regex.Models.Select(m => new
             {
                 Match = Regex.Match(userAgent, m.Regex),
                 Model = m
             })
             .FirstOrDefault(m => m.Match.Success);
+
             if (model == null)
             {
                 return regex.Name;
             }
+
             var deviceModelName = GetDeviceModelName(model.Model, model.Match);
             return $"{regex.Name} {deviceModelName}";
         }
@@ -54,6 +58,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection.DeviceInfoBuilders
                     });
                 return capturingGroups;
             }
+
             return deviceModel.Model;
         }
     }

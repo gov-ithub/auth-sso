@@ -1,35 +1,34 @@
 ﻿{
-  "version": "1.0.0-*",
+    "version": "1.0.0-*",
 
-  "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.1.0",
-      "type": "platform"
+    "dependencies": {
+        "Microsoft.NETCore.App": {
+            "version": "1.1.0",
+            "type": "platform"
+        },
+        "xunit": "2.2.0-beta2-build3300",
+        "dotnet-test-xunit": "2.2.0-preview2-build1029",
+        "GovITHub.Auth.Common": "1.0.0-*",
+        "System.Diagnostics.TraceSource": "4.0.0",
+        "Microsoft.DotNet.InternalAbstractions": "1.0.0-rc2-002702",
+        "Moq": "4.6.38-alpha"
     },
-    "xunit": "2.2.0-beta2-build3300",
-    "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "GovITHub.Auth.Common": "1.0.0-*",
-    "System.Diagnostics.TraceSource": "4.0.0",
-    "Microsoft.DotNet.InternalAbstractions": "1.0.0-rc2-002702",
-    "Moq": "4.6.38-alpha"
-  },
-  "testRunner": "xunit",
-  "buildOptions": {
-    "embed": {
-      "includeFiles": [
-        "../../dependencies/device-detector/regexes/client/browsers.yml",
-        "../../dependencies/device-detector/regexes/device/mobiles.yml",
-        "../../dependencies/device-detector/regexes/oss.yml"
-      ]
+    "testRunner": "xunit",
+    "buildOptions": {
+        "embed": {
+            "includeFiles": [
+                "../../dependencies/device-detector/regexes/client/browsers.yml",
+                "../../dependencies/device-detector/regexes/device/mobiles.yml",
+                "../../dependencies/device-detector/regexes/oss.yml"
+            ]
+        }
+    },
+    "frameworks": {
+        "netcoreapp1.1": {
+            "imports": [
+                "dotnet5.6",
+                "portable-net45+win8"
+            ]
+        }
     }
-  },
-  "frameworks": {
-    "netcoreapp1.0": {
-      "imports": [
-        "dotnet5.6",
-        "dnxcore50",
-        "portable-net45+win8"
-      ]
-    }
-  }
 }

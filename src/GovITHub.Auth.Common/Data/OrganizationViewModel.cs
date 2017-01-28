@@ -10,5 +10,7 @@ namespace GovITHub.Auth.Common.Data
         public long Id { get; set; }
         public string Name { get; set; }
         public string Website { get; set; }
+
+        public long? ParentOrganizationId { get; set; }
     }
 }

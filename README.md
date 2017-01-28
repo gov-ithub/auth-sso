@@ -2,25 +2,32 @@
 Un singur set de credențiale pentru cetățean. La bază este un identity server ce expune un endpoint OAuth2.
 
 ## Instalare
+### Update submodules
 - branch from master
 - open `Git Bash` and update submodules with the following commands:
 ```
 cd /path/to/repository
 git submodule update --init --recursive
 ```
+### Database
+- install mysql / mariaDB
 - create database sso
-- create file `./src/GotITHub.Auth.Identity/connectionstrings.json` containing the connection string to the database like in example below:
-```
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "server=localhost;userid=<user id>;pwd=<password>;port=3306;database=sso;sslmode=none;"
-  }
-}
-```
+
+
+### Docker
+- install docker [Windows](https://docs.docker.com/docker-for-windows/)
+- open shell (command prompt)
+- go to `\\auth-sso\docker\redis`
+- `docker build -t "auth-sso-redis" .`
+- `docker run auth-sso-redis`
+
+### Mailcatcher
+Mailcatcher poate fi folosit ca si server SMTP de test https://mailcatcher.me/
 
 ### Identity server
-- open shell (command prompt)
-- go to \\govithub-auth-sso\src\GovITHub.Auth.Identity
+- go to `\\auth-sso\src\GovItHub.Auth.Identity`
+- copy file `connectionstrings.Sample.json` to `connectionstrings.json` and update all keys
+- open shell (command prompt) and navigate to `\\auth-sso\src\GovITHub.Auth.Identity`
 - `dotnet restore`
 - `dotnet ef database update`
 - `npm install`
@@ -28,8 +35,9 @@ git submodule update --init --recursive
 - `dotnet run`
 
 ### Admin panel
-- open shell (command prompt)
-- go to \\govithub-auth-sso\src\GovITHub.Auth.Admin
+- go to `\\auth-sso\src\GovItHub.Auth.Admin`
+- copy file `connectionstrings.Sample.json` to `connectionstrings.json` and update all keys
+- open shell (command prompt) and navigate to `\\auth-sso\src\GovITHub.Auth.Admin`
 - `dotnet restore`
 - `dotnet ef database update`
 - `npm install`
@@ -46,7 +54,7 @@ git submodule update --init --recursive
 - [Identity Server](https://identityserver.io/)
 - [.NET Core](https://www.microsoft.com/net/core)
 - [AngularJS](https://angularjs.org/)
-- [Docker](https://docs.docker.com/engine/installation/)
+- [Docker](https://docs.docker.com/engine/installation/) [Windows](https://docs.docker.com/docker-for-windows/)
 - [npm](https://github.com/npm/npm)
 - [1][MySQL](http://www.mysql.com/)
 

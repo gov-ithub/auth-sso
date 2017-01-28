@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GovITHub.Auth.Identity.Models.AccountViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Obligatoriu")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Obligatoriu")]
+        [StringLength(100, ErrorMessage = "{0} trebuie să aiba cel puțin {2} și maximum {1} caractere.", MinimumLength = 6)]
+        [Display(Name = "Parolă")]
+        [DataType(DataType.Password, ErrorMessage = "Invalid")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [DataType(DataType.Password, ErrorMessage = "Invalid")]
+        [Display(Name = "Confirmare parolă")]
+        [Compare("Password", ErrorMessage = "Valoarea nu coincide cu cea a parolei.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

@@ -8,8 +8,14 @@
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    Hello @UserManager.GetUserName(User)!
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li>@Html.ActionLink("Actualizare profil", "EditProfile", "Manage")</li>
+                </ul>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
@@ -20,7 +26,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <!--<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>-->
         <li><a asp-area="" asp-controller="Account" asp-action="Login">Autentificare</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Register">Înregistrare</a></li>
     </ul>
 }

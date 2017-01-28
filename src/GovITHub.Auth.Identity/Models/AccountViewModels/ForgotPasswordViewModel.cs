@@ -8,8 +8,8 @@ namespace GovITHub.Auth.Identity.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Obligatoriu")]
+        [EmailAddress(ErrorMessage = "Email invalid")]
         public string Email { get; set; }
     }
 }

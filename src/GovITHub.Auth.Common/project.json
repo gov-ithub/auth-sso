@@ -1,16 +1,22 @@
 {
     "buildOptions": {
-        "emitEntryPoint": true
+        "emitEntryPoint": true,
+        "preserveCompilationContext": true,
+        "debugType": "portable",
+        "xmlDoc": true,
+        "warningsAsErrors": false,
+        "additionalArguments": [ "/ruleset:../../_stylecop/StyleCopRules.ruleset", "/additionalfile:../../_stylecop/stylecop.json" ]
     },
     "dependencies": {
         "GovITHub.External.Postmark.NetCore": "1.0.0-*",
         "IdentityModel": "2.1.1",
-        "IdentityServer4.EntityFramework": "1.0.0-rc5",
+        "IdentityServer4.EntityFramework": "1.0.0",
         "Localization.SqlLocalizer": "1.0.3",
         "MailKit": "1.10.0",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
         "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.1.0",
         "Microsoft.AspNetCore.Diagnostics": "1.1.0",
+        "Microsoft.AspNetCore.Identity": "1.1.0",
         "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
         "Microsoft.AspNetCore.Mvc": "1.1.0",
         "Microsoft.AspNetCore.Razor.Tools": "1.1.0-preview4-final",
@@ -32,12 +38,15 @@
         },
         "WebApiContrib.Core.Formatter.Csv": "1.0.0",
         "YamlDotNet": "4.0.0",
-        "SapientGuardian.EntityFrameworkCore.MySql": "7.1.15"
+        "SapientGuardian.EntityFrameworkCore.MySql": "7.1.15",
+        "Microsoft.Extensions.Caching.Redis": "1.1.0",
+        "StyleCop.Analyzers": "1.1.0-beta001"
     },
     "frameworks": {
-        "netcoreapp1.0": {
+        "netcoreapp1.1": {
             "imports": [
-                "dotnet5.6"
+                "dotnet5.6",
+                "portable-net45+win8"
             ]
         }
     },

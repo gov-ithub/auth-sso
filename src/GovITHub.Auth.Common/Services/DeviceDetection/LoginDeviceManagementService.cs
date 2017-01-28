@@ -36,6 +36,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection
                 };
                 _dbContext.Set<LoginDevice>().Add(device);
             }
+
             var userDevice = _dbContext.Set<UserLoginDevice>().SingleOrDefault(d => d.UserId == userId && d.DeviceId == device.Id);
             if (userDevice == null)
             {
@@ -47,6 +48,7 @@ namespace GovITHub.Auth.Common.Services.DeviceDetection
                 };
                 _dbContext.Add(userDevice);
             }
+
             userDevice.LastLoginTimeUtc = DateTime.UtcNow;
             await _dbContext.SaveChangesAsync();
         }

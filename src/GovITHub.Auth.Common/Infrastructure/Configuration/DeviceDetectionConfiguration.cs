@@ -68,7 +68,7 @@ namespace GovITHub.Auth.Common.Infrastructure.Configuration
                 throw new ArgumentException("There is no configuration section pointing to the regex files for device detection.");
             }
             var filePath = section[key];
-            if (String.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
             {
                 throw new ArgumentException($"No value provided for key '{key}' in section 'DeviceDetection'.");
             }
