@@ -21,6 +21,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using GovITHub.Auth.Common.Data.Impl;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace GovITHub.Auth.Identity
 {
@@ -142,6 +143,12 @@ namespace GovITHub.Auth.Identity
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            // add forwarded headers
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             // Adds IdentityServer
             app.UseIdentityServer();
