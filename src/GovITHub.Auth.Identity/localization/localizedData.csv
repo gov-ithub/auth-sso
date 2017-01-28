@@ -13,7 +13,7 @@ Id;Key;Text;LocalizationCulture;ResourceKey
 12;Learn more;Mai multe;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
 13;Edit profile;Detalii cont;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
 14;Password;Parola;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
-15;External logins;Extern;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+15;External logins;Autentificare externă;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
 16;Profile;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
 17;Emails;Adrese email;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
 18;Phone numbers;Numere telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
@@ -26,3 +26,26 @@ Id;Key;Text;LocalizationCulture;ResourceKey
 25;New password and confirmation do not match.;Diferențe între parola nouă și confirmare!;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
 26;The {0} must be at least {2} and at max {1} characters long.;{0} trebuie sa aibă între {2} și {1} caractere.;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
 27;The {0} field is required.;{0} este obligatoriu.;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+28;Change Password Form;Schimbare parolă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+29;OldPassword;Parola curentă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+30;NewPassword;Parola;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+31;ConfirmPassword;Confirmare parolă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+32;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+33;Change;Schimbare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+34;EditProfile;Editare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+35;Manage;Modificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+36;Add;Adăugare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+38;Phone number;Telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+39;Change your account settings;Modificați detaliile personale;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+40;Manage your account;Date cont;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+41;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+42;Edit profile;Date personale;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+43;First name;Prenume;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+44;Last name;Nume;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+45;Male;Masculin;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+46;Female;Feminin;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+47;Birthdate;Data nașterii;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+48;County;Judet;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+49;City;Localitate;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+50;Address;Adresă;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+51;Submit;Actualizează;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity

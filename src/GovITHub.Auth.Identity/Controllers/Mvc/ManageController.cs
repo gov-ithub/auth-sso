@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GovITHub.Auth.Common.Models;
+using GovITHub.Auth.Common.Services;
+using GovITHub.Auth.Identity.Helpers;
+using GovITHub.Auth.Identity.Models.ManageViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using GovITHub.Auth.Common.Models;
-using GovITHub.Auth.Identity.Models.ManageViewModels;
-using GovITHub.Auth.Common.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Identity.Controllers
 {
@@ -20,19 +23,22 @@ namespace GovITHub.Auth.Identity.Controllers
         private readonly IEmailService _emailService;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<ManageController> _localizer;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailService emailService,
         ISmsSender smsSender,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        IStringLocalizer<ManageController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _localizer = localizer;
         }
 
         //
@@ -40,7 +46,7 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
-            ViewData["StatusMessage"] =
+            string userMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
@@ -48,6 +54,8 @@ namespace GovITHub.Auth.Identity.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+            if (!string.IsNullOrWhiteSpace(userMessage))
+                ViewData["StatusMessage"] = _localizer[userMessage];
 
             var user = await GetCurrentUserAsync();
             if (user == null)
@@ -63,12 +71,6 @@ namespace GovITHub.Auth.Identity.Controllers
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
-                ManageLogins = new ManageLoginsViewModel
-                {
-                    CurrentLogins = userLogins,
-                    OtherLogins = otherLogins,
-                    ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1
-                }
             };
             return View(model);
         }
@@ -238,12 +240,18 @@ namespace GovITHub.Auth.Identity.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return Request.IsAjaxRequest() ?
+                        (IActionResult)Json(new { message = _localizer[Convert.ToString(ManageMessageId.ChangePasswordSuccess)] }) :
+                        RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);
-                return View(model);
+                return Request.IsAjaxRequest() ?
+                    (IActionResult)Json(new { message = "Erori, erori"}) : 
+                    View(model);
             }
-            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            return Request.IsAjaxRequest() ?
+                (IActionResult)Json(new { message = _localizer[Convert.ToString(ManageMessageId.Error)] }) :
+                RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
         //
@@ -377,8 +385,13 @@ namespace GovITHub.Auth.Identity.Controllers
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError(string.Empty, _localizer[error.Description]);
             }
+        }
+
+        private void AddMessage(ManageMessageId message)
+        {
+            ViewData["Message"] = _localizer[Convert.ToString("message")];
         }
 
         public enum ManageMessageId

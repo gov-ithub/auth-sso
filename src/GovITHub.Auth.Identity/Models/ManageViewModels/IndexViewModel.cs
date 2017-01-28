@@ -14,10 +14,9 @@ namespace GovITHub.Auth.Identity.Models.ManageViewModels
 
         public string PhoneNumber { get; set; }
 
+        public string Email { get; set; }
         public bool TwoFactor { get; set; }
 
         public bool BrowserRemembered { get; set; }
-
-        public ManageLoginsViewModel ManageLogins { get; set; }
     }
 }

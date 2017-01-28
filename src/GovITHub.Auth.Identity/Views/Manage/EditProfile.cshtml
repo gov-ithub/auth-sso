@@ -1,43 +1,45 @@
 ﻿@model EditProfileViewModel
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Edit profile";
     ViewData["LoginExtra"] = "Sau creează contul folosind";
     var loginUrlLink = Url.Content("~/account/login" + ViewData["ReturnUrlQ"]);
 }
 
+<a asp-controller="Manage" asp-action="Index" class="btn">&lt;- @Localizer["Profil"]</a>
 <div class="row login-form">
     <div class="col-md-12">
         <div class="col-md-6 col-md-offset-3">
-            <h2 class="text-center">Actualizare date profil</h2>
+            <h2 class="text-center">@Localizer["Edit profile"]</h2>
             <br />
             <form asp-controller="Manage" asp-action="EditProfile" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="edit-profile-form" class="form-horizontal">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <input type="text" asp-for="FirstName" placeholder="Nume" class="form-control" tabindex="1" />
+                    <input type="text" asp-for="FirstName" placeholder="@Localizer["First name"]" class="form-control" tabindex="1" />
                 </div>
                 <div class="form-group">
-                    <input type="text" asp-for="LastName" placeholder="Prenume" class="form-control" tabindex="2" />
+                    <input type="text" asp-for="LastName" placeholder="@Localizer["Last name"]" class="form-control" tabindex="2" />
                 </div>
                 <div class="form-group">                    
-                    <input asp-for="Gender" type="radio" value="male" tabindex="3" />Male
-                    <input asp-for="Gender" type="radio" value="female" tabindex="4" />Female
+                    <input asp-for="Gender" type="radio" value="male" tabindex="3" />@Localizer["Male"]
+                    <input asp-for="Gender" type="radio" value="female" tabindex="4" />@Localizer["Female"]
                 </div>
                 <div class="form-group">
-                    <input type="date" asp-for="BirthDate" placeholder="Data nasterii" class="form-control" tabindex="5" />
+                    <input type="date" asp-for="BirthDate" placeholder="@Localizer["Birthdate"]" class="form-control" tabindex="5" />
                 </div>
                 <div class="form-group">
-                    <input type="text" asp-for="County" placeholder="Judet" class="form-control" tabindex="6" />
+                    <input type="text" asp-for="County" placeholder="@Localizer["County"]" class="form-control" tabindex="6" />
                 </div>
                 <div class="form-group">
-                    <input type="text" asp-for="City" placeholder="Localitate" class="form-control" tabindex="7" />
+                    <input type="text" asp-for="City" placeholder="@Localizer["City"]" class="form-control" tabindex="7" />
                 </div>
                 <div class="form-group">
-                    <input type="text" asp-for="StreetAddress" placeholder="Adresa" class="form-control" tabindex="8" />
+                    <input type="text" asp-for="StreetAddress" placeholder="@Localizer["Address"]" class="form-control" tabindex="8" />
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="form-control btn btn-login">Actualizează</button>
+                            <button type="submit" class="form-control btn btn-login">@Localizer["Submit"]</button>
                         </div>
                     </div>
                 </div>

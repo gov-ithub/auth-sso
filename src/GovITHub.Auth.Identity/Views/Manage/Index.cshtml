@@ -1,61 +1,75 @@
 ﻿@model IndexViewModel
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = Localizer["Manage your account"];
 }
 
 <h2>@ViewData["Title"].</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>@Localizer["Change your account settings"]</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
+        <dt>@Localizer["Password"]</dt>
         <dd>
             @if (Model.HasPassword)
             {
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
+                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">@Localizer["Change"]</a>
             }
             else
             {
-                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
+                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">@Localizer["Create"]</a>
             }
         </dd>
-        <dt>External Logins:</dt>
+        <dt>@Localizer["Profile"]</dt>
+        <dd>
+            <a asp-controller="Manage" asp-action="EditProfile" class="btn-bracketed">@Localizer["EditProfile"]</a>
+        </dd>
+        <dt>@Localizer["External logins"]</dt>
         <dd>
 
-            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
+            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">@Localizer["Manage"]</a>
         </dd>
-        <dt>Phone Number:</dt>
+        <dt>@Localizer["Phone numbers"]</dt>
         <dd>
-            <p>
-                Phone Numbers can used as a second factor of verification in two-factor authentication.
-                See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-            </p>
-            @*@(Model.PhoneNumber ?? "None")
+           @(Model.PhoneNumber ?? Localizer["None"].Value)
                 @if (Model.PhoneNumber != null)
                 {
                     <br />
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Change</a>
+                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">@Localizer["Change"]</a>
                     <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post">
-                        [<button type="submit" class="btn-link">Remove</button>]
+                        [<button type="submit" class="btn-link">@Localizer["Remove"]</button>]
                     </form>
                 }
                 else
                 {
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Add</a>
-                }*@
+                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">@Localizer["Add"]</a>
+                }
         </dd>
-
-        <dt>Two-Factor Authentication:</dt>
+        <dt>@Localizer["Emails"]</dt>
+        <dd>
+            @(Model.Email ?? Localizer["None"].Value)
+            @if (Model.Email != null)
+            {
+                <br />
+                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">@Localizer["Change"]</a>
+                    <form asp-controller="Manage" asp-action="RemoveEmail" method="post">
+                        [<button type="submit" class="btn-link">@Localizer["Remove"]</button>]
+                    </form>
+            }
+            else
+            {
+                <a asp-controller="Manage" asp-action="AddEmail" class="btn-bracketed">@Localizer["Add"]</a>
+            }
+        </dd>
+        @*<dt>Two-Factor Authentication:</dt>
         <dd>
             <p>
                 There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
                 for setting up this application to support two-factor authentication.
             </p>
-            @*@if (Model.TwoFactor)
+            @if (Model.TwoFactor)
                 {
                     <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
                         Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
@@ -66,49 +80,11 @@
                     <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
                         <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
                     </form>
-                }*@
-        </dd>
+                }
+        </dd>*@
     </dl>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked admin-menu">
-                <li class="active"><a href="#" data-target-id="divpassword"><i class="fa fa-home fa-fw"></i>@Localizer["Password"]</a></li>
-                <li><a href="http://www.jquery2dotnet.com" data-target-id="divexternallogins"><i class="fa fa-list-alt fa-fw"></i>@Localizer["External logins"]</a></li>
-                <li><a href="http://www.jquery2dotnet.com" data-target-id="divprofile"><i class="fa fa-file-o fa-fw"></i>@Localizer["Profile"]</a></li>
-                <li><a href="http://www.jquery2dotnet.com" data-target-id="divemails"><i class="fa fa-bar-chart-o fa-fw"></i>@Localizer["Emails"]</a></li>
-                <li><a href="http://www.jquery2dotnet.com" data-target-id="divphones"><i class="fa fa-table fa-fw"></i>@Localizer["Phone numbers"]</a></li>
-                <li><a href="http://www.jquery2dotnet.com" data-target-id="divtfa"><i class="fa fa-tasks fa-fw"></i>@Localizer["Two factor authentication"]</a></li>
-                <li><a href="http://www.jquery2dotnet.com" data-target-id="divsettings"><i class="fa fa-cogs fa-fw"></i>@Localizer["Settings"]</a></li>
-            </ul>
-        </div>
-        <div class="col-md-9 well admin-content" id="divpassword">
-            @Html.Partial("ChangePassword", new ChangePasswordViewModel())
-        </div>
-        <div class="col-md-9 well admin-content" id="divexternallogins">
-            @{ await Html.RenderPartialAsync("_ManageLogins", Model.ManageLogins);}
-        </div>
-        <div class="col-md-9 well admin-content" id="divprofile">
-            Pages
-        </div>
-        <div class="col-md-9 well admin-content" id="divemails">
-            Charts
-        </div>
-        <div class="col-md-9 well admin-content" id="divphones">
-            Table
-        </div>
-        <div class="col-md-9 well admin-content" id="divtfa">
-            Forms
-        </div>
-        <div class="col-md-9 well admin-content" id="divsettings">
-            Settings
-        </div>
-    </div>
-</div>
-
 @section Scripts {
-    <script src="~/js/manage.js" asp-append-version="true"></script>
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
