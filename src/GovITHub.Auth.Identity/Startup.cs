@@ -148,10 +148,8 @@ namespace GovITHub.Auth.Identity
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                AuthenticationScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
-
-                AutomaticAuthenticate = false,
-                AutomaticChallenge = false
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
             });
             app.AddGoogleAuthentication(Configuration);
             app.AddFacebookAuthentication(Configuration);
@@ -164,12 +162,9 @@ namespace GovITHub.Auth.Identity
                     template: "{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(name: "signin-google",
                      template: "signin-google", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
-                routes.MapRoute(null,
-                     template: "linkedin-auth", defaults: new { controller = "Account", action = "ExternalLoginCallback" });
                 routes.MapRoute(
                     name: "DefaultApi",
-                    template: "api/{controller}/{id?}"
-                    );
+                    template: "api/{controller}/{id?}");
             });
 
             try

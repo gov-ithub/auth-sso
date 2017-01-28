@@ -44,12 +44,7 @@ namespace GovITHub.Auth.Identity.Infrastructure.Extensions
             var linkedInAuthenticationOptions = new LinkedInAuthenticationOptions
             {
                 ClientId = configuration["Authentication:LinkedIn:ClientId"],
-                ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"],
-                AuthorizationEndpoint = "https://www.linkedin.com/oauth/v2/authorization",
-                UserInformationEndpoint = "https://api.linkedin.com/v1/people/~:(id,formatted-name,email-address,picture-url)",
-                TokenEndpoint = "https://www.linkedin.com/oauth/v2/accessToken",
-                CallbackPath = new PathString("/linkedin-auth"),
-                Scope = { "r_basicprofile", "r_emailaddress" },
+                ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"]
             };
             if (linkedInAuthenticationOptions.IsConfigurationValid())
             {
