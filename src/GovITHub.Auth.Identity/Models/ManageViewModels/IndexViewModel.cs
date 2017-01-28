@@ -12,9 +12,9 @@ namespace GovITHub.Auth.Identity.Models.ManageViewModels
 
         public IList<UserLoginInfo> Logins { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public IEnumerable<string> PhoneNumbers { get; set; }
 
-        public string Email { get; set; }
+        public IEnumerable<string> Emails { get; set; }
         public bool TwoFactor { get; set; }
 
         public bool BrowserRemembered { get; set; }

@@ -64,3 +64,9 @@ Id;Key;Text;LocalizationCulture;ResourceKey
 66;Add a phone number;Adăugare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
 67;Code;Cod verificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
 68;Submit;Verifică;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+69;Remove;Șterge;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+70;Add Email;Adăugare adresă email;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+71;Add an email;Introduceți o adresă de email;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+72;Email;utilizator@email.ro;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+73;Submit;Adaugă;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+74;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity

@@ -2,6 +2,7 @@
 using GovITHub.Auth.Common.Services;
 using GovITHub.Auth.Identity.Helpers;
 using GovITHub.Auth.Identity.Models.ManageViewModels;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -64,11 +65,13 @@ namespace GovITHub.Auth.Identity.Controllers
             }
             var userLogins = await _userManager.GetLoginsAsync(user);
             var otherLogins = _signInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            IEnumerable<string> emails = await GetUserEmails(user);
+            IEnumerable<string> phones = await GetUserPhones(user);
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
-                Email = await _userManager.GetEmailAsync(user),
+                PhoneNumbers = phones,
+                Emails = emails,
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
@@ -119,9 +122,53 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 return View("Error");
             }
-            var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _smsSender.SendSmsAsync(model.PhoneNumber, _localizer["Your security code is: "] + code);
-            return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
+            var mainPhoneNo = await _userManager.GetPhoneNumberAsync(user);
+            IdentityResult ir = string.IsNullOrEmpty(mainPhoneNo) ?
+                await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber) :
+                await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.PhoneNumber, model.PhoneNumber));
+            if (ir.Succeeded)
+            {
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddPhoneSuccess });
+            }
+            else
+            {
+                _logger.LogError("Error setting user main phone. Reason {0}", ir.Errors.Select(t => t.Description).Aggregate((s, t) => string.Format("{0};{1}", s, t)));
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            }
+        }
+
+        public IActionResult AddEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmail(AddEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            // Generate the token and send it
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var mainEmail = await _userManager.GetEmailAsync(user);
+            IdentityResult ir = string.IsNullOrEmpty(mainEmail) ?
+                await _userManager.SetEmailAsync(user, model.Email) :
+                await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Email, model.Email));
+            if (ir.Succeeded)
+            {
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddEmailSuccess });
+            }
+            else
+            {
+                _logger.LogError("Error setting user email. Reason {0}", ir.Errors.Select(t => t.Description).Aggregate((s, t) => string.Format("{0};{1}", s, t)));
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            }
         }
 
         //
@@ -200,16 +247,46 @@ namespace GovITHub.Auth.Identity.Controllers
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemovePhoneNumber()
+        public async Task<IActionResult> RemovePhoneNumber(AddPhoneNumberViewModel model)
         {
-            var user = await GetCurrentUserAsync();
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var result = await _userManager.SetPhoneNumberAsync(user, null);
-                if (result.Succeeded)
+                var user = await GetCurrentUserAsync();
+                if (user != null)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
+                    var mainPhoneNo = await _userManager.GetPhoneNumberAsync(user);
+                    IdentityResult result =
+                            string.Compare(model.PhoneNumber, mainPhoneNo, true) == 0 ?
+                                await _userManager.SetPhoneNumberAsync(user, null) :
+                                await RemovePhoneNumberClaim(user, model.PhoneNumber);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
+                    }
+                }
+            }
+            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveEmail(AddEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await GetCurrentUserAsync();
+                if (user != null)
+                {
+                    var mainEmail = await _userManager.GetEmailAsync(user);
+                    IdentityResult result =
+                            string.Compare(model.Email, mainEmail, true) == 0 ?
+                                await _userManager.SetEmailAsync(user, null) :
+                                await RemoveEmailClaim(user, model.Email);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemoveEmailSuccess });
+                    }
                 }
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
@@ -247,7 +324,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 }
                 AddErrors(result);
                 return Request.IsAjaxRequest() ?
-                    (IActionResult)Json(new { message = "Erori, erori"}) : 
+                    (IActionResult)Json(new { message = "Erori, erori" }) :
                     View(model);
             }
             return Request.IsAjaxRequest() ?
@@ -406,7 +483,9 @@ namespace GovITHub.Auth.Identity.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            AddEmailSuccess,
+            RemoveEmailSuccess
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync()
@@ -415,18 +494,56 @@ namespace GovITHub.Auth.Identity.Controllers
         }
 
         private async Task<IdentityResult> UpdateUserClaims(ApplicationUser user, ICollection<Claim> claims)
-        {            
+        {
             var profileClaims = claims.Select(t => t.Type);
             var originalClaims = await _userManager.GetClaimsAsync(user);
             foreach (var claim in claims)
             {
-                foreach(var originalClaim in originalClaims){
-                    if (profileClaims.Contains(originalClaim.Type)){
+                foreach (var originalClaim in originalClaims) {
+                    if (profileClaims.Contains(originalClaim.Type)) {
                         await _userManager.RemoveClaimAsync(user, originalClaim);
                     }
                 }
             }
             return await _userManager.AddClaimsAsync(user, claims);
+        }
+
+        private async Task<IEnumerable<string>> GetUserPhones(ApplicationUser user)
+        {
+            List<string> phones = new List<string>();
+            string mainPhone = await _userManager.GetPhoneNumberAsync(user);
+            if (!string.IsNullOrEmpty(mainPhone))
+                phones.Add(mainPhone);
+            var phoneClaims = (await _userManager.GetClaimsAsync(user)).Where(t => t.Type == JwtClaimTypes.PhoneNumber);
+            phones.AddRange(phoneClaims.Select(t => t.Value));
+            return phones;
+        }
+        private async Task<IEnumerable<string>> GetUserEmails(ApplicationUser user)
+        {
+            List<string> emails = new List<string>();
+            string mainEmail = await _userManager.GetEmailAsync(user);
+            if (!string.IsNullOrEmpty(mainEmail))
+                emails.Add(mainEmail);
+            var emailClaims = (await _userManager.GetClaimsAsync(user)).Where(t => t.Type == JwtClaimTypes.Email);
+            emails.AddRange(emailClaims.Select(t => t.Value));
+            return emails;
+        }
+
+        private async Task<IdentityResult> RemovePhoneNumberClaim(ApplicationUser user, string phoneNumber)
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+            var phoneClaim = claims.FirstOrDefault(t => t.Type == JwtClaimTypes.PhoneNumber && t.Value == phoneNumber);
+            return phoneClaim != null ?
+                await _userManager.RemoveClaimAsync(user, phoneClaim) :
+                IdentityResult.Failed(new IdentityError[] { new IdentityError() { Code = "not.found", Description = "Not found" } });
+        }
+        private async Task<IdentityResult> RemoveEmailClaim(ApplicationUser user, string email)
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+            var emailClaim = claims.FirstOrDefault(t => t.Type == JwtClaimTypes.Email && t.Value == email);
+            return emailClaim != null ?
+                await _userManager.RemoveClaimAsync(user, emailClaim) :
+                IdentityResult.Failed(new IdentityError[] { new IdentityError() { Code = "not.found", Description = "Not found" } });
         }
         #endregion
     }
