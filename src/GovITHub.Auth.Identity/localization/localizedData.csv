@@ -49,3 +49,18 @@ Id;Key;Text;LocalizationCulture;ResourceKey
 49;City;Localitate;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
 50;Address;Adresă;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
 51;Submit;Actualizează;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+52;None;0;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+53;Manage your external logins;Gestionare autentificare externă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+54;Registered Logins;Servicii înregistrate;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+55;Remove;Ștergere;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+56;Add another service to log in;Adăugare serviciu nou;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+57;Add Phone Number;Adăugare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+58;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+59;Add a phone number;Introduceți un număr de telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+60;Send verification code;Trimite cod de verificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+61;PhoneNumber;Număr telefon : 07XXXXXXXX;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+64;Verify Phone Number;Verificare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+65;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+66;Add a phone number;Adăugare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+67;Code;Cod verificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+68;Submit;Verifică;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
