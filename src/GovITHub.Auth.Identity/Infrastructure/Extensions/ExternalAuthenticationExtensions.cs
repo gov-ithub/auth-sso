@@ -1,18 +1,24 @@
 ﻿using AspNet.Security.OAuth.LinkedIn;
-using GovITHub.Auth.Common;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
 
 namespace GovITHub.Auth.Identity.Infrastructure.Extensions
 {
+    /// <summary>
+    /// This class provides helper methods for enabling external authentication providers.
+    /// </summary>
     public static class ExternalAuthenticationExtensions
     {
+        /// <summary>
+        /// Add Facebook authentication to the application.
+        /// </summary>
+        /// <param name="app">Current application request pipeline.</param>
+        /// <param name="configuration">The configuration object from which to get <c>AppId</c> and <c>AppSecret</c>.</param>
         public static void AddFacebookAuthentication(this IApplicationBuilder app, IConfigurationRoot configuration)
         {
-            string facebookAppId = configuration[Config.FACEBOOK_APP_ID];
-            string facebookAppSecret = configuration[Config.FACEBOOK_APP_SECRET];
+            string facebookAppId = configuration["Authentication:Facebook:AppId"];
+            string facebookAppSecret = configuration["Authentication:Facebook:AppSecret"];
             var facebookOptions = new FacebookOptions
             {
                 AppId = facebookAppId,
@@ -24,10 +30,15 @@ namespace GovITHub.Auth.Identity.Infrastructure.Extensions
             }
         }
 
+        /// <summary>
+        /// Add Google authentication to the application.
+        /// </summary>
+        /// <param name="app">Current application request pipeline.</param>
+        /// <param name="configuration">The configuration object from which to get <c>ClientId</c> and <c>ClientSecret</c>.</param>
         public static void AddGoogleAuthentication(this IApplicationBuilder app, IConfigurationRoot configuration)
         {
-            string googleClientId = configuration[Config.GOOGLE_CLIENT_ID];
-            string googleClientSecret = configuration[Config.GOOGLE_CLIENT_SECRET];
+            string googleClientId = configuration["Authentication:Google:GoogleClientId"];
+            string googleClientSecret = configuration["Authentication:Google:GoogleClientSecret"];
             var googleOptions = new GoogleOptions
             {
                 ClientId = googleClientId,
@@ -39,6 +50,11 @@ namespace GovITHub.Auth.Identity.Infrastructure.Extensions
             }
         }
 
+        /// <summary>
+        /// Add LinkedIn authentication to the application.
+        /// </summary>
+        /// <param name="app">Current application request pipeline.</param>
+        /// <param name="configuration">The configuration object from which to get <c>ClientId</c> and <c>ClientSecret</c>.</param>
         public static void AddLinkedInAuthentication(this IApplicationBuilder app, IConfigurationRoot configuration)
         {
             var linkedInAuthenticationOptions = new LinkedInAuthenticationOptions
