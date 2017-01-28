@@ -85,7 +85,7 @@ Add `Google` section to `Authentication` section; the file should look like this
 
 - In the **Authentication** tab
   - In **Default application permissions** section check `r_basicprofile` and `r_emailaddress`
-  - In **OAuth 2.0** section add `http://localhost:5000/linkedin-auth` to the **Authorized Redirect URLs**
+  - In **OAuth 2.0** section add `http://localhost:5000/Account/ExternalLoginCallback` to the **Authorized Redirect URLs**
 
 ### Add LinkedIn app credentials ###
 
