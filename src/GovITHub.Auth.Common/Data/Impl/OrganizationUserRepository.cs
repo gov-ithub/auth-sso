@@ -51,9 +51,12 @@ namespace GovITHub.Auth.Common.Data.Impl
             };
         }
 
-        public void Update(Contract.OrganizationUser organizationUser)
+        public ValidationError Update(Contract.OrganizationUser organizationUser)
         {
             Common.Models.ApplicationUser applicationUser = dbContext.Users.FirstOrDefault(x => x.Email == organizationUser.Name);
+
+            if (applicationUser == null)
+                return new ValidationError { Message = string.Format("User {0} does not exist!", organizationUser.Name) };
 
             Models.OrganizationUser dbOrganizationUser = dbContext.OrganizationUsers.FirstOrDefault(x => x.OrganizationId == organizationUser.OrganizationId && x.Id == organizationUser.Id);
             dbOrganizationUser.Level = organizationUser.Level;
@@ -61,11 +64,16 @@ namespace GovITHub.Auth.Common.Data.Impl
             dbOrganizationUser.UserId = applicationUser.Id;
 
             dbContext.SaveChanges();
+
+            return null;
         }
 
-        public void Add(Contract.OrganizationUser organizationUser)
+        public ValidationError Add(Contract.OrganizationUser organizationUser)
         {
             Common.Models.ApplicationUser applicationUser = dbContext.Users.FirstOrDefault(x => x.Email == organizationUser.Name);
+
+            if (applicationUser == null)
+                return new ValidationError { Message = string.Format("User {0} does not exist!", organizationUser.Name) };
 
             Models.OrganizationUser dbOrganizationUser = new Models.OrganizationUser();
             dbOrganizationUser.Level = organizationUser.Level;
@@ -76,6 +84,8 @@ namespace GovITHub.Auth.Common.Data.Impl
             dbContext.OrganizationUsers.Add(dbOrganizationUser);
 
             dbContext.SaveChanges();
+
+            return null;
         }
 
         public void Delete(long organizationId, long id)

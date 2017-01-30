@@ -1,4 +1,6 @@
-﻿using GovITHub.Auth.Common.Data;
+﻿using GovITHub.Auth.Admin.Services;
+using GovITHub.Auth.Common.Data;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,13 +21,22 @@ namespace GovITHub.Auth.Admin.Framework.Policy
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, LinkedToOrganizationRequirement requirement)
         {
+            Microsoft.AspNetCore.Routing.RouteValueDictionary routeValues = ((Microsoft.AspNetCore.Mvc.ActionContext)context.Resource).RouteData.Values;
+
             object organizationId;
-            if (((Microsoft.AspNetCore.Mvc.ActionContext)context.Resource).RouteData.Values.TryGetValue("organizationId", out organizationId) && dbContext.OrganizationUsers.Any(x => x.OrganizationId == (long)organizationId))
+            if (routeValues.TryGetValue("organizationId", out organizationId) && UserLinkedToOrganization(context, long.Parse((string)organizationId)))
             {
                 context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
+        }
+
+        private bool UserLinkedToOrganization(AuthorizationHandlerContext context, long organizationId)
+        {
+            string userName = context.User.Claims.GetClaim(JwtClaimTypes.Name);
+
+            return dbContext.OrganizationUsers.Any(x => x.OrganizationId == organizationId && x.User.UserName == userName);
         }
     }
 }
