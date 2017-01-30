@@ -66,7 +66,8 @@
             "wwwroot",
             "**/*.cshtml",
             "appsettings.json",
-            "web.config"
+            "web.config",
+            "localization"
         ]
     },
     "runtimeOptions": {

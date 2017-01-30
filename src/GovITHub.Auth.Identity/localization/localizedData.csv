@@ -70,3 +70,4 @@ Id;Key;Text;LocalizationCulture;ResourceKey
 72;Email;utilizator@email.ro;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
 73;Submit;Adaugă;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
 74;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+75;Submit;Adaugă;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
