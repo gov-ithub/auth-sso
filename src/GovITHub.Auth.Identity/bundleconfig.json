@@ -6,7 +6,10 @@
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
       "wwwroot/css/index.css"
-    ]
+    ],
+    "minify": {
+	"adjustRelativePaths": false
+    }
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
