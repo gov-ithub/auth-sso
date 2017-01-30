@@ -1,0 +1,14 @@
+[Unit]
+	Description=profil.ithub.gov.ro
+	
+	[Service]
+	WorkingDirectory=/var/www/profil.ithub.gov.ro/web
+	ExecStart=/usr/local/bin/dotnet /var/www/profil.ithub.gov.ro/web/GovITHub.Auth.Identity.dll http://localhost:5000
+	Restart=always
+	RestartSec=10
+	SyslogIdentifier=dotnet-profil.ithub
+	User=nginx
+	Environment=ASPNETCORE_ENVIRONMENT=Production
+	
+	[Install]
+	WantedBy=multi-user.target
