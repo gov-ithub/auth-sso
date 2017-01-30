@@ -13,11 +13,11 @@
           .state('index', {
               abstract: true,
               url: "/index",
-              templateUrl: "/app/components/common/content.html"
+              templateUrl: "app/components/common/content.html"
           })
           .state('index.main', {
               url: "/main",
-              templateUrl: "/app/components/main/main.html",
+              templateUrl: "app/components/main/main.html",
               data: {
                   pageTitle: 'Dashboard'
               }
@@ -25,7 +25,7 @@
             .state('index.samples', {
                 url: "/samples",
                 controller: "SamplesListController as vm",
-                templateUrl: "/app/components/samples/list.html",
+                templateUrl: "app/components/samples/list.html",
                 data: {
                     pageTitle: 'Samples'
                 }
@@ -33,7 +33,7 @@
             .state('index.samples_new', {
                 url: "/samples/new",
                 controller: "SamplesEditController as vm",
-                templateUrl: "/app/components/samples/edit.html",
+                templateUrl: "app/components/samples/edit.html",
                 data: {
                     pageTitle: 'Samples'
                 },
@@ -49,7 +49,7 @@
             .state('index.samples_edit', {
                 url: "/samples/:id",
                 controller: "SamplesEditController as vm",
-                templateUrl: "/app/components/samples/edit.html",
+                templateUrl: "app/components/samples/edit.html",
                 data: {
                     pageTitle: 'Samples'
                 },
@@ -65,7 +65,7 @@
             .state('index.organizations', {
                 url: "/organizations",
                 controller: "OrganizationsListController as vm",
-                templateUrl: "/app/components/organizations/list.html",
+                templateUrl: "app/components/organizations/list.html",
                 data: {
                     pageTitle: 'Organizations'
                 }
@@ -73,7 +73,7 @@
             .state('index.organization_new', {
                 url: "/organizations/new",
                 controller: "OrganizationsEditController as vm",
-                templateUrl: "/app/components/organizations/edit.html",
+                templateUrl: "app/components/organizations/edit.html",
                 data: {
                     pageTitle: 'Organizations'
                 },
@@ -89,7 +89,7 @@
             .state('index.organization_edit', {
                 url: "/organizations/:id",
                 controller: "OrganizationsEditController as vm",
-                templateUrl: "/app/components/organizations/edit.html",
+                templateUrl: "app/components/organizations/edit.html",
                 data: {
                     pageTitle: 'Organizations'
                 },
