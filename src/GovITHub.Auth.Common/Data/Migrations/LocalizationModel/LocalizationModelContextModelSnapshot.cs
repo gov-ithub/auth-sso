@@ -13,7 +13,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.LocalizationModel
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1");
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");
 
             modelBuilder.Entity("Localization.SqlLocalizer.DbStringLocalizer.ExportHistory", b =>
                 {
@@ -54,7 +54,8 @@ namespace GovITHub.Auth.Common.Data.Migrations.LocalizationModel
                     b.Property<string>("LocalizationCulture")
                         .IsRequired();
 
-                    b.Property<string>("ResourceKey");
+                    b.Property<string>("ResourceKey")
+                        .IsRequired();
 
                     b.Property<string>("Text");
 
@@ -62,7 +63,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.LocalizationModel
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Key", "LocalizationCulture");
+                    b.HasAlternateKey("Key", "LocalizationCulture", "ResourceKey");
 
                     b.ToTable("LocalizationRecord");
                 });

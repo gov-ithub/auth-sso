@@ -16,7 +16,6 @@ namespace GovITHub.Auth.Admin
                 .UseKestrel()
                 .UseUrls("http://localhost:5002")
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
 

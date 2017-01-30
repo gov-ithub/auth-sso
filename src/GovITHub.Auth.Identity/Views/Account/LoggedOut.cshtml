@@ -1,16 +1,16 @@
 ﻿@model GovITHub.Auth.Identity.Models.AccountViewModels.LoggedOutViewModel
+@inject IViewLocalizer Localizer
 
 <div class="page-header">
     <h1>
-        Logout
-        <small>You are now logged out</small>
+        @Localizer["Logout"]
+        <small>@Localizer["You are now logged out"]</small>
     </h1>
 
     @if (Model.PostLogoutRedirectUri != null)
     {
         <div>
-            Click <a href="@Model.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.ClientName</span> application.
+            @Localizer.GetString("Click {0} to return to {1}", Model.PostLogoutRedirectUri, Model.ClientName)
         </div>
     }
 

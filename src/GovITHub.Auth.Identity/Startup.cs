@@ -1,4 +1,4 @@
-﻿using GovITHub.Auth.Common;
+using GovITHub.Auth.Common;
 using GovITHub.Auth.Common.Data;
 using GovITHub.Auth.Common.Infrastructure.Configuration;
 using GovITHub.Auth.Common.Models;
@@ -22,6 +22,7 @@ using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using GovITHub.Auth.Common.Data.Impl;
 using GovITHub.Auth.Identity.Infrastructure.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace GovITHub.Auth.Identity
 {
@@ -144,6 +145,12 @@ namespace GovITHub.Auth.Identity
 
             app.UseIdentity();
 
+            // add forwarded headers
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             // Adds IdentityServer
             app.UseIdentityServer();
 
@@ -156,9 +163,10 @@ namespace GovITHub.Auth.Identity
                 AutomaticChallenge = false
             });
 
+            app.AddLinkedInAuthentication(Configuration);
             app.AddGoogleAuthentication(Configuration);
             app.AddFacebookAuthentication(Configuration);
-            app.AddLinkedInAuthentication(Configuration);
+            
 
             app.UseMvc(routes =>
             {

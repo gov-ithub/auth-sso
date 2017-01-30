@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Localization.SqlLocalizer.DbStringLocalizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -7,12 +8,14 @@ namespace GovITHub.Auth.Identity.Controllers
 {
     public class HomeController : Controller
     {
-        IStringLocalizer<HomeController> stringLocalizer;
-        ILogger<HomeController> logger;
-        public HomeController(IStringLocalizer<HomeController> stringLocalizer, ILogger<HomeController> logger)
+        IStringLocalizer<HomeController> _stringLocalizer;
+        ILogger<HomeController> _logger;
+        IStringExtendedLocalizerFactory _stringLocalizerFactory;
+        public HomeController(IStringLocalizer<HomeController> stringLocalizer, ILogger<HomeController> logger, IStringExtendedLocalizerFactory stringLocalizerFactory)
         {
-            this.stringLocalizer = stringLocalizer;
-            this.logger = logger;
+            _stringLocalizer = stringLocalizer;
+            _logger = logger;
+            _stringLocalizerFactory = stringLocalizerFactory;
         }
         public IActionResult Index()
         {
@@ -21,14 +24,14 @@ namespace GovITHub.Auth.Identity.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = stringLocalizer["Your application description page."];
+            ViewData["Message"] = _stringLocalizer["Your application description page."];
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = stringLocalizer["Your contact page."];
+            ViewData["Message"] = _stringLocalizer["Your contact page."];
 
             return View();
         }
@@ -42,6 +45,12 @@ namespace GovITHub.Auth.Identity.Controllers
         public IActionResult Localization()
         {
             return View();
+        }
+        [Authorize]
+        public IActionResult LocalizationReset()
+        {
+            _stringLocalizerFactory.ResetCache();
+            return RedirectToAction("Localization");
         }
     }
 }

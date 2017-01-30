@@ -1,0 +1,73 @@
+Id;Key;Text;LocalizationCulture;ResourceKey
+1;Authentication;Autentificare;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
+2;Register;Înregistrare;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
+3;Logout;Logout;ro-RO;GovITHub.Auth.Identity.Views.Account.LoggedOutGovITHub.Auth.Identity
+4;You are now logged out;You are now logged out;ro-RO;GovITHub.Auth.Identity.Views.Account.LoggedOutGovITHub.Auth.Identity
+5;Authenticate;Autentificare;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+6;No account?;Nu ai cont?;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+7;Create one now.;Creează unul acum.;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+8;Recover password;Recuperare parola;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+9;Remember me;Reține parola;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+10;External login;Sau autentifica-te printr-o retea de mai jos;ro-RO;GovITHub.Auth.Identity.Views.Account.LoginGovITHub.Auth.Identity
+11;Main address;Bun venit la GovITHub Auth!;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
+12;Learn more;Mai multe;ro-RO;GovITHub.Auth.Identity.Views.Home.IndexGovITHub.Auth.Identity
+13;Edit profile;Detalii cont;ro-RO;GovITHub.Auth.Identity.Views.Shared._LoginPartialGovITHub.Auth.Identity
+14;Password;Parola;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+15;External logins;Autentificare externă;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+16;Profile;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+17;Emails;Adrese email;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+18;Phone numbers;Numere telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+19;Two factor authentication;Autentificare suplimentara;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+20;Settings;Setari;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+21;New password;Parola nouă;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+22;Current password;Parola curenta;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+23;Confirm new password;Confirmare;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+24;Submit;Schimbă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+25;New password and confirmation do not match.;Diferențe între parola nouă și confirmare!;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+26;The {0} must be at least {2} and at max {1} characters long.;{0} trebuie sa aibă între {2} și {1} caractere.;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+27;The {0} field is required.;{0} este obligatoriu.;ro-RO;GovITHub.Auth.Identity.Models.ManageViewModels.ChangePasswordViewModel
+28;Change Password Form;Schimbare parolă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+29;OldPassword;Parola curentă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+30;NewPassword;Parola;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+31;ConfirmPassword;Confirmare parolă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+32;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.ChangePasswordGovITHub.Auth.Identity
+33;Change;Schimbare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+34;EditProfile;Editare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+35;Manage;Modificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+36;Add;Adăugare;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+38;Phone number;Telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+39;Change your account settings;Modificați detaliile personale;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+40;Manage your account;Date cont;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+41;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+42;Edit profile;Date personale;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+43;First name;Prenume;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+44;Last name;Nume;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+45;Male;Masculin;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+46;Female;Feminin;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+47;Birthdate;Data nașterii;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+48;County;Judet;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+49;City;Localitate;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+50;Address;Adresă;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+51;Submit;Actualizează;ro-RO;GovITHub.Auth.Identity.Views.Manage.EditProfileGovITHub.Auth.Identity
+52;None;0;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+53;Manage your external logins;Gestionare autentificare externă;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+54;Registered Logins;Servicii înregistrate;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+55;Remove;Ștergere;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+56;Add another service to log in;Adăugare serviciu nou;ro-RO;GovITHub.Auth.Identity.Views.Manage.ManageLoginsGovITHub.Auth.Identity
+57;Add Phone Number;Adăugare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+58;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+59;Add a phone number;Introduceți un număr de telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+60;Send verification code;Trimite cod de verificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+61;PhoneNumber;Număr telefon : 07XXXXXXXX;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity
+64;Verify Phone Number;Verificare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+65;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+66;Add a phone number;Adăugare număr telefon;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+67;Code;Cod verificare;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+68;Submit;Verifică;ro-RO;GovITHub.Auth.Identity.Views.Manage.VerifyPhoneNumberGovITHub.Auth.Identity
+69;Remove;Șterge;ro-RO;GovITHub.Auth.Identity.Views.Manage.IndexGovITHub.Auth.Identity
+70;Add Email;Adăugare adresă email;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+71;Add an email;Introduceți o adresă de email;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+72;Email;utilizator@email.ro;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+73;Submit;Adaugă;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+74;Profil;Profil;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddEmailGovITHub.Auth.Identity
+75;Submit;Adaugă;ro-RO;GovITHub.Auth.Identity.Views.Manage.AddPhoneNumberGovITHub.Auth.Identity

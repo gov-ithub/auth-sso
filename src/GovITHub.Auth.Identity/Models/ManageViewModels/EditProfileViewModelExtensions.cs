@@ -49,12 +49,16 @@ namespace GovITHub.Auth.Identity.Models.ManageViewModels
         public static ICollection<Claim> ToClaims(this EditProfileViewModel model)
         {
             List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(JwtClaimTypes.FamilyName, model.FirstName));
-            claims.Add(new Claim(JwtClaimTypes.GivenName, model.LastName));
-            claims.Add(new Claim(JwtClaimTypes.Gender,
-                model.Gender.HasValue ? model.Gender.Value.ToString().ToLower() : null));
-            claims.Add(new Claim(JwtClaimTypes.BirthDate,
-                model.BirthDate.HasValue ? model.BirthDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : null));
+            if (!string.IsNullOrEmpty(model.FirstName))
+                claims.Add(new Claim(JwtClaimTypes.FamilyName, model.FirstName));
+            if (!string.IsNullOrEmpty(model.LastName))
+                claims.Add(new Claim(JwtClaimTypes.GivenName, model.LastName));
+            if (model.Gender.HasValue)
+                claims.Add(new Claim(JwtClaimTypes.Gender,
+                    model.Gender.Value.ToString().ToLower()));
+            if (model.BirthDate.HasValue)
+                claims.Add(new Claim(JwtClaimTypes.BirthDate,
+                    model.BirthDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)));
             var addressClaimValue = new { locality = model.City, region = model.County, street_address = model.StreetAddress };
             claims.Add(new Claim(JwtClaimTypes.Address, JsonConvert.SerializeObject(addressClaimValue)));
             return claims;

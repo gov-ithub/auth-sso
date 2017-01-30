@@ -160,7 +160,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasMaxLength(256);
+                        .HasMaxLength(255);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -169,10 +169,10 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256);
+                        .HasMaxLength(255);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(255);
 
                     b.Property<string>("PasswordHash");
 
@@ -185,7 +185,7 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -261,10 +261,10 @@ namespace GovITHub.Auth.Common.Data.Migrations.ApplicationDb
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasMaxLength(256);
+                        .HasMaxLength(255);
 
                     b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 

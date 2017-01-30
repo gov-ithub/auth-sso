@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GovITHub.Auth.Common.Models;
+using GovITHub.Auth.Common.Services;
+using GovITHub.Auth.Identity.Helpers;
+using GovITHub.Auth.Identity.Models.ManageViewModels;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using GovITHub.Auth.Common.Models;
-using GovITHub.Auth.Identity.Models.ManageViewModels;
-using GovITHub.Auth.Common.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace GovITHub.Auth.Identity.Controllers
 {
@@ -17,22 +21,25 @@ namespace GovITHub.Auth.Identity.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IStringLocalizer<ManageController> _localizer;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IEmailSender emailSender,
+        IEmailService emailService,
         ISmsSender smsSender,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        IStringLocalizer<ManageController> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailService = emailService;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _localizer = localizer;
         }
 
         //
@@ -40,7 +47,7 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
-            ViewData["StatusMessage"] =
+            string userMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
@@ -48,19 +55,26 @@ namespace GovITHub.Auth.Identity.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+            if (!string.IsNullOrWhiteSpace(userMessage))
+                ViewData["StatusMessage"] = _localizer[userMessage];
 
             var user = await GetCurrentUserAsync();
             if (user == null)
             {
                 return View("Error");
             }
+            var userLogins = await _userManager.GetLoginsAsync(user);
+            var otherLogins = _signInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            IEnumerable<string> emails = await GetUserEmails(user);
+            IEnumerable<string> phones = await GetUserPhones(user);
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
-                PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
+                PhoneNumbers = phones,
+                Emails = emails,
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
             };
             return View(model);
         }
@@ -108,9 +122,53 @@ namespace GovITHub.Auth.Identity.Controllers
             {
                 return View("Error");
             }
-            var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _smsSender.SendSmsAsync(model.PhoneNumber, "Your security code is: " + code);
-            return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
+            var mainPhoneNo = await _userManager.GetPhoneNumberAsync(user);
+            IdentityResult ir = string.IsNullOrEmpty(mainPhoneNo) ?
+                await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber) :
+                await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.PhoneNumber, model.PhoneNumber));
+            if (ir.Succeeded)
+            {
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddPhoneSuccess });
+            }
+            else
+            {
+                _logger.LogError("Error setting user main phone. Reason {0}", ir.Errors.Select(t => t.Description).Aggregate((s, t) => string.Format("{0};{1}", s, t)));
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            }
+        }
+
+        public IActionResult AddEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmail(AddEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            // Generate the token and send it
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var mainEmail = await _userManager.GetEmailAsync(user);
+            IdentityResult ir = string.IsNullOrEmpty(mainEmail) ?
+                await _userManager.SetEmailAsync(user, model.Email) :
+                await _userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Email, model.Email));
+            if (ir.Succeeded)
+            {
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddEmailSuccess });
+            }
+            else
+            {
+                _logger.LogError("Error setting user email. Reason {0}", ir.Errors.Select(t => t.Description).Aggregate((s, t) => string.Format("{0};{1}", s, t)));
+                return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            }
         }
 
         //
@@ -181,7 +239,7 @@ namespace GovITHub.Auth.Identity.Controllers
                 }
             }
             // If we got this far, something failed, redisplay the form
-            ModelState.AddModelError(string.Empty, "Failed to verify phone number");
+            ModelState.AddModelError(string.Empty, _localizer["Failed to verify phone number"]);
             return View(model);
         }
 
@@ -189,16 +247,46 @@ namespace GovITHub.Auth.Identity.Controllers
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemovePhoneNumber()
+        public async Task<IActionResult> RemovePhoneNumber(AddPhoneNumberViewModel model)
         {
-            var user = await GetCurrentUserAsync();
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var result = await _userManager.SetPhoneNumberAsync(user, null);
-                if (result.Succeeded)
+                var user = await GetCurrentUserAsync();
+                if (user != null)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
+                    var mainPhoneNo = await _userManager.GetPhoneNumberAsync(user);
+                    IdentityResult result =
+                            string.Compare(model.PhoneNumber, mainPhoneNo, true) == 0 ?
+                                await _userManager.SetPhoneNumberAsync(user, null) :
+                                await RemovePhoneNumberClaim(user, model.PhoneNumber);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
+                    }
+                }
+            }
+            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveEmail(AddEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await GetCurrentUserAsync();
+                if (user != null)
+                {
+                    var mainEmail = await _userManager.GetEmailAsync(user);
+                    IdentityResult result =
+                            string.Compare(model.Email, mainEmail, true) == 0 ?
+                                await _userManager.SetEmailAsync(user, null) :
+                                await RemoveEmailClaim(user, model.Email);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemoveEmailSuccess });
+                    }
                 }
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
@@ -230,12 +318,18 @@ namespace GovITHub.Auth.Identity.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return Request.IsAjaxRequest() ?
+                        (IActionResult)Json(new { message = _localizer[Convert.ToString(ManageMessageId.ChangePasswordSuccess)] }) :
+                        RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);
-                return View(model);
+                return Request.IsAjaxRequest() ?
+                    (IActionResult)Json(new { message = "Erori, erori" }) :
+                    View(model);
             }
-            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            return Request.IsAjaxRequest() ?
+                (IActionResult)Json(new { message = _localizer[Convert.ToString(ManageMessageId.Error)] }) :
+                RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
         }
 
         //
@@ -311,11 +405,13 @@ namespace GovITHub.Auth.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
         {
-            ViewData["StatusMessage"] =
+            string messageText =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.AddLoginSuccess ? "The external login was added."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
+            if (!string.IsNullOrEmpty(messageText))
+                ViewData["StatusMessage"] = _localizer[messageText];
             var user = await GetCurrentUserAsync();
             if (user == null)
             {
@@ -369,8 +465,13 @@ namespace GovITHub.Auth.Identity.Controllers
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                ModelState.AddModelError(string.Empty, _localizer[error.Description]);
             }
+        }
+
+        private void AddMessage(ManageMessageId message)
+        {
+            ViewData["Message"] = _localizer[Convert.ToString("message")];
         }
 
         public enum ManageMessageId
@@ -382,7 +483,9 @@ namespace GovITHub.Auth.Identity.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            AddEmailSuccess,
+            RemoveEmailSuccess
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync()
@@ -391,18 +494,56 @@ namespace GovITHub.Auth.Identity.Controllers
         }
 
         private async Task<IdentityResult> UpdateUserClaims(ApplicationUser user, ICollection<Claim> claims)
-        {            
+        {
             var profileClaims = claims.Select(t => t.Type);
             var originalClaims = await _userManager.GetClaimsAsync(user);
             foreach (var claim in claims)
             {
-                foreach(var originalClaim in originalClaims){
-                    if (profileClaims.Contains(originalClaim.Type)){
+                foreach (var originalClaim in originalClaims) {
+                    if (profileClaims.Contains(originalClaim.Type)) {
                         await _userManager.RemoveClaimAsync(user, originalClaim);
                     }
                 }
             }
             return await _userManager.AddClaimsAsync(user, claims);
+        }
+
+        private async Task<IEnumerable<string>> GetUserPhones(ApplicationUser user)
+        {
+            List<string> phones = new List<string>();
+            string mainPhone = await _userManager.GetPhoneNumberAsync(user);
+            if (!string.IsNullOrEmpty(mainPhone))
+                phones.Add(mainPhone);
+            var phoneClaims = (await _userManager.GetClaimsAsync(user)).Where(t => t.Type == JwtClaimTypes.PhoneNumber);
+            phones.AddRange(phoneClaims.Select(t => t.Value));
+            return phones;
+        }
+        private async Task<IEnumerable<string>> GetUserEmails(ApplicationUser user)
+        {
+            List<string> emails = new List<string>();
+            string mainEmail = await _userManager.GetEmailAsync(user);
+            if (!string.IsNullOrEmpty(mainEmail))
+                emails.Add(mainEmail);
+            var emailClaims = (await _userManager.GetClaimsAsync(user)).Where(t => t.Type == JwtClaimTypes.Email);
+            emails.AddRange(emailClaims.Select(t => t.Value));
+            return emails;
+        }
+
+        private async Task<IdentityResult> RemovePhoneNumberClaim(ApplicationUser user, string phoneNumber)
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+            var phoneClaim = claims.FirstOrDefault(t => t.Type == JwtClaimTypes.PhoneNumber && t.Value == phoneNumber);
+            return phoneClaim != null ?
+                await _userManager.RemoveClaimAsync(user, phoneClaim) :
+                IdentityResult.Failed(new IdentityError[] { new IdentityError() { Code = "not.found", Description = "Not found" } });
+        }
+        private async Task<IdentityResult> RemoveEmailClaim(ApplicationUser user, string email)
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+            var emailClaim = claims.FirstOrDefault(t => t.Type == JwtClaimTypes.Email && t.Value == email);
+            return emailClaim != null ?
+                await _userManager.RemoveClaimAsync(user, emailClaim) :
+                IdentityResult.Failed(new IdentityError[] { new IdentityError() { Code = "not.found", Description = "Not found" } });
         }
         #endregion
     }

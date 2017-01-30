@@ -1,60 +1,87 @@
 ﻿@model IndexViewModel
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Manage your account";
+    ViewData["Title"] = Localizer["Manage your account"];
 }
 
 <h2>@ViewData["Title"].</h2>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>@Localizer["Change your account settings"]</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Password:</dt>
+        <dt>@Localizer["Password"]</dt>
         <dd>
             @if (Model.HasPassword)
             {
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
+                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">@Localizer["Change"]</a>
             }
             else
             {
-                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
+                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">@Localizer["Create"]</a>
             }
         </dd>
-        <dt>External Logins:</dt>
+        <dt>@Localizer["Profile"]</dt>
+        <dd>
+            <a asp-controller="Manage" asp-action="EditProfile" class="btn-bracketed">@Localizer["EditProfile"]</a>
+        </dd>
+        <dt>@Localizer["External logins"]</dt>
         <dd>
 
-            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
+            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">@Localizer["Manage"]</a>
         </dd>
-        <dt>Phone Number:</dt>
+        <hr />
+        <dt>@Localizer["Phone numbers"]</dt>
         <dd>
-            <p>
-                Phone Numbers can used as a second factor of verification in two-factor authentication.
-                See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-            </p>
-            @*@(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Change</a>
-                    <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post">
-                        [<button type="submit" class="btn-link">Remove</button>]
-                    </form>
-                }
-                else
-                {
-                    <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Add</a>
-                }*@
+            @if (Model.PhoneNumbers.Count() > 0)
+            {
+                <table class="table table-responsive">
+                    @foreach (string phone in Model.PhoneNumbers)
+                    {                        
+                        <tr>
+                            <td>@phone</td>
+                            <td>
+                                <form asp-controller="Manage" asp-action="RemovePhoneNumber" method="post">
+                                    <input type="hidden" name="PhoneNumber" value="@phone" />                                    
+                                    <button type="submit" class="btn btn-sm btn-danger">@Localizer["Remove"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn btn-sm btn-primary">@Localizer["Add"]</a>
         </dd>
-
-        <dt>Two-Factor Authentication:</dt>
+        <hr />
+        <dt>@Localizer["Emails"]</dt>
+        <dd>
+            @if (Model.Emails.Count() > 0)
+            {
+                <table class="table table-responsive">
+                    @foreach (string email in Model.Emails)
+                    {
+                        <tr>
+                            <td>@email</td>
+                            <td>
+                                <form asp-controller="Manage" asp-action="RemoveEmail" method="post">
+                                    <input type="hidden" name="Email" value="@email" />
+                                    <button type="submit" class="btn btn-sm btn-danger">@Localizer["Remove"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            <a asp-controller="Manage" asp-action="AddEmail" class="btn btn-sm btn-primary">@Localizer["Add"]</a>
+        </dd>
+        @*<dt>Two-Factor Authentication:</dt>
         <dd>
             <p>
                 There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
                 for setting up this application to support two-factor authentication.
             </p>
-            @*@if (Model.TwoFactor)
+            @if (Model.TwoFactor)
                 {
                     <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
                         Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
@@ -65,7 +92,11 @@
                     <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
                         <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
                     </form>
-                }*@
-        </dd>
+                }
+        </dd>*@
     </dl>
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
