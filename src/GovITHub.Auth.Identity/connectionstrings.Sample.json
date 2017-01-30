@@ -1,13 +1,13 @@
 {
     "ConnectionStrings": {
-        "DefaultConnection": "server=10.0.0.12;userid=ssouser;pwd=gTBPrx9R;port=3306;database=sso;sslmode=none;"
+        "DefaultConnection": "server=localhost;userid=<user>;pwd=<password>;port=3306;database=sso;sslmode=none;"
     },
     "Setup": {
         "RootOrganization": {
-            "Name": "http://ithub.gov.ro",
-            "Website": "http://ithub.gov.ro",
-            "AdminUsername": "alexandru.chiraples@ithub.gov.ro",
-            "AdminPassword": "X4eV9xHp"
+            "Name": "org",
+            "Website": "website",
+            "AdminUsername": "admin username",
+            "AdminPassword": "admin password"
         },
         "Redis": {
             "Instance": "Auth-SSO",
@@ -28,13 +28,13 @@
                 "RequireConsent": false,
                 "ClientSecrets": [
                     {
-                        "Value": "6ySwdaqc",
+                        "Value": "authSecret",
                         "Type": "SharedSecret"
                     }
                 ],
                 "AllowedScopes": [ "auth-api", "profile", "openid" ],
-                "RedirectUris": [ "https://admin-auth.ithub.gov.ro/signin-oidc" ],
-                "PostLogoutRedirectUris": [ "https://admin-auth.ithub.gov.ro" ]
+                "RedirectUris": [ "http://localhost:5002/signin-oidc" ],
+                "PostLogoutRedirectUris": [ "http://localhost:5002" ]
             }
         ]
     },
@@ -61,4 +61,3 @@
         }
     }
 }
-
