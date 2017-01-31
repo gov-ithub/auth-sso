@@ -6,9 +6,9 @@
 
         OrganizationUser Find(long organizationId, long id);
 
-        ValidationError Update(OrganizationUser organizationUser);
+        void Update(OrganizationUser organizationUser);
 
-        ValidationError Add(OrganizationUser organizationUser);
+        void Add(OrganizationUser organizationUser);
 
         void Delete(long organizationId, long id);
     }

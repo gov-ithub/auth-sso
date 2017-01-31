@@ -39,7 +39,7 @@
                 }).catch(function (err) {
                     vm.error = err;
                     console.error(err);
-                    alert(err.data.message);
+                    alert(err.statusText);
                 });
         };
 
@@ -51,7 +51,7 @@
                 }).catch(function (err) {
                     vm.error = err;
                     console.error(err);
-                    alert(err.data.message);
+                    alert(err.statusText);
                 });
         }
 

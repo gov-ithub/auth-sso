@@ -38,9 +38,9 @@ namespace GovITHub.Auth.Admin.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult Post([FromRoute]long organizationId, [FromBody]Models.User user)
+        public void Post([FromRoute]long organizationId, [FromBody]Models.User user)
         {
-            ValidationError validationError = organizationUserRepository.Add(new Common.Data.Contract.OrganizationUser()
+            organizationUserRepository.Add(new Common.Data.Contract.OrganizationUser()
             {
                 Id = user.Id,
                 OrganizationId = organizationId,
@@ -48,17 +48,12 @@ namespace GovITHub.Auth.Admin.Controllers.Api
                 Level = user.Level,
                 Status = (short)user.Status
             });
-
-            if (validationError != null)
-                return BadRequest(validationError);
-
-            return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute]long organizationId, [FromBody]Models.User user)
+        public void Put([FromRoute]long organizationId, [FromBody]Models.User user)
         {
-            ValidationError validationError = organizationUserRepository.Update(new Common.Data.Contract.OrganizationUser()
+            organizationUserRepository.Update(new Common.Data.Contract.OrganizationUser()
             {
                 Id = user.Id,
                 OrganizationId = organizationId,
@@ -66,11 +61,6 @@ namespace GovITHub.Auth.Admin.Controllers.Api
                 Level = user.Level,
                 Status = (short)user.Status
             });
-
-            if (validationError != null)
-                return BadRequest(validationError);
-
-            return Ok();
         }
 
         [HttpDelete("{id}")]

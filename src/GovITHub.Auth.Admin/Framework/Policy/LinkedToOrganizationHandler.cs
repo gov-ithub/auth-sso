@@ -23,8 +23,8 @@ namespace GovITHub.Auth.Admin.Framework.Policy
         {
             Microsoft.AspNetCore.Routing.RouteValueDictionary routeValues = ((Microsoft.AspNetCore.Mvc.ActionContext)context.Resource).RouteData.Values;
 
-            object organizationId;
-            if (routeValues.TryGetValue("organizationId", out organizationId) && UserLinkedToOrganization(context, long.Parse((string)organizationId)))
+            long organizationId;
+            if (context.TryGetRouteValue("organizationId", out organizationId) && UserLinkedToOrganization(context, organizationId))
             {
                 context.Succeed(requirement);
             }

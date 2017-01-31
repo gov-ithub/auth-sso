@@ -10,10 +10,4 @@
 
         public UserStatus Status { get; set; }
     }
-
-    public enum UserStatus
-    {
-        Inactiv = 0,
-        Activ = 1,
-    }
 }
