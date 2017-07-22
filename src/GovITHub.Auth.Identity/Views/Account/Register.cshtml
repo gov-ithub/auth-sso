@@ -14,7 +14,7 @@
                 <p class="text-center">Ai fost redirectionat de pe <a href="@ViewData["OriginUrl"]" target="_blank" class="link-gray">@ViewData["OriginUrl"]</a></p>
             }
             <br />
-            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="register-form" class="form-horizontal">
+            <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="register-form" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
                     <p>
                         <label class="info-register">Ai deja cont? <a href="@loginUrlLink" class="link-gray">Autentifică-te.</a></label>

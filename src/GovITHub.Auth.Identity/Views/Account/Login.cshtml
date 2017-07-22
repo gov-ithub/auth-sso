@@ -22,7 +22,7 @@
             }
             <br />
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]"
-                  method="post" role="form" id="login-form" class="form-horizontal">
+                  method="post" role="form" id="login-form" class="form-horizontal" autocomplete="off">
                 <div class="form-group">
                     <p>
                         <label class="info-register">@Localizer["No account?"]<a href="@registerUrlLink" class="link-gray">@Localizer["Create one now."]</a></label>

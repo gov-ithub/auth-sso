@@ -1,0 +1,14 @@
+[Unit]
+	Description=admin-auth.ithub.gov.ro
+	
+	[Service]
+	WorkingDirectory=/var/www/admin-auth.ithub.gov.ro/web
+	ExecStart=/usr/local/bin/dotnet /var/www/admin-auth.ithub.gov.ro/web/GovITHub.Auth.Admin.dll
+	Restart=always
+	RestartSec=10
+	SyslogIdentifier=dotnet-admin-auth.ithub
+	User=nginx
+	Environment=ASPNETCORE_ENVIRONMENT=Production
+	
+	[Install]
+	WantedBy=multi-user.target

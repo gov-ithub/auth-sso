@@ -29,7 +29,7 @@
                 "ClientSecrets": [
                     {
                         "Value": "authSecret",
-                        "Type": "SharedSecret"
+                        "Type": "SharedSecret" 
                     }
                 ],
                 "AllowedScopes": [ "auth-api", "profile", "openid" ],
@@ -46,6 +46,10 @@
         "Google": {
             "GoogleClientId": "gid",
             "GoogleClientSecret": "gsecret"
+        },
+        "LinkedIn": {
+            "ClientId": "lid",
+            "ClientSecret": "lsecret"
         }
     },
     "EmailSender": {
