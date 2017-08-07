@@ -1,33 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GovITHub.Auth.Identity", "src\GovITHub.Auth.Identity\GovITHub.Auth.Identity.xproj", "{D73BAB82-9997-4BBF-A83B-928F8F154E1E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GovITHub.Auth.Admin", "src\GovITHub.Auth.Admin\GovITHub.Auth.Admin.xproj", "{E607EB2E-E3DF-4A2C-9C35-F00F7DE46C01}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{3FE92826-C6FF-4AAA-AC0B-B0D071C001AC}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "JavaScriptClient", "src\samples\JavaScriptClient\JavaScriptClient.xproj", "{728A838A-9684-445C-A7DB-773D701B8DD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{26A256F6-2170-43A1-A7DB-ED359C290FBE}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GovITHub.External.Postmark.NetCore", "src\external\GovITHub.External.Postmark.NetCore\GovITHub.External.Postmark.NetCore.xproj", "{9EAB61C3-914B-4F95-8BD6-4BD6A480EB97}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{280C1030-44FA-4994-9841-74C3EBB16658}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GovITHub.Auth.Common", "src\GovITHub.Auth.Common\GovITHub.Auth.Common.xproj", "{709C417F-C5C8-4FDE-BB63-5D2BBD59AA9F}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GovITHub.Auth.Common.Tests", "test\GovITHub.Auth.Common.Tests\GovITHub.Auth.Common.Tests.xproj", "{45AC57D2-7DA2-4C0B-96C5-1FBB4332B75E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{327D9A11-2231-4605-9212-B3775B50E6E1}"
 	ProjectSection(SolutionItems) = preProject
+		.bettercodehub.yml = .bettercodehub.yml
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
 		.travis.yml = .travis.yml
-		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 		setup-authentication-providers.md = setup-authentication-providers.md
@@ -39,6 +27,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		_stylecop\stylecop.json = _stylecop\stylecop.json
 		_stylecop\StyleCopRules.ruleset = _stylecop\StyleCopRules.ruleset
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GovITHub.Auth.Identity", "src\GovITHub.Auth.Identity\GovITHub.Auth.Identity.csproj", "{D73BAB82-9997-4BBF-A83B-928F8F154E1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GovITHub.Auth.Admin", "src\GovITHub.Auth.Admin\GovITHub.Auth.Admin.csproj", "{E607EB2E-E3DF-4A2C-9C35-F00F7DE46C01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JavaScriptClient", "src\samples\JavaScriptClient\JavaScriptClient.csproj", "{728A838A-9684-445C-A7DB-773D701B8DD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GovITHub.External.Postmark.NetCore", "src\external\GovITHub.External.Postmark.NetCore\GovITHub.External.Postmark.NetCore.csproj", "{9EAB61C3-914B-4F95-8BD6-4BD6A480EB97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GovITHub.Auth.Common", "src\GovITHub.Auth.Common\GovITHub.Auth.Common.csproj", "{709C417F-C5C8-4FDE-BB63-5D2BBD59AA9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GovITHub.Auth.Common.Tests", "test\GovITHub.Auth.Common.Tests\GovITHub.Auth.Common.Tests.csproj", "{45AC57D2-7DA2-4C0B-96C5-1FBB4332B75E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

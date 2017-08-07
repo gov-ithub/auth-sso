@@ -1,0 +1,7 @@
+exclude:
+- /src/samples/JavaScriptClient/.*
+- /src/GovITHub.Auth.Common/Data/Migrations/.*
+component_depth: 2
+languages:
+- csharp
+- javascript

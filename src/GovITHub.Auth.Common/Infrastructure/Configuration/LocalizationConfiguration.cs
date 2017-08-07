@@ -19,7 +19,7 @@ namespace GovITHub.Auth.Common.Infrastructure.Configuration
             services.AddDbContext<LocalizationModelContext>(options => 
                 options.UseMySQL(connectionString , mo => mo.MigrationsAssembly(migrationsAssembly)));
             // Requires that LocalizationModelContext is defined
-            services.AddSqlLocalization(options => options.UseSettings(true, false, true));
+            services.AddSqlLocalization(options => options.UseSettings(true, false, true, false));
 
             services.Configure<RequestLocalizationOptions>(
                 options =>

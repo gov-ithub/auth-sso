@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>GovITHub.External.Postmark.NetCore</Description>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>GovITHub.External.Postmark.NetCore</AssemblyName>
+    <PackageId>GovITHub.External.Postmark.NetCore</PackageId>
+    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>
